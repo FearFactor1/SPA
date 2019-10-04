@@ -15,9 +15,13 @@ class LoginHelper:
         self.app.open_home_page()
         wd.find_element_by_name("username").click()
         wd.find_element_by_name("password").click()
-        wd.find_element_by_xpath("(//input[@disabled='disabled'])")
+        submit = wd.find_element_by_css_selector("button.btn.btn_submit.selenium_btn_submit")
+        disabled_search = submit.get_attribute("disabled")
+        #print("Login button not available: ", disabled_search)
+        assert disabled_search is not None
+        wd.find_element_by_xpath("(//button[@disabled=''])")
         wd.get_screenshot_as_file('C:\\PycharmProjects\\SPA\\screen\\login\\login_invisible_button.png')
-        wd.find_element_by_xpath("(//input[@type='submit'])").is_displayed()
+        # wd.find_element_by_xpath("(//button[@class='btn.btn_submit'])").is_displayed()
 
 
     def press_keyboard(self):
@@ -33,28 +37,28 @@ class LoginHelper:
         wd.find_element_by_name("password").send_keys("")
         wd.find_element_by_xpath("//body").click()
         # Прокликивание логина через экранную клавиатуру
-        wd.find_element_by_css_selector("span.icon.icon-keyboard.modal-link-local").click()
-        wd.find_element_by_css_selector("div.keyboard-nums__row > div:nth-child(2)").click()
-        wd.find_element_by_css_selector("div.keyboard-nums__row > div:nth-child(11)").click()
-        wd.find_element_by_css_selector("div.keyboard-nums__row > div:nth-child(11)").click()
-        wd.find_element_by_css_selector("div.keyboard-nums__row > div:nth-child(11)").click()
-        wd.find_element_by_css_selector("div.keyboard-nums__row > div:nth-child(3)").click()
-        wd.find_element_by_css_selector("div.keyboard-nums__row > div:nth-child(5)").click()
-        wd.find_element_by_css_selector("div.keyboard-nums__row > div:nth-child(1)").click()
-        wd.find_element_by_css_selector("div.keyboard-nums__row > div:nth-child(11)").click()
-        wd.find_element_by_class_name("btn.btn_transperent.modal__prompt").click()
+        wd.find_element_by_css_selector("button.keyboard-icon.selenium_keyboard_username").click()
+        wd.find_element_by_css_selector("div.keyboard-nums__row > button:nth-child(2)").click()
+        wd.find_element_by_css_selector("div.keyboard-nums__row > button:nth-child(11)").click()
+        wd.find_element_by_css_selector("div.keyboard-nums__row > button:nth-child(11)").click()
+        wd.find_element_by_css_selector("div.keyboard-nums__row > button:nth-child(11)").click()
+        wd.find_element_by_css_selector("div.keyboard-nums__row > button:nth-child(3)").click()
+        wd.find_element_by_css_selector("div.keyboard-nums__row > button:nth-child(5)").click()
+        wd.find_element_by_css_selector("div.keyboard-nums__row > button:nth-child(1)").click()
+        wd.find_element_by_css_selector("div.keyboard-nums__row > button:nth-child(1)").click()
+        wd.find_element_by_css_selector("button.btn.btn_transperent").click()
         # Прокликивание пароля через экранную клавиатуру
-        wd.find_element_by_css_selector("span.icon.icon-keyboard.modal-link-local.modal-link-local_password").click()
-        wd.find_element_by_css_selector("div.keyboard-nums__row > div:nth-child(3)").click()
-        wd.find_element_by_css_selector("div.keyboard-nums__row > div:nth-child(4)").click()
-        wd.find_element_by_css_selector("div.keyboard-nums__row > div:nth-child(7)").click()
-        wd.find_element_by_css_selector("div.keyboard-nums__row > div:nth-child(5)").click()
-        wd.find_element_by_css_selector("div.keyboard-nums__row > div:nth-child(6)").click()
-        wd.find_element_by_css_selector("div.keyboard-nums__row > div:nth-child(3)").click()
-        wd.find_element_by_css_selector("div.keyboard-nums__row > div:nth-child(8)").click()
-        wd.find_element_by_css_selector("div.keyboard-nums__row > div:nth-child(1)").click()
-        wd.find_element_by_class_name("btn.btn_transperent.modal__prompt").click()
-        wd.get_screenshot_as_file('C:\\PycharmProjects\\S3\screen\\login\\login_keyboard.png')
+        wd.find_element_by_css_selector("button.keyboard-icon.selenium_keyboard_password").click()
+        wd.find_element_by_css_selector("div.keyboard-nums__row > button:nth-child(7)").click()
+        wd.find_element_by_css_selector("div.keyboard-nums__row > button:nth-child(5)").click()
+        wd.find_element_by_css_selector("div.keyboard-nums__row > button:nth-child(3)").click()
+        wd.find_element_by_css_selector("div.keyboard-nums__row > button:nth-child(7)").click()
+        wd.find_element_by_css_selector("div.keyboard-nums__row > button:nth-child(4)").click()
+        wd.find_element_by_css_selector("div.keyboard-nums__row > button:nth-child(3)").click()
+        wd.find_element_by_css_selector("div.keyboard-nums__row > button:nth-child(7)").click()
+        wd.find_element_by_css_selector("div.keyboard-nums__row > button:nth-child(7)").click()
+        wd.find_element_by_css_selector("button.btn.btn_transperent").click()
+        wd.get_screenshot_as_file('C:\\PycharmProjects\\SPA\\screen\\login\\login_keyboard.png')
 
 
     def incorrect_user(self):
@@ -67,29 +71,35 @@ class LoginHelper:
         wd.find_element_by_name("password").click()
         wd.find_element_by_name("password").clear()
         wd.find_element_by_name("password").send_keys("34756381")
-        wd.get_screenshot_as_file('C:\\PycharmProjects\\S3\screen\\login\\incorrect_user.png')
+        wd.get_screenshot_as_file('C:\\PycharmProjects\\SPA\\screen\\login\\incorrect_user.png')
 
 
     def correct_user(self):
         # обычный ввод логина и пароля
         wd = self.app.wd
         self.app.open_home_page()
+        hellow = wd.find_element_by_css_selector("h1.signIn__header-head").text
+        assert hellow == "Представьтесь, кто вы?"
+        faq = wd.find_element_by_css_selector("div.signIn__footer").text
+        assert "© 2011–2019 «Столото». По вопросам работы системы звоните" in faq
+        assert "+7 (900) 614-55-55" in faq
         wd.find_element_by_name("username").click()
         wd.find_element_by_name("username").clear()
-        wd.find_element_by_name("username").send_keys("20003510")
+        wd.find_element_by_name("username").send_keys("20003511")
         wd.find_element_by_name("password").click()
         wd.find_element_by_name("password").clear()
-        wd.find_element_by_name("password").send_keys("34756381")
-        wd.get_screenshot_as_file('C:\\PycharmProjects\\S3\screen\\login\\correct_user.png')
+        wd.find_element_by_name("password").send_keys("75374377")
+        wd.get_screenshot_as_file('C:\\PycharmProjects\\SPA\\screen\\login\\correct_user.png')
 
 
     def user_in_main_page(self):
         # проверка, что на главной странице s3, отображается пользователь и терминал
         wd = self.app.wd
-        user = wd.find_element_by_css_selector("div.header__user-data-text-head_user").text
+        user = wd.find_element_by_css_selector(
+            "div.header__user-data-text-head.header__user-data-text-head_small.header__user-data-text-head_user").text
         assert "Пользователь:" in user
-        wd.find_element_by_xpath("//*/div[contains(text(), '20003510')]")
-        wd.find_element_by_xpath("//*/div[contains(text(), '2000006809')]")
+        wd.find_element_by_xpath("//*/div[contains(text(), '20003511')]")
+        wd.find_element_by_xpath("//*/div[contains(text(), '2000006810')]")
         dat_s3 = wd.find_element_by_css_selector("div.header__date-day").text
         dat_tmz = datetime.today().strftime('%Y.%m.%d')
         assert dat_s3 == dat_tmz
@@ -98,10 +108,11 @@ class LoginHelper:
     def enter_button(self):
         # нажатие на кнопку войти
         wd = self.app.wd
-        wd.find_element_by_css_selector("div > input[value='Войти']").click()
+        wd.find_element_by_css_selector("button.btn.btn_submit").click()
 
 
     def err_passwword(self):
         wd = self.app.wd
-        return wd.find_element_by_css_selector("div.signIn__error.signIn__error_show.error").text
-        #wd.find_element_by_xpath(".//*[text()='0051 Неверный идентификатор пользователя терминала']/..")
+        wd.find_element_by_css_selector("div.signIn__error").click()
+        return wd.find_element_by_css_selector("div.signIn__error").text
+        # wd.find_element_by_xpath(".//*[text()='0051 Неверный идентификатор пользователя терминала']/..")

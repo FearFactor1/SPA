@@ -23,12 +23,12 @@ def app(request):
 @pytest.fixture(scope="session", autouse=True)
 def stop(request):
     def fin():
-        fixture.session.ensure_exit_s3()
+        fixture.session.ensure_exit_spa()
         fixture.destroy()
     request.addfinalizer(fin)
     return fixture
 
 
 def pytest_addoption(parser):
-    parser.addoption("--browser", action="store", default="firefox")
+    parser.addoption("--browser", action="store", default="chrome")
     parser.addoption("--baseUrl", action="store", default="http://localhost:9999")
