@@ -15,8 +15,8 @@ class ReportHelper:
         wd = self.app.wd
         msk = datetime.today().strftime('%d/%m/%Y %H:%M:%S') + ' МСК'
         lok = datetime.today().strftime('%d/%m/%Y %H:%M:%S') + ' ЛОК' + ' (ЛОК)'
-        if len(wd.find_element_by_css_selector("pre").text) > 0:
-            test = wd.find_element_by_css_selector("pre").text
+        if len(wd.find_element_by_css_selector("div.report-item").text) > 0:
+            test = wd.find_element_by_css_selector("div.report-item").text
             spl = test.split('\n')
         else:
             print("Пустой тег в отчёте")
@@ -30,8 +30,8 @@ class ReportHelper:
         wd = self.app.wd
         mskf = datetime.today().strftime('%d/%m/%Y %H:%M:%S') + ' МСК'
         lokf = datetime.today().strftime('%d/%m/%Y %H:%M:%S') + ' ЛОК' + ' (ЛОК)'
-        if len(wd.find_element_by_css_selector("pre").text) > 0:
-            textfull = wd.find_element_by_css_selector("pre").text
+        if len(wd.find_element_by_css_selector("div.report-item").text) > 0:
+            textfull = wd.find_element_by_css_selector("div.report-item").text
         assert textfull.count('Кено Спортлото') == 3
         assert textfull.count('ГОСЛОТО 4 из 20') == 3
         assert textfull.count('ГОСЛОТО 6 из 45') == 3
@@ -57,7 +57,8 @@ class ReportHelper:
         assert 'Продажи' in textfull
         assert 'Отмены' in textfull
         assert 'Выплаты' in textfull
-        assert textfull.count('ИТОГО') == 4
+        assert textfull.count('ИТОГО') == 1
+        assert textfull.count('Итого') == 3
         assert 'ИТОГО ПО ОТЧЕТУ' in textfull
         assert textfull.find(mskf)
         assert textfull.find(lokf)
@@ -71,19 +72,19 @@ class ReportHelper:
     def comeback_main_page(self):
         wd = self.app.wd
         # click comeback
-        wd.find_element_by_link_text(u"Назад").click()
+        wd.find_element_by_css_selector("a.btn.btn_transperent").click()
         # click close modal window
-        wd.find_element_by_css_selector("div.modal__body-close").click()
+        wd.find_element_by_css_selector("a.modal__body-close").click()
 
 
     def button_get_report(self):
         wd = self.app.wd
-        wd.find_element_by_class_name("btn.btn_save").click()
+        wd.find_element_by_css_selector("button.btn.btn_save").click()
 
 
     def open_page_report(self):
         wd = self.app.wd
-        wd.find_element_by_link_text(u"Отчёты").click()
+        wd.find_element_by_css_selector("span.icon.icon-reports").click()
 
 # -------------------------------------------------------------------------
 
@@ -91,14 +92,14 @@ class ReportHelper:
 
     def current_day_C(self):
         d = datetime.today().strftime('%d/%m/%Y 00:00:00')
-        c = " C  " + ":  " + d
+        c = "C:  " + d
         # print(c)
         return c
 
 
     def current_month_C(self):
         dm = datetime.today().strftime('%m/%Y 00:00:00')
-        cm = " C  " + ":  " + "01/" + dm
+        cm = "C:  " + "01/" + dm
         # print(cm)
         return cm
 
@@ -106,7 +107,7 @@ class ReportHelper:
     def previous_month_C_day_10(self):
         pmc = datetime.today()
         last_month = pmc.replace(month=pmc.month - 1, day=10).strftime('%d/%m/%Y 00:00:00')
-        last_month_c = " C  " + ":  " + last_month
+        last_month_c = "C:  " + last_month
         # print(last_month)
         return last_month_c
 
@@ -114,7 +115,7 @@ class ReportHelper:
     def previous_month_C_day_1(self):
         pmc = datetime.today()
         last_month = pmc.replace(month=pmc.month - 1, day=1).strftime('%d/%m/%Y 00:00:00')
-        last_month_c = " C  " + ":  " + last_month
+        last_month_c = "C:  " + last_month
         # print(last_month)
         return last_month_c
 
@@ -140,7 +141,7 @@ class ReportHelper:
 
     def current_day_Po(self):
         dp = datetime.today().strftime('%d/%m/%Y %H:%M')
-        Po = " По " + ":  " + dp
+        Po = "По: " + dp
         # print(Po)
         return Po
 
@@ -148,7 +149,7 @@ class ReportHelper:
     def previous_month_Po_day_10(self):
         pmp = datetime.today()
         last_month = pmp.replace(month=pmp.month - 1, day=10).strftime('%d/%m/%Y 23:59:59')
-        last_month_po = " По " + ":  " + last_month
+        last_month_po = "По: " + last_month
         # print(last_month_po)
         return last_month_po
 
@@ -206,13 +207,15 @@ class ReportHelper:
 
     def previous_month_date_10(self):
         wd = self.app.wd
-        wd.find_element_by_css_selector("a.ui-datepicker-prev.ui-corner-all").click()
+        wd.find_element_by_css_selector(
+            "a.react-datepicker__navigation.react-datepicker__navigation--previous").click()
         wd.find_element_by_xpath("//a[contains(text(),'10')]").click()
 
 
     def previous_month_date_1(self):
         wd = self.app.wd
-        wd.find_element_by_css_selector("a.ui-datepicker-prev.ui-corner-all").click()
+        wd.find_element_by_css_selector(
+            "a.react-datepicker__navigation.react-datepicker__navigation--previous").click()
         wd.find_element_by_xpath("//a[contains(text(),'1')]").click()
 
 # ---------------------------------------------------------------------------------------

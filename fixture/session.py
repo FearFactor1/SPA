@@ -13,7 +13,7 @@ class SessionHelper:
         wd.find_element_by_name("username").send_keys(username)
         wd.find_element_by_name("password").clear()
         wd.find_element_by_name("password").send_keys(password)
-        wd.find_element_by_xpath(u"//input[@value='Войти']").click()
+        wd.find_element_by_css_selector("button.btn.btn_submit").click()
         wd.get_screenshot_as_file('C:\\PycharmProjects\\S3\\screen\\session\\login.png')
 
 
