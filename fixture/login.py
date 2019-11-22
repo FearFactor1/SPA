@@ -17,11 +17,10 @@ class LoginHelper:
         wd.find_element_by_name("password").click()
         submit = wd.find_element_by_css_selector("button.btn.btn_submit.selenium_btn_submit")
         disabled_search = submit.get_attribute("disabled")
-        #print("Login button not available: ", disabled_search)
         assert disabled_search is not None
         wd.find_element_by_xpath("(//button[@disabled=''])")
         wd.get_screenshot_as_file('C:\\PycharmProjects\\SPA\\screen\\login\\login_invisible_button.png')
-        # wd.find_element_by_xpath("(//button[@class='btn.btn_submit'])").is_displayed()
+        #wd.find_element_by_xpath("(//button[@class='btn.btn_submit'])").isEnabled()
 
 
     def press_keyboard(self):
@@ -93,16 +92,26 @@ class LoginHelper:
 
 
     def user_in_main_page(self):
-        # проверка, что на главной странице s3, отображается пользователь и терминал
+        # парсер, вытаскивает текст из тегов, информация и пользователе на главной страницы спа
         wd = self.app.wd
-        user = wd.find_element_by_css_selector(
-            "div.header__user-data-text-head.header__user-data-text-head_small.header__user-data-text-head_user").text
-        assert "Пользователь:" in user
-        wd.find_element_by_xpath("//*/div[contains(text(), '20003511')]")
-        wd.find_element_by_xpath("//*/div[contains(text(), '2000006810')]")
-        dat_s3 = wd.find_element_by_css_selector("div.header__date-day").text
-        dat_tmz = datetime.today().strftime('%Y.%m.%d')
-        assert dat_s3 == dat_tmz
+        for text_info_user in wd.find_elements_by_css_selector(
+                "li.header__user-data-item.header__user-data-item_column"):
+            info_text = text_info_user.text.split('\n')
+        return info_text
+
+
+    def data_in_main_page(self):
+        # Проверка даты и время на главной страницы спа
+        wd = self.app.wd
+        date_spa_main_page = wd.find_element_by_css_selector("div.header__date-day").text
+        date_spa = datetime.today().strftime('%d.%m.%Y')
+        assert date_spa_main_page == date_spa
+        time_msk_main_page = wd.find_element_by_css_selector("div.header__date-timeMsk").text
+        time_msk = datetime.today().strftime('%H:%M:%S') + " MSK"
+        assert time_msk in time_msk_main_page
+        time_lok_main_page = wd.find_element_by_css_selector("div.header__date-timeLoc").text
+        time_lok = datetime.today().strftime('%H:%M:%S') + " ЛОК"
+        assert time_lok in time_lok_main_page
 
 
     def enter_button(self):
