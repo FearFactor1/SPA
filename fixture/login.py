@@ -1,5 +1,7 @@
 from datetime import datetime
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class LoginHelper:
@@ -19,8 +21,10 @@ class LoginHelper:
         disabled_search = submit.get_attribute("disabled")
         assert disabled_search is not None
         wd.find_element_by_xpath("(//button[@disabled=''])")
+        WebDriverWait(wd, 5).until_not(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn.btn_submit.selenium_btn_submit"))
+        )
         wd.get_screenshot_as_file('C:\\PycharmProjects\\SPA\\screen\\login\\login_invisible_button.png')
-        #wd.find_element_by_xpath("(//button[@class='btn.btn_submit'])").isEnabled()
 
 
     def press_keyboard(self):
@@ -98,6 +102,15 @@ class LoginHelper:
                 "li.header__user-data-item.header__user-data-item_column"):
             info_text = text_info_user.text.split('\n')
         return info_text
+
+
+    def support_info_in_main_page(self):
+        # парсер, вытаскивает текст из тегов, информация о тех.поддержке на главной страницы спа
+        wd = self.app.wd
+        for text_info_support in wd.find_elements_by_css_selector(
+                "li.header__user-data-item.header__user-data-item_phone"):
+            support_text = text_info_support.text.split('\n')
+        return support_text
 
 
     def data_in_main_page(self):
