@@ -74,13 +74,15 @@ class LoginHelper:
         # Проверка даты и время на главной страницы спа
         wd = self.app.wd
         date_spa_main_page = wd.find_element_by_css_selector("div.header__date-day").text
-        date_spa = datetime.today().strftime('%d.%m.%Y')
+        date_spa = f"{datetime.now():%d.%m.%Y}"
         assert date_spa_main_page == date_spa
         time_msk_main_page = wd.find_element_by_css_selector("div.header__date-timeMsk").text
-        time_msk = datetime.today().strftime('%H:%M:%S') + " MSK"
+        #time_msk = datetime.today().strftime('%H:%M:%S') + " MSK"
+        time_msk = f"{datetime.now():%H:%M:%S MSK}"
         assert time_msk in time_msk_main_page
         time_lok_main_page = wd.find_element_by_css_selector("div.header__date-timeLoc").text
-        time_lok = datetime.today().strftime('%H:%M:%S') + " ЛОК"
+        #time_lok = datetime.today().strftime('%H:%M:%S') + " ЛОК"
+        time_lok = f"{datetime.now():%H:%M:%S ЛОК}"
         assert time_lok in time_lok_main_page
 
 
