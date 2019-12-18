@@ -13,8 +13,8 @@ class ReportHelper:
 
     def parser_report_text(self):
         wd = self.app.wd
-        msk = datetime.today().strftime('%d/%m/%Y %H:%M:%S') + ' МСК'
-        lok = datetime.today().strftime('%d/%m/%Y %H:%M:%S') + ' ЛОК' + ' (ЛОК)'
+        msk = f"{datetime.today():%d/%m/%Y %H:%M:%S МСК}"
+        lok = f"{datetime.today():%d/%m/%Y %H:%M:%S МСК (ЛОК)}"
         if len(wd.find_element_by_css_selector("div.report-item").text) > 0:
             test = wd.find_element_by_css_selector("div.report-item").text
             spl = test.split('\n')
@@ -28,11 +28,12 @@ class ReportHelper:
 
     def parser_full_report_text(self):
         wd = self.app.wd
-        mskf = datetime.today().strftime('%d/%m/%Y %H:%M:%S') + ' МСК'
-        lokf = datetime.today().strftime('%d/%m/%Y %H:%M:%S') + ' ЛОК' + ' (ЛОК)'
+        mskf = f"{datetime.today():%d/%m/%Y %H:%M:%S МСК}"
+        lokf = f"{datetime.today():%d/%m/%Y %H:%M:%S МСК (ЛОК)}"
         if len(wd.find_element_by_css_selector("div.report-item").text) > 0:
             textfull = wd.find_element_by_css_selector("div.report-item").text
         assert textfull.count('Кено Спортлото') == 3
+        assert textfull.count('Топ 3') == 3
         assert textfull.count('ГОСЛОТО 4 из 20') == 3
         assert textfull.count('ГОСЛОТО 6 из 45') == 3
         assert textfull.count('ГОСЛОТО 7 из 49') == 3
@@ -91,31 +92,31 @@ class ReportHelper:
 # -------- методы для определения даты С:
 
     def current_day_C(self):
-        d = datetime.today().strftime('%d/%m/%Y 00:00:00')
-        c = "C:  " + d
+        d = f"{datetime.today():%d/%m/%Y 00:00:00}"
+        c = f"C:  {d}"
         # print(c)
         return c
 
 
     def current_month_C(self):
-        dm = datetime.today().strftime('%m/%Y 00:00:00')
-        cm = "C:  " + "01/" + dm
+        dm = f"{datetime.today():%m/%Y 00:00:00}"
+        cm = f"C:  01/{dm}"
         # print(cm)
         return cm
 
 
     def previous_month_C_day_10(self):
         pmc = datetime.today()
-        last_month = pmc.replace(month=pmc.month - 1, day=10).strftime('%d/%m/%Y 00:00:00')
-        last_month_c = "C:  " + last_month
+        last_month = f"{pmc.replace(month=pmc.month - 1, day=10):%d/%m/%Y 00:00:00}"
+        last_month_c = f"C:  {last_month}"
         # print(last_month)
         return last_month_c
 
 
     def previous_month_C_day_1(self):
         pmc = datetime.today()
-        last_month = pmc.replace(month=pmc.month - 1, day=1).strftime('%d/%m/%Y 00:00:00')
-        last_month_c = "C:  " + last_month
+        last_month = f"{pmc.replace(month=pmc.month - 1, day=1):%d/%m/%Y 00:00:00}"
+        last_month_c = f"C:  {last_month}"
         # print(last_month)
         return last_month_c
 
@@ -123,7 +124,7 @@ class ReportHelper:
     def beginning_of_the_week_C(self):
         tdb = datetime.today()
         m = tdb - timedelta(datetime.weekday(tdb))
-        monday = m.strftime('%d/%m/%Y 00:00:00')
+        monday = f"{m:%d/%m/%Y 00:00:00}"
         return monday
 
 
@@ -131,7 +132,7 @@ class ReportHelper:
         pmc = datetime.today()
         last_month = pmc.replace(month=pmc.month - 1, day=10)
         m = last_month - timedelta(datetime.weekday(last_month))
-        mondayc = m.strftime('%d/%m/%Y 00:00:00')
+        mondayc = f"{m:%d/%m/%Y 00:00:00}"
         return mondayc
 
 
@@ -140,16 +141,16 @@ class ReportHelper:
 # -------- методы для определения даты ПО:
 
     def current_day_Po(self):
-        dp = datetime.today().strftime('%d/%m/%Y %H:%M')
-        Po = "По: " + dp
+        dp = f"{datetime.today():%d/%m/%Y %H:%M}"
+        Po = f"По: {dp}"
         # print(Po)
         return Po
 
 
     def previous_month_Po_day_10(self):
         pmp = datetime.today()
-        last_month = pmp.replace(month=pmp.month - 1, day=10).strftime('%d/%m/%Y 23:59:59')
-        last_month_po = "По: " + last_month
+        last_month = f"{pmp.replace(month=pmp.month - 1, day=10):%d/%m/%Y 23:59:59}"
+        last_month_po = f"По: {last_month}"
         # print(last_month_po)
         return last_month_po
 
@@ -158,7 +159,7 @@ class ReportHelper:
         date_now = datetime.today()
         previous_month = date_now.replace(month=date_now.month - 1)
         last_day = previous_month.replace(day=calendar.monthrange(previous_month.year, previous_month.month)[1])
-        last_day_month = last_day.strftime('%d/%m/%Y 23:59:59')
+        last_day_month = f"{last_day:%d/%m/%Y 23:59:59}"
         # print(last_day_month)
         return last_day_month
 
@@ -168,7 +169,7 @@ class ReportHelper:
         last_month = pmp.replace(month=pmp.month - 1, day=10)
         sp = last_month - timedelta(datetime.weekday(last_month))
         s = sp.replace(day=sp.day + 6)
-        sunday = s.strftime('%d/%m/%Y 23:59:59')
+        sunday = f"{s:%d/%m/%Y 23:59:59}"
         return sunday
 
 
@@ -209,13 +210,13 @@ class ReportHelper:
         wd = self.app.wd
         wd.find_element_by_css_selector(
             "a.react-datepicker__navigation.react-datepicker__navigation--previous").click()
-        wd.find_element_by_xpath("//a[contains(text(),'10')]").click()
+        wd.find_element_by_xpath("(//div[@aria-label='day-10'])").click()
 
 
     def previous_month_date_1(self):
         wd = self.app.wd
         wd.find_element_by_css_selector(
             "a.react-datepicker__navigation.react-datepicker__navigation--previous").click()
-        wd.find_element_by_xpath("//a[contains(text(),'1')]").click()
+        wd.find_element_by_xpath("(//div[@aria-label='day-1'])").click()
 
 # ---------------------------------------------------------------------------------------

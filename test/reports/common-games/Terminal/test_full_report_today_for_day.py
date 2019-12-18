@@ -8,6 +8,7 @@ def test_full_report_today(app):
     app.report.button_get_report()
     app.report.parser_full_report_text()
     assert "ОТЧЕТ ЗА ДЕНЬ" in app.report.parser_full_report_text()
+    assert "ПО ОБЫЧНОЙ ЛОТЕРЕЕ" in app.report.parser_full_report_text()
     assert "ИТОГИ ПО ТЕРМИНАЛУ" in app.report.parser_full_report_text()
     assert "Продавец: 2000006810-20003511" in app.report.parser_full_report_text()
     assert "Терминал: 2000006810" in app.report.parser_full_report_text()

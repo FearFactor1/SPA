@@ -70,20 +70,18 @@ class LoginHelper:
             support_text = text_info_support.text.split('\n')
         return support_text
 
+
     def data_in_main_page(self):
         # Проверка даты и время на главной страницы спа
         wd = self.app.wd
-        date_spa_main_page = wd.find_element_by_css_selector("div.header__date-day").text
-        date_spa = f"{datetime.now():%d.%m.%Y}"
-        assert date_spa_main_page == date_spa
-        time_msk_main_page = wd.find_element_by_css_selector("div.header__date-timeMsk").text
-        #time_msk = datetime.today().strftime('%H:%M:%S') + " MSK"
-        time_msk = f"{datetime.now():%H:%M:%S MSK}"
-        assert time_msk in time_msk_main_page
-        time_lok_main_page = wd.find_element_by_css_selector("div.header__date-timeLoc").text
-        #time_lok = datetime.today().strftime('%H:%M:%S') + " ЛОК"
-        time_lok = f"{datetime.now():%H:%M:%S ЛОК}"
-        assert time_lok in time_lok_main_page
+        datem = f"{datetime.today():%d.%m.%Y}"
+        mskm = f"{datetime.today():%H:%M:%S MSK}"
+        lokfm = f"{datetime.today():%H:%M:%S ЛОК}"
+        if len(wd.find_element_by_css_selector("div.header__date").text) > 0:
+            textdate = wd.find_element_by_css_selector("div.header__date").text
+        assert datem in textdate
+        assert mskm in textdate
+        assert lokfm in textdate
 
 
     def err_passwword(self):
