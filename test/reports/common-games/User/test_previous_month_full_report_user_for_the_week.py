@@ -1,4 +1,4 @@
-# Отчет за неделю + без галочки Кассовый отчёт + Обычные + Пользователь + за предыдущий месяц
+# Отчет за неделю + без галочки Кассовый отчёт + Обычные + Пользователь + за предыдущий месяц с 10го
 
 
 def test_previous_month_full_report_user_for_the_week(app):
@@ -10,6 +10,7 @@ def test_previous_month_full_report_user_for_the_week(app):
     app.report.button_get_report()
     app.report.parser_full_report_text()
     assert "ОТЧЕТ ЗА НЕДЕЛЮ" in app.report.parser_full_report_text()
+    assert "ПО ОБЫЧНОЙ ЛОТЕРЕЕ" in app.report.parser_full_report_text()
     assert "ИТОГИ ПО ПОЛЬЗОВАТЕЛЮ" in app.report.parser_full_report_text()
     assert "Продавец: 2000006810-20003511" in app.report.parser_full_report_text()
     assert "Пользователь: 20003511" in app.report.parser_full_report_text()
