@@ -108,6 +108,15 @@ class LoginHelper:
             info_text_balance = text_info_balance.get_attribute('title')
         return info_text_balance
 
+
+    def exit_cancel_exit(self):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("span.icon.icon-exit").click()
+        exit_text = wd.find_element_by_css_selector("h1.modal__head").text
+        assert "Вы уверены, что вы\nхотите выйти?" in exit_text
+        wd.find_element_by_css_selector("a.btn.btn_transperent.btn_arround").click()
+
+
 # ----------------------------------------------------------------------------------------------------------
 
 
