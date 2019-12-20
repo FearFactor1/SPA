@@ -27,6 +27,7 @@ class ReportHelper:
 
 
     def parser_full_report_text(self):
+        # нужен для обычных лотерей
         wd = self.app.wd
         mskf = f"{datetime.today():%d/%m/%Y %H:%M:%S МСК}"
         lokf = f"{datetime.today():%d/%m/%Y %H:%M:%S МСК (ЛОК)}"
@@ -65,6 +66,37 @@ class ReportHelper:
         assert textfull.find(lokf)
         return textfull
         # print(re.findall('Рапидо', textfull))
+
+
+    def parser_full_report_text_for_instant_game(self):
+        # нужен для моменталок
+        wd = self.app.wd
+        mskml = f"{datetime.today():%d/%m/%Y %H:%M:%S МСК}"
+        lokml = f"{datetime.today():%d/%m/%Y %H:%M:%S МСК (ЛОК)}"
+        if len(wd.find_element_by_css_selector("div.report-item").text) > 0:
+            textfullml = wd.find_element_by_css_selector("div.report-item").text
+        assert textfullml.count('ИГРА' and 'НАЗВАНИЕ' and 'ПРОДАЖИ' and 'ВЫПЛАТЫ') == 1
+        assert textfullml.count('30501' and 'Точно в цель') == 1
+        assert textfullml.count('30502' and 'Победа+Самовол') == 1
+        assert textfullml.count('30503' and 'Сапер') == 1
+        assert textfullml.count('30505' and '50 на 50') == 1
+        assert textfullml.find('30508' and 'Спорт без гран')
+        assert textfullml.find('30509' and 'Узоры на льду')
+        assert textfullml.count('30510' and 'Вперед к побед') == 1
+        assert textfullml.count('30511' and 'Вершины успеха') == 1
+        assert textfullml.count('30512' and 'Поехали!') == 1
+        assert textfullml.count('30513' and 'Быстрее, выше,') == 1
+        assert textfullml.count('30514' and 'Веселые старты') == 1
+        assert textfullml.count('30515' and 'Спортивный сез') == 1
+        assert textfullml.count('30516' and 'Праздник спорт') == 1
+        assert textfullml.count('30517' and 'Русские игры') == 1
+        assert textfullml.find('30519' and 'Спорт без гран')
+        assert textfullml.find('30520' and 'Узоры на льду')
+        assert textfullml.count('ИТОГО') == 1
+        assert textfullml.find(mskml)
+        assert textfullml.find(lokml)
+        return textfullml
+
 
 # ------------------------------------------------------------------
 
@@ -201,6 +233,13 @@ class ReportHelper:
         wd = self.app.wd
         wd.find_element_by_name("reportUserType").click()
         wd.find_element_by_css_selector("option[value='USER']").click()
+
+
+    def select_instant_lottery(self):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("select.select.report__select").click()
+        wd.find_element_by_css_selector("option[value='instant']").click()
+
 
 # -----------------------------------------------------------------------------
 
