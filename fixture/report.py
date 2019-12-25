@@ -97,6 +97,24 @@ class ReportHelper:
         assert textfullml.find(lokml)
         return textfullml
 
+    def parser_full_report_text_for_typographical(self):
+        # нужен для типографских
+        wd = self.app.wd
+        msktlb = f"{datetime.today():%d/%m/%Y %H:%M:%S МСК}"
+        loktlb = f"{datetime.today():%d/%m/%Y %H:%M:%S МСК (ЛОК)}"
+        if len(wd.find_element_by_css_selector("div.report-item").text) > 0:
+            textfulltlb = wd.find_element_by_css_selector("div.report-item").text
+        assert textfulltlb.count('Продажи') == 1
+        assert textfulltlb.count('Билеты' and 'Сумма руб.') == 4
+        assert textfulltlb.count('Итого :') == 4
+        assert textfulltlb.count('Отмены продаж:') == 1
+        assert textfulltlb.count('Выплаты') == 1
+        assert textfulltlb.count('Отмены выплат') == 1
+        assert textfulltlb.count('ИТОГО ПО ОТЧЁТУ:') == 1
+        assert textfulltlb.find(msktlb)
+        assert textfulltlb.find(loktlb)
+        return textfulltlb
+
 
 # ------------------------------------------------------------------
 
@@ -239,6 +257,12 @@ class ReportHelper:
         wd = self.app.wd
         wd.find_element_by_css_selector("select.select.report__select").click()
         wd.find_element_by_css_selector("option[value='instant']").click()
+
+
+    def select_typographical(self):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("select.select.report__select").click()
+        wd.find_element_by_css_selector("option[value='printed']").click()
 
 
 # -----------------------------------------------------------------------------
