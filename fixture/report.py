@@ -33,34 +33,35 @@ class ReportHelper:
         lokf = f"{datetime.today():%d/%m/%Y %H:%M:%S МСК (ЛОК)}"
         if len(wd.find_element_by_css_selector("div.report-item").text) > 0:
             textfull = wd.find_element_by_css_selector("div.report-item").text
-        assert textfull.count('Кено Спортлото') == 3
-        assert textfull.count('Топ 3') == 3
-        assert textfull.count('ГОСЛОТО 4 из 20') == 3
-        assert textfull.count('ГОСЛОТО 6 из 45') == 3
-        assert textfull.count('ГОСЛОТО 7 из 49') == 3
-        assert textfull.count('5х36 до тиража 7268') == 3
-        assert textfull.count('Рапидо') == 6
-        assert textfull.count('Рапидо2') == 3
-        assert textfull.count('Спортлото 6 из 49') == 3
-        assert textfull.count('Гослото 5 из 36') == 3
-        assert textfull.count('Спортлото Матчбол') == 3
-        assert textfull.count('6 из 36') == 3
-        assert textfull.count('Русское Лото') == 3
-        assert textfull.count('Жилищная лотерея') == 3
-        assert textfull.count('Золотая подкова') == 3
-        assert textfull.count('Бинго 80') == 3
-        assert textfull.count('Бинго 75') == 3
-        assert textfull.count('12x24') == 3
-        assert textfull.count('Прикуп') == 3
-        assert textfull.count('Дуэль') == 3
-        assert textfull.count('Зодиак') == 3
-        assert textfull.count('Джокер') == 3
-        assert textfull.count('Моментальные') == 3
-        assert 'Продажи' in textfull
-        assert 'Отмены' in textfull
+        assert textfull.count('Кено Спортлото') == 5
+        assert textfull.count('Топ 3') == 5
+        assert textfull.count('ГОСЛОТО 4 из 20') == 5
+        assert textfull.count('ГОСЛОТО 6 из 45') == 5
+        assert textfull.count('ГОСЛОТО 7 из 49') == 5
+        assert textfull.count('5х36 до тиража 7268') == 5
+        assert textfull.count('Рапидо') == 10
+        assert textfull.count('Рапидо2') == 5
+        assert textfull.count('Спортлото 6 из 49') == 5
+        assert textfull.count('Гослото 5 из 36') == 5
+        assert textfull.count('Спортлото Матчбол') == 5
+        assert textfull.count('6 из 36') == 5
+        assert textfull.count('Русское Лото') == 5
+        assert textfull.count('Жилищная лотерея') == 5
+        assert textfull.count('Золотая подкова') == 5
+        assert textfull.count('Бинго 80') == 5
+        assert textfull.count('Бинго 75') == 5
+        assert textfull.count('12x24') == 5
+        assert textfull.count('Прикуп') == 5
+        assert textfull.count('Дуэль') == 5
+        assert textfull.count('Зодиак') == 5
+        assert textfull.count('Джокер') == 5
+        assert textfull.count('Моментальные') == 5
+        assert textfull.count('Продажи') == 2
+        assert textfull.count('Продажи за бонусы') == 1
+        assert textfull.count('Отмены') == 2
+        assert textfull.count('Отмены за бонусы') == 1
         assert 'Выплаты' in textfull
-        assert textfull.count('ИТОГО') == 1
-        assert textfull.count('Итого') == 3
+        assert textfull.count('Итого :') == 5
         assert 'ИТОГО ПО ОТЧЕТУ' in textfull
         assert textfull.find(mskf)
         assert textfull.find(lokf)
