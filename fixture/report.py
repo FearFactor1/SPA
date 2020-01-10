@@ -158,7 +158,10 @@ class ReportHelper:
 
     def previous_month_C_day_10(self):
         pmc = datetime.today()
-        last_month = f"{pmc.replace(month=pmc.month - 1, day=10):%d/%m/%Y 00:00:00}"
+        if pmc.month == 1:
+            last_month = f"{pmc.replace(month=12, day=10, year=pmc.year - 1):%d/%m/%Y 00:00:00}"
+        else:
+            last_month = f"{pmc.replace(month=pmc.month - 1, day=10):%d/%m/%Y 00:00:00}"
         last_month_c = f"C:  {last_month}"
         # print(last_month)
         return last_month_c
@@ -166,7 +169,10 @@ class ReportHelper:
 
     def previous_month_C_day_1(self):
         pmc = datetime.today()
-        last_month = f"{pmc.replace(month=pmc.month - 1, day=1):%d/%m/%Y 00:00:00}"
+        if pmc.month == 1:
+            last_month = f"{pmc.replace(month=12, day=1, year=pmc.year - 1):%d/%m/%Y 00:00:00}"
+        else:
+            last_month = f"{pmc.replace(month=pmc.month - 1, day=1):%d/%m/%Y 00:00:00}"
         last_month_c = f"C:  {last_month}"
         # print(last_month)
         return last_month_c
@@ -181,7 +187,10 @@ class ReportHelper:
 
     def previous_month_C_monday_from_day_10(self):
         pmc = datetime.today()
-        last_month = pmc.replace(month=pmc.month - 1, day=10)
+        if pmc.month == 1:
+            last_month = pmc.replace(month=12, day=10, year=pmc.year - 1)
+        else:
+            last_month = pmc.replace(month=pmc.month - 1, day=10)
         m = last_month - timedelta(datetime.weekday(last_month))
         mondayc = f"{m:%d/%m/%Y 00:00:00}"
         return mondayc
@@ -200,7 +209,10 @@ class ReportHelper:
 
     def previous_month_Po_day_10(self):
         pmp = datetime.today()
-        last_month = f"{pmp.replace(month=pmp.month - 1, day=10):%d/%m/%Y 23:59:59}"
+        if pmp.month == 1:
+            last_month = f"{pmp.replace(month=12, day=10, year=pmp.year - 1):%d/%m/%Y 23:59:59}"
+        else:
+            last_month = f"{pmp.replace(month=pmp.month - 1, day=10):%d/%m/%Y 23:59:59}"
         last_month_po = f"По: {last_month}"
         # print(last_month_po)
         return last_month_po
@@ -208,7 +220,10 @@ class ReportHelper:
 
     def previous_month_Po_lastday(self):
         date_now = datetime.today()
-        previous_month = date_now.replace(month=date_now.month - 1)
+        if date_now.month == 1:
+            previous_month = date_now.replace(month=12, year=date_now.year - 1)
+        else:
+            previous_month = date_now.replace(month=date_now.month - 1)
         last_day = previous_month.replace(day=calendar.monthrange(previous_month.year, previous_month.month)[1])
         last_day_month = f"{last_day:%d/%m/%Y 23:59:59}"
         # print(last_day_month)
@@ -217,7 +232,10 @@ class ReportHelper:
 
     def previous_month_Po_sunday_from_monday(self):
         pmp = datetime.today()
-        last_month = pmp.replace(month=pmp.month - 1, day=10)
+        if pmp.month == 1:
+            last_month = pmp.replace(month=12, day=10, year=pmp.year - 1)
+        else:
+            last_month = pmp.replace(month=pmp.month - 1, day=10)
         sp = last_month - timedelta(datetime.weekday(last_month))
         s = sp.replace(day=sp.day + 6)
         sunday = f"{s:%d/%m/%Y 23:59:59}"

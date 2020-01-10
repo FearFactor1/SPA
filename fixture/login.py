@@ -117,6 +117,15 @@ class LoginHelper:
         wd.find_element_by_css_selector("a.btn.btn_transperent.btn_arround").click()
 
 
+    def parser_bonus_price_in_main_page(self):
+        wd = self.app.wd
+        for text_info_bonus_price in wd.find_elements_by_css_selector("ul.games__list"):
+            text_bonus = text_info_bonus_price.text
+#        text_bonus = wd.find_element_by_css_selector("ul.games__list").text
+        return text_bonus
+
+
+
 # ----------------------------------------------------------------------------------------------------------
 
 
@@ -185,3 +194,8 @@ class LoginHelper:
         WebDriverWait(wd, 7).until(
             EC.invisibility_of_element((By.CSS_SELECTOR, "span.rouble"))
         )
+
+
+    def click_bonus_price_in_main_page(self):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("button.header-black-link__unit").click()
