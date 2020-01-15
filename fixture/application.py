@@ -2,6 +2,7 @@ from selenium import webdriver
 from fixture.session import SessionHelper
 from fixture.login import LoginHelper
 from fixture.report import ReportHelper
+from fixture.ResultAndPrizes import ResultAndPrizeHelper
 
 
 
@@ -20,6 +21,7 @@ class Application:
         self.session = SessionHelper(self)
         self.login = LoginHelper(self)
         self.report = ReportHelper(self)
+        self.ResultAndPrizes = ResultAndPrizeHelper(self)
         self.base_url = base_url
 
 
