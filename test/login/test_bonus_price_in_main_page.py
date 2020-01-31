@@ -17,7 +17,7 @@ def test_show_bonus_price_main_page(app2):
     assert "«Золотая подкова»\n300" in app2.login.parser_bonus_price_in_main_page()
     assert "«Бинго-75»\n300" in app2.login.parser_bonus_price_in_main_page()
     assert "«6 из 36»\n300" in app2.login.parser_bonus_price_in_main_page()
-    assert "«Рапидо»\n900" in app2.login.parser_bonus_price_in_main_page()
+    assert "«Рапидо»\n450" in app2.login.parser_bonus_price_in_main_page()
     assert "«Рапидо 2.0»\n180" in app2.login.parser_bonus_price_in_main_page()
     assert "«12/24»\n90" in app2.login.parser_bonus_price_in_main_page()
     assert "«Дуэль»\n90" in app2.login.parser_bonus_price_in_main_page()

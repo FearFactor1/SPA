@@ -3,6 +3,7 @@ from fixture.session import SessionHelper
 from fixture.login import LoginHelper
 from fixture.report import ReportHelper
 from fixture.ResultAndPrizes import ResultAndPrizeHelper
+from fixture.messages import MessageID
 
 
 
@@ -22,6 +23,7 @@ class Application:
         self.login = LoginHelper(self)
         self.report = ReportHelper(self)
         self.ResultAndPrizes = ResultAndPrizeHelper(self)
+        self.messages = MessageID(self)
         self.base_url = base_url
 
 

@@ -1,4 +1,20 @@
 from datetime import datetime, timedelta
+from requests import post
+from requests.auth import HTTPBasicAuth
+from fixture.messages import MessageID
+import re
+
+
+
+# ----------- Глобальные переменные:
+
+login = "s3_http_access"
+password = "ambush!Tidy4"
+auth = (login, password)
+draw_id = '<draw_id>(.*?)</draw_id>'
+win_numbers = '<win_numbers>(.*?)</win_numbers>'
+
+# -------------------------------------------------------------------------
 
 
 
@@ -155,6 +171,54 @@ class ResultAndPrizeHelper:
 
 # ------ клики по играм:
 
+    def click_game_4x20(self):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("label[for='game_4420']").click()
 
 
 # ---------------------------------------------------------------
+
+
+# ------------ отправки запросов в gate:
+
+    def message_id_33_4x20_last_draw(self):
+        response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_1_4420, auth=HTTPBasicAuth(*auth))
+        response = response.text.split('\n')
+        for row in response:
+            if 'draw_id' in row:
+                draw = row.replace('<draw_id>', '').replace('</draw_id>', '').strip()
+                draw_r = f"ЛОТО 4/20 - Тираж {draw} :"
+                print(draw_r)
+        return draw_r
+
+
+    def message_id_33_4x20_winning_numbers_last_draw(self):
+        response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_1_4420, auth=HTTPBasicAuth(*auth))
+        response = response.text.split('\n')
+        for row in response:
+            if 'win_numbers' in row:
+                win = row.replace('<win_numbers>', '').replace('</win_numbers>', '').strip()
+                print(win)
+        return win
+
+
+    def message_id_33_4x20_winning_numbers_4_last_draw(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
+        response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_2_4420, auth=HTTPBasicAuth(*auth))
+        response = response.text
+        d = re.findall(draw_id, response)
+        w = re.findall(win_numbers, response)
+        assert f"ЛОТО 4/20 - Тираж {d[0]} :" in text_win
+        assert f"ЛОТО 4/20 - Тираж {d[1]} :" in text_win
+        assert f"ЛОТО 4/20 - Тираж {d[2]} :" in text_win
+        assert f"ЛОТО 4/20 - Тираж {d[3]} :" in text_win
+        assert w[0] in text_win
+        assert w[1] in text_win
+        assert w[2] in text_win
+        assert w[3] in text_win
+
+
+
+
+# --------------------------------------------------------------------------

@@ -4,13 +4,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from requests import post
 from requests.auth import HTTPBasicAuth
+from fixture.messages import MessageID
 
 
 login = "s3_http_access"
 password = "ambush!Tidy4"
 
-url = "http://ga-s3-lcp.ga.stoloto.su/fprov/fcgi_pos?message_id=5"
-data = 'TERMINAL_ID=2000006810&REQUEST_TIME=1&LOGIN=20003511&PASSWORD=75374377'
+
 
 
 
@@ -96,7 +96,7 @@ class LoginHelper:
 
     def send_message_id_5(self):
         auth = (login, password)
-        response = post(url=url, data=data, auth=HTTPBasicAuth(*auth))
+        response = post(url=MessageID.URL_5, data=MessageID.DATA_BALANCE, auth=HTTPBasicAuth(*auth))
         response = response.text
         return response
 
