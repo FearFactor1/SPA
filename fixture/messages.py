@@ -27,10 +27,10 @@ class MessageID:
 
 # --------- 4на20:
 
-    # message_id=33, данный запрос сделан для получения последнего тиража из гейта для игры 4на20
+    # message_id=33, данный запрос сделан для получения последнего тиража из гейта
     DATA_33_REPORT_TYPE_1_4420 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=1&GAME_ID=4420&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
 
-    # message_id=33, данный запрос сделан для получения последних 4 тиражей из гейта для игры 4на20
+    # message_id=33, данный запрос сделан для получения последних 4 тиражей из гейта
     DATA_33_REPORT_TYPE_2_4420 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=2&GAME_ID=4420&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
 
     # message_id=33, данный запрос сделан для получения результата последнего тиража REPORT_TYPE_3
@@ -46,10 +46,10 @@ class MessageID:
 
 # --------- 5на36:
 
-    # message_id=33, данный запрос сделан для получения последнего тиража из гейта для игры 5на36
+    # message_id=33, данный запрос сделан для получения последнего тиража из гейта
     DATA_33_REPORT_TYPE_1_5536 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=1&GAME_ID=5536&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
 
-    # message_id=33, данный запрос сделан для получения последних 4 тиражей из гейта для игры 5на36
+    # message_id=33, данный запрос сделан для получения последних 4 тиражей из гейта
     DATA_33_REPORT_TYPE_2_5536 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=2&GAME_ID=5536&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
 
     # message_id=33, данный запрос сделан для получения результата последнего тиража REPORT_TYPE_3
@@ -65,10 +65,10 @@ class MessageID:
 
 # --------- 6из45:
 
-    # message_id=33, данный запрос сделан для получения последнего тиража из гейта для игры 4на45
+    # message_id=33, данный запрос сделан для получения последнего тиража из гейта
     DATA_33_REPORT_TYPE_1_5101 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=1&GAME_ID=5101&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
 
-    # message_id=33, данный запрос сделан для получения последних 4 тиражей из гейта для игры 6на45
+    # message_id=33, данный запрос сделан для получения последних 4 тиражей из гейта
     DATA_33_REPORT_TYPE_2_5101 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=2&GAME_ID=5101&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
 
     # message_id=33, данный запрос сделан для получения результата последнего тиража REPORT_TYPE_3
@@ -84,10 +84,10 @@ class MessageID:
 
 # --------- 7из49:
 
-    # message_id=33, данный запрос сделан для получения последнего тиража из гейта для игры 4на45
+    # message_id=33, данный запрос сделан для получения последнего тиража из гейта
     DATA_33_REPORT_TYPE_1_5150 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=1&GAME_ID=5150&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
 
-    # message_id=33, данный запрос сделан для получения последних 4 тиражей из гейта для игры 6на45
+    # message_id=33, данный запрос сделан для получения последних 4 тиражей из гейта
     DATA_33_REPORT_TYPE_2_5150 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=2&GAME_ID=5150&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
 
     # message_id=33, данный запрос сделан для получения результата последнего тиража REPORT_TYPE_3
@@ -103,10 +103,10 @@ class MessageID:
 
 # --------- матчбол:
 
-    # message_id=33, данный запрос сделан для получения последнего тиража из гейта для игры 4на45
+    # message_id=33, данный запрос сделан для получения последнего тиража из гейта
     DATA_33_REPORT_TYPE_1_5550 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=1&GAME_ID=5550&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
 
-    # message_id=33, данный запрос сделан для получения последних 4 тиражей из гейта для игры 6на45
+    # message_id=33, данный запрос сделан для получения последних 4 тиражей из гейта
     DATA_33_REPORT_TYPE_2_5550 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=2&GAME_ID=5550&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
 
     # message_id=33, данный запрос сделан для получения результата последнего тиража REPORT_TYPE_3
@@ -120,3 +120,21 @@ class MessageID:
 
 # --------------------------------------------
 
+# --------- Зодиак:
+
+    # message_id=33, данный запрос сделан для получения последнего тиража из гейта
+    DATA_33_REPORT_TYPE_1_28005 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=1&GAME_ID=28005&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
+
+    # message_id=33, данный запрос сделан для получения последних 4 тиражей из гейта
+    DATA_33_REPORT_TYPE_2_28005 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=2&GAME_ID=28005&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
+
+    # message_id=33, данный запрос сделан для получения результата последнего тиража REPORT_TYPE_3
+    DATA_33_REPORT_TYPE_3_28005 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=3&GAME_ID=28005&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
+
+    # message_id=33, данный запрос сделан для получения результата тиража по текущей дате REPORT_TYPE_4
+    DATA_33_REPORT_TYPE_4_28005 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=4&GAME_ID=28005&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
+
+    # message_id=33, данный запрос сделан для получения суммы суперприза
+    DATA_33_REPORT_TYPE_5_28005 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=5&GAME_ID=28005&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
+
+# --------------------------------------------
