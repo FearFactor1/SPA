@@ -20,6 +20,9 @@ winners_count = '<winners_count>(.*?)</winners_count>'
 winning_amount = '<winning_amount>(.*?)</winning_amount>'
 total = '<total>(.*?)</total>'
 amount = '<amount>(.*?)</amount>'
+number = '<number>(.*?)</number>'
+cat_win_numbers = '<cat_win_numbers>(.*?)</cat_win_numbers>'
+range_90 = [str(i) for i in range(1, 91)]
 
 # -------------------------------------------------------------------------
 
@@ -231,6 +234,11 @@ class ResultAndPrizeHelper:
         wd.find_element_by_css_selector("label[for='game_28005']").click()
 
 
+    def click_game_russianlotto(self):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("label[for='game_7103']").click()
+
+
 # ---------------------------------------------------------------
 
 
@@ -407,12 +415,13 @@ class ResultAndPrizeHelper:
         d = re.findall(draw_id, response)
         a = re.findall(amount, response)
         assert f"ЛОТО 4/20 - Тираж {d[0]} :" in text_win
-        assert "Категория\nСумма руб." in text_win
         if len(a) == 0:
             assert "СУПЕРПРИЗА НЕТ" in text_win
         if len(a) == 1:
+            assert "Категория\nСумма руб." in text_win
             assert f"Суперприз\n{a[0]}" in text_win
         if len(a) == 2:
+            assert "Категория\nСумма руб." in text_win
             assert f"Суперприз\n{a[0]}" in text_win
             assert f"Приз\n{a[1]}" in text_win
 
@@ -528,12 +537,13 @@ class ResultAndPrizeHelper:
         d = re.findall(draw_id, response)
         a = re.findall(amount, response)
         assert f"ЛОТО 5/36 - Тираж {d[0]} :" in text_win
-        assert "Категория\nСумма руб." in text_win
         if len(a) == 0:
             assert "СУПЕРПРИЗА НЕТ" in text_win
         if len(a) == 1:
+            assert "Категория\nСумма руб." in text_win
             assert f"Суперприз\n{a[0]}" in text_win
         if len(a) == 2:
+            assert "Категория\nСумма руб." in text_win
             assert f"Суперприз\n{a[0]}" in text_win
             assert f"Приз\n{a[1]}" in text_win
 
@@ -715,12 +725,13 @@ class ResultAndPrizeHelper:
         d = re.findall(draw_id, response)
         a = re.findall(amount, response)
         assert f"ЛОТО 6/45 - Тираж {d[0]} :" in text_win
-        assert "Категория\nСумма руб." in text_win
         if len(a) == 0:
             assert "СУПЕРПРИЗА НЕТ" in text_win
         if len(a) == 1:
+            assert "Категория\nСумма руб." in text_win
             assert f"Суперприз\n{a[0]}" in text_win
         if len(a) == 2:
+            assert "Категория\nСумма руб." in text_win
             assert f"Суперприз\n{a[0]}" in text_win
             assert f"Приз\n{a[1]}" in text_win
 
@@ -903,12 +914,13 @@ class ResultAndPrizeHelper:
         d = re.findall(draw_id, response)
         a = re.findall(amount, response)
         assert f"ЛОТО 7/49 - Тираж {d[0]} :" in text_win
-        assert "Категория\nСумма руб." in text_win
         if len(a) == 0:
             assert "СУПЕРПРИЗА НЕТ" in text_win
         if len(a) == 1:
+            assert "Категория\nСумма руб." in text_win
             assert f"Суперприз\n{a[0]}" in text_win
         if len(a) == 2:
+            assert "Категория\nСумма руб." in text_win
             assert f"Суперприз\n{a[0]}" in text_win
             assert f"Приз\n{a[1]}" in text_win
 
@@ -1090,12 +1102,13 @@ class ResultAndPrizeHelper:
         d = re.findall(draw_id, response)
         a = re.findall(amount, response)
         assert f"МАТЧБОЛ - Тираж {d[0]} :" in text_win
-        assert "Категория\nСумма руб." in text_win
         if len(a) == 0:
             assert "СУПЕРПРИЗА НЕТ" in text_win
         if len(a) == 1:
+            assert "Категория\nСумма руб." in text_win
             assert f"Суперприз\n{a[0]}" in text_win
         if len(a) == 2:
+            assert "Категория\nСумма руб." in text_win
             assert f"Суперприз\n{a[0]}" in text_win
             assert f"Приз\n{a[1]}" in text_win
 
@@ -1277,12 +1290,13 @@ class ResultAndPrizeHelper:
         d = re.findall(draw_id, response)
         a = re.findall(amount, response)
         assert f"Зодиак - Тираж {d[0]} :" in text_win
-        assert "Категория\nСумма руб." in text_win
         if len(a) == 0:
             assert "СУПЕРПРИЗА НЕТ" in text_win
         if len(a) == 1:
             assert f"Суперприз\n{a[0]}" in text_win
+            assert "Категория\nСумма руб." in text_win
         if len(a) == 2:
+            assert "Категория\nСумма руб." in text_win
             assert f"Суперприз\n{a[0]}" in text_win
             assert f"Приз\n{a[1]}" in text_win
 
@@ -1352,6 +1366,274 @@ class ResultAndPrizeHelper:
                 print(win)
         return win
 
+
+
+
+# --------------------------------------------------------------------------
+
+
+# ------------ отправка запросов в gate для игры Русское лото:
+
+    def message_id_33_russianlotto_results_for_5_draws(self):
+        wd = self.app.wd
+        # draw = берём текст - это тираж с кнопки выигрышные номера нескольких тиражей
+        draw = wd.find_element_by_css_selector("#date9 + .winners-reports__label .winners-reports__label-text").text
+        drawi = int(draw)
+        # Нажимаем кнопку получить отчёт в результатах и призах
+        wd.find_element_by_css_selector("button.btn.btn_save.winners-button").click()
+        # массив текста после нажатия на получить отчёт
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
+        # отправка запроса 33 для получения 5 тиражей послдних
+        response = post(url=MessageID.URL_33,
+                        data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=9&GAME_ID=7103&DATE_START="{MessageID.DATE_START}"&DRAW_ID={str(drawi)}&DRAWS_NUMBER=5&VERSION=1',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        d = re.findall(draw_id, response)
+        n = re.findall(number, response)
+        cwn = re.findall(cat_win_numbers, response)
+        wc = re.findall(winners_count, response)
+        wa = re.findall(winning_amount, response)
+        t = re.findall(total, response)
+        for i in d:
+            assert f"РУССКОЕ ЛОТО - Тираж {i}" in text_win
+        for i in n:
+            assert f"Тур: {i}" in text_win
+        for i in cwn:
+            assert f"Выпавшие числа: {i}" in text_win
+        for i in wc:
+            assert f"Выигрывших билетов: {i}" in text_win
+        for i in wa:
+            assert f"Сумма выигрыша: {i}" in text_win
+        for i in t:
+            assert f"Общая сумма: {i}" in text_win
+
+
+    def message_id_33_russianlotto_results_draw_date_current_date(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
+        response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_4_7103, auth=HTTPBasicAuth(*auth))
+        response = response.text
+        d = re.findall(draw_id, response)
+        n = re.findall(number, response)
+        cwn = re.findall(cat_win_numbers, response)
+        wc = re.findall(winners_count, response)
+        wa = re.findall(winning_amount, response)
+        t = re.findall(total, response)
+        for i in d:
+            assert f"РУССКОЕ ЛОТО - Тираж {i}" in text_win
+        for i in n:
+            assert f"Тур: {i}" in text_win
+        for i in cwn:
+            assert f"Выпавшие числа: {i}" in text_win
+        for i in wc:
+            assert f"Выигрывших билетов: {i}" in text_win
+        for i in wa:
+            assert f"Сумма выигрыша: {i}" in text_win
+        for i in t:
+            assert f"Общая сумма: {i}" in text_win
+
+
+    def message_id_33_russianlotto_results_draw_date_previous_date(self):
+        wd = self.app.wd
+        # делаем дату предыдущего месяца 10е число для запроса 33
+        dd = datetime.today()
+        if dd.month == 1:
+            last_month = f"{dd.replace(month=12, day=10, year=dd.year - 1):%Y.%m.%d}"
+        else:
+            last_month = f"{dd.replace(month=dd.month - 1, day=10):%Y.%m.%d}"
+        DATE_START_LAST_MONTH = f"{last_month}+03"
+        # Нажимаем кнопку получить отчёт в результатах и призах
+        wd.find_element_by_css_selector("button.btn.btn_save.winners-button").click()
+        # массив текста после нажатия на получить отчёт
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
+        # отправка запроса 33 для получения 5 тиражей послдних
+        response = post(url=MessageID.URL_33,
+                        data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=4&GAME_ID=7103&DATE_START="{DATE_START_LAST_MONTH}"&DRAW_ID=0&DRAWS_NUMBER=5&VERSION=1',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        d = re.findall(draw_id, response)
+        n = re.findall(number, response)
+        cwn = re.findall(cat_win_numbers, response)
+        wc = re.findall(winners_count, response)
+        wa = re.findall(winning_amount, response)
+        t = re.findall(total, response)
+        for i in d:
+            assert f"РУССКОЕ ЛОТО - Тираж {i}" in text_win
+        for i in n:
+            assert f"Тур: {i}" in text_win
+        for i in cwn:
+            assert f"Выпавшие числа: {i}" in text_win
+        for i in wc:
+            assert f"Выигрывших билетов: {i}" in text_win
+        for i in wa:
+            assert f"Сумма выигрыша: {i}" in text_win
+        for i in t:
+            assert f"Общая сумма: {i}" in text_win
+
+
+    def message_id_33_russianlotto_results_draw_2000(self):
+        wd = self.app.wd
+        # draw = берём текст - это тираж с кнопки выигрышные номера нескольких тиражей
+        draw = wd.find_element_by_css_selector("#date8 + .winners-reports__label .winners-reports__label-text").text
+        drawi = int(draw)
+        # Нажимаем кнопку получить отчёт в результатах и призах
+        wd.find_element_by_css_selector("button.btn.btn_save.winners-button").click()
+        # массив текста после нажатия на получить отчёт
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
+        # отправка запроса 33 для получения 5 тиражей послдних
+        response = post(url=MessageID.URL_33,
+                        data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=8&GAME_ID=7103&DATE_START="{MessageID.DATE_START}"&DRAW_ID={str(drawi)}&DRAWS_NUMBER=0&VERSION=1',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        d = re.findall(draw_id, response)
+        n = re.findall(number, response)
+        cwn = re.findall(cat_win_numbers, response)
+        wc = re.findall(winners_count, response)
+        wa = re.findall(winning_amount, response)
+        t = re.findall(total, response)
+        for i in d:
+            assert f"РУССКОЕ ЛОТО - Тираж {i}" in text_win
+        for i in n:
+            assert f"Тур: {i}" in text_win
+        for i in cwn:
+            assert f"Выпавшие числа: {i}" in text_win
+        for i in wc:
+            assert f"Выигрывших билетов: {i}" in text_win
+        for i in wa:
+            assert f"Сумма выигрыша: {i}" in text_win
+        for i in t:
+            assert f"Общая сумма: {i}" in text_win
+
+
+    def message_id_33_russianlotto_results_last_draw(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
+        response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_3_7103, auth=HTTPBasicAuth(*auth))
+        response = response.text
+        d = re.findall(draw_id, response)
+        n = re.findall(number, response)
+        cwn = re.findall(cat_win_numbers, response)
+        wc = re.findall(winners_count, response)
+        wa = re.findall(winning_amount, response)
+        t = re.findall(total, response)
+        for i in d:
+            assert f"РУССКОЕ ЛОТО - Тираж {i}" in text_win
+        for i in n:
+            assert f"Тур: {i}" in text_win
+        for i in cwn:
+            assert f"Выпавшие числа: {i}" in text_win
+        for i in wc:
+            assert f"Выигрывших билетов: {i}" in text_win
+        for i in wa:
+            assert f"Сумма выигрыша: {i}" in text_win
+        for i in t:
+            assert f"Общая сумма: {i}" in text_win
+
+
+    def message_id_33_russianlotto_superprizes(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
+        response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_5_7103, auth=HTTPBasicAuth(*auth))
+        response = response.text
+        d = re.findall(draw_id, response)
+        a = re.findall(amount, response)
+        assert f"РУССКОЕ ЛОТО - Тираж {d[0]} :" in text_win
+        if len(a) == 0:
+            assert "СУПЕРПРИЗА НЕТ" in text_win
+        if len(a) == 1:
+            assert "Категория\nСумма руб." in text_win
+            assert f"Суперприз\n{a[0]}" in text_win
+        if len(a) == 2:
+            assert "Категория\nСумма руб." in text_win
+            assert f"Суперприз\n{a[0]}" in text_win
+            assert f"Приз\n{a[1]}" in text_win
+
+
+    def message_id_33_russianlotto_winning_numbers_for_5_draws(self):
+        wd = self.app.wd
+        # draw = берём текст - это тираж с кнопки выигрышные номера нескольких тиражей
+        draw = wd.find_element_by_css_selector("#date7 + .winners-reports__label .winners-reports__label-text").text
+        drawi = int(draw)
+        # Нажимаем кнопку получить отчёт в результатах и призах
+        wd.find_element_by_css_selector("button.btn.btn_save.winners-button").click()
+        # массив текста после нажатия на получить отчёт
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
+        # отправка запроса 33 для получения 5 тиражей послдних
+        response = post(url=MessageID.URL_33,
+                        data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=7&GAME_ID=7103&DATE_START="{MessageID.DATE_START}"&DRAW_ID={str(drawi)}&DRAWS_NUMBER=5&VERSION=1',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        d = re.findall(draw_id, response)
+        wn = re.findall(win_numbers, response)
+        missing_numbers_1 = []
+        missing_numbers_2 = []
+        missing_numbers_3 = []
+        missing_numbers_4 = []
+        missing_numbers_5 = []
+        split_numbers_list_1 = wn[0].split()
+        split_numbers_list_2 = wn[1].split()
+        split_numbers_list_3 = wn[2].split()
+        split_numbers_list_4 = wn[3].split()
+        split_numbers_list_5 = wn[4].split()
+        assert f"РУССКОЕ ЛОТО - Тираж {d[0]} :" in text_win
+        assert f"РУССКОЕ ЛОТО - Тираж {d[1]} :" in text_win
+        assert f"РУССКОЕ ЛОТО - Тираж {d[2]} :" in text_win
+        assert f"РУССКОЕ ЛОТО - Тираж {d[3]} :" in text_win
+        assert f"РУССКОЕ ЛОТО - Тираж {d[4]} :" in text_win
+        assert wn[0] in text_win
+        assert wn[1] in text_win
+        assert wn[2] in text_win
+        assert wn[3] in text_win
+        assert wn[4] in text_win
+        # Невыпавшие числа алгоритм:
+        if '""' not in wn:
+            for i in range(1, 91):
+                if str(i) not in split_numbers_list_1:
+                    missing_numbers_1.append(i)
+                if str(i) not in split_numbers_list_2:
+                    missing_numbers_2.append(i)
+                if str(i) not in split_numbers_list_3:
+                    missing_numbers_3.append(i)
+                if str(i) not in split_numbers_list_4:
+                    missing_numbers_4.append(i)
+                if str(i) not in split_numbers_list_5:
+                    missing_numbers_5.append(i)
+            assert f"Невыпавшие числа:\n{missing_numbers_1}" in text_win
+            assert f"Невыпавшие числа:\n{missing_numbers_2}" in text_win
+            assert f"Невыпавшие числа:\n{missing_numbers_3}" in text_win
+            assert f"Невыпавшие числа:\n{missing_numbers_4}" in text_win
+            assert f"Невыпавшие числа:\n{missing_numbers_5}" in text_win
+
+
+    def message_id_33_russianlotto_winning_draw_numbers_2000(self):
+        wd = self.app.wd
+        # draw = берём текст - это тираж с кнопки выигрышные номера нескольких тиражей
+        draw = wd.find_element_by_css_selector("#date6 + .winners-reports__label .winners-reports__label-text").text
+        drawi = int(draw)
+        # Нажимаем кнопку получить отчёт в результатах и призах
+        wd.find_element_by_css_selector("button.btn.btn_save.winners-button").click()
+        # массив текста после нажатия на получить отчёт
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
+        # отправка запроса 33 для получения 5 тиражей послдних
+        response = post(url=MessageID.URL_33,
+                        data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=6&GAME_ID=7103&DATE_START="{MessageID.DATE_START}"&DRAW_ID={str(drawi)}&DRAWS_NUMBER=0&VERSION=1',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        a = []
+        b = ''
+        d = re.findall(draw_id, response)
+        wn = re.findall(win_numbers, response)
+        for i in d:
+            assert f"РУССКОЕ ЛОТО - Тираж {i}" in text_win
+        for i in wn:
+            assert i in text_win
+        # Невыпавшие числа алгоритм
+        for x in range_90:
+            for y in wn:
+                if x not in y:
+                    a.append(x)
+                    b = " ".join(a)
+        assert f"Невыпавшие числа:\n{b}" in text_win
 
 
 

@@ -20,6 +20,7 @@ data_33 = f'TERMINAL_ID=2000006810&LOGIN=20003511&PASSWORD=75374377&REPORT_TYPE=
 
 url_33_2 = "http://ga-s3-lcp.ga.stoloto.su/fprov/fcgi_pos?message_id=33"
 data_33_2 = f'TERMINAL_ID=2000006810&LOGIN=20003511&PASSWORD=75374377&REPORT_TYPE=2&GAME_ID=4420&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
+data_33_3 = f'TERMINAL_ID=2000006810&LOGIN=20003511&PASSWORD=75374377&REPORT_TYPE=7&GAME_ID=7103&DATE_START="{DATE_START}"&DRAW_ID=2200&DRAWS_NUMBER=5&VERSION=1'
 
 
 
@@ -68,4 +69,51 @@ def test_message_id_33_last_4_draws():
     print(w)
 
 
-
+def test_message_id_33_russianlott_winning_numbers_for_5_draws():
+    range_90 = [i for i in range(1, 91)]
+    draw_id = '<draw_id>(.*?)</draw_id>'
+    win_numbers = '<win_numbers>(.*?)</win_numbers>'
+    response = post(url=url_33_2, data=data_33_3, auth=HTTPBasicAuth(*auth))
+    response = response.text
+    d = re.findall(draw_id, response)
+    wn = re.findall(win_numbers, response)
+    missing_numbers_1 = []
+    missing_numbers_2 = []
+    missing_numbers_3 = []
+    missing_numbers_4 = []
+    missing_numbers_5 = []
+    split_numbers_list_1 = wn[0].split()
+    split_numbers_list_2 = wn[1].split()
+    split_numbers_list_3 = wn[2].split()
+    split_numbers_list_4 = wn[3].split()
+    split_numbers_list_5 = wn[4].split()
+    assert f"РУССКОЕ ЛОТО - Тираж {d[0]} :"
+    assert f"РУССКОЕ ЛОТО - Тираж {d[1]} :"
+    assert f"РУССКОЕ ЛОТО - Тираж {d[2]} :"
+    assert f"РУССКОЕ ЛОТО - Тираж {d[3]} :"
+    assert f"РУССКОЕ ЛОТО - Тираж {d[4]} :"
+    assert wn[0] in response
+    assert wn[1] in response
+    assert wn[2] in response
+    assert wn[3] in response
+    assert wn[4] in response
+    # Невыпавшие числа алгоритм
+    if '""' not in wn:
+        for i in range_90:
+            if str(i) not in split_numbers_list_1:
+                missing_numbers_1.append(i)
+            if str(i) not in split_numbers_list_2:
+                    missing_numbers_2.append(i)
+            if str(i) not in split_numbers_list_3:
+                    missing_numbers_3.append(i)
+            if str(i) not in split_numbers_list_4:
+                    missing_numbers_4.append(i)
+            if str(i) not in split_numbers_list_5:
+                    missing_numbers_5.append(i)
+        print(d)
+        print(wn)
+        print(missing_numbers_1)
+        print(missing_numbers_2)
+        print(missing_numbers_3)
+        print(missing_numbers_4)
+        print(missing_numbers_5)
