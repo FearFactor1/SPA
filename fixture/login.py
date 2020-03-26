@@ -5,12 +5,20 @@ from selenium.webdriver.support import expected_conditions as EC
 from requests import post
 from requests.auth import HTTPBasicAuth
 from fixture.messages import MessageID
+import re
+from selenium.common.exceptions import NoSuchElementException
 
+
+# ----------- Глобальные переменные:
 
 login = "s3_http_access"
 password = "ambush!Tidy4"
+auth = (login, password)
+bonus_price = '<bonus_price>(.*?)</bonus_price>'
+BONUS_PHONE_BALANCE_VALUE = 'BALANCE_VALUE=(.*?)&REQUEST_SIGN=0'
+TOTAL_AMOUNT = '<totalAmount>(.*?)</totalAmount>'
 
-
+#--------------------------------------
 
 
 
@@ -54,6 +62,7 @@ class LoginHelper:
         wd.find_element_by_name("password").send_keys("75374377")
         wd.get_screenshot_as_file('C:\\PycharmProjects\\SPA\\screen\\login\\correct_user.png')
 
+
     def user_in_main_page(self):
         # парсер, вытаскивает текст из тегов, информация и пользователе на главной страницы спа
         wd = self.app.wd
@@ -94,19 +103,13 @@ class LoginHelper:
         # wd.find_element_by_xpath(".//*[text()='0051 Неверный идентификатор пользователя терминала']/..")
 
 
-    def send_message_id_5(self):
-        auth = (login, password)
-        response = post(url=MessageID.URL_5, data=MessageID.DATA_BALANCE, auth=HTTPBasicAuth(*auth))
-        response = response.text
-        return response
-
-
     def balance_text_in_main_page(self):
         wd = self.app.wd
         for text_info_balance in wd.find_elements_by_css_selector(
                 "li.header__user-data-item.header__user-data-item_balance > div > div.header__user-data-text-number"):
-            info_text_balance = text_info_balance.get_attribute('title')
-        return info_text_balance
+            info_text_balance = text_info_balance.text
+        print(info_text_balance)
+        return info_text_balance.replace(" ", "")
 
 
     def exit_cancel_exit(self):
@@ -191,7 +194,7 @@ class LoginHelper:
         wd = self.app.wd
         wd.find_element_by_css_selector(
             "li.header__user-data-item.header__user-data-item_balance > div > div.header__user-data-text-number").click()
-        WebDriverWait(wd, 7).until(
+        WebDriverWait(wd, 5).until(
             EC.invisibility_of_element((By.CSS_SELECTOR, "span.rouble"))
         )
 
@@ -199,3 +202,122 @@ class LoginHelper:
     def click_bonus_price_in_main_page(self):
         wd = self.app.wd
         wd.find_element_by_css_selector("button.header-black-link__unit").click()
+
+
+    def click_show_more_in_main_page(self):
+        wd = self.app.wd
+        try:
+            wd.find_element_by_css_selector("div.js-nav-list-show-more").click()
+        except NoSuchElementException:
+            pass
+
+
+    def click_bonus_check_in_main_page(self):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("span.icon.icon-bonus").click()
+
+
+    def click_win_check_in_main_page(self):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("span.icon.icon-docs").click()
+
+
+    def press_phone_bonus(self):
+        wd = self.app.wd
+        wd.find_element_by_xpath("(//button[@type='button'])[9]").click()
+        wd.find_element_by_xpath("(//button[@type='button'])[1]").click()
+        wd.find_element_by_xpath("(//button[@type='button'])[2]").click()
+        wd.find_element_by_xpath("(//button[@type='button'])[3]").click()
+        wd.find_element_by_xpath("(//button[@type='button'])[4]").click()
+        wd.find_element_by_xpath("(//button[@type='button'])[5]").click()
+        wd.find_element_by_xpath("(//button[@type='button'])[6]").click()
+        wd.find_element_by_xpath("(//button[@type='button'])[7]").click()
+        wd.find_element_by_xpath("(//button[@type='button'])[8]").click()
+        wd.find_element_by_xpath("(//button[@type='button'])[9]").click()
+        wd.find_element_by_css_selector("button.btn.btn_transperent").click()
+
+
+    def bonus_balance_in_modal_window(self):
+        wd = self.app.wd
+        modal_head = wd.find_element_by_css_selector("div.modal__body.modal__body_small > h1.modal__head").text
+        print(modal_head)
+        return modal_head
+
+
+    def close_bonus_modal_phone(self):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("a.modal__body-close").click()
+
+
+    def click_ok_bonus_modal_window(self):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("div.modal__body.modal__body_small > button.btn.btn_transperent").click()
+
+
+    def click_settings_in_main_page(self):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("span.icon.icon-settings").click()
+
+
+    def click_all_settings(self):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("label[for='checkbox']").click()
+        wd.find_element_by_css_selector("label[for='fiscal']").click()
+        wd.find_element_by_css_selector("label[for='winprint']").click()
+        wd.find_element_by_css_selector("label[for='isCurrency']").click()
+        wd.find_element_by_css_selector("label[for='keepSlip100loto']").click()
+        wd.find_element_by_css_selector("button.btn.btn_save.settings-confirm").click()
+
+
+    def press_unique_key(self):
+        wd = self.app.wd
+        wd.find_element_by_name("barcode").send_keys(MessageID.TICKET_ID)
+        wd.find_element_by_css_selector("button.btn.btn_transperent").click()
+        WebDriverWait(wd, 5).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "div.payout__check-result"))
+        )
+        win = (wd.find_element_by_css_selector("div.payout__check-result").text).replace(' ', '')
+        print(win)
+        return win
+
+
+
+# ------------------------------------------------------
+
+# ------------- Отправка запросов в gate:
+
+    def send_message_id_5(self):
+        auth = (login, password)
+        response = post(url=MessageID.URL_5, data=MessageID.DATA_BALANCE, auth=HTTPBasicAuth(*auth))
+        response = response.text
+        tbv = response[29:-2]
+        print(tbv)
+        return tbv
+
+
+    def send_message_id_64(self):
+        auth = (login, password)
+        response = post(url=MessageID.URL_64, data=MessageID.DATA_64_BONUS_BALANCE, auth=HTTPBasicAuth(*auth))
+        response = response.text
+        bpbv = " ".join(re.findall(BONUS_PHONE_BALANCE_VALUE, response))
+        tbpbv = f'Бонусный баланс: {bpbv[:-2]}'
+        print(tbpbv)
+        return tbpbv
+
+
+    def send_message_id_50_sum_win(self):
+        auth = (login, password)
+        response = post(url=MessageID.URL_50, data=MessageID.DATA_50_TOTAL_AMOUNT, auth=HTTPBasicAuth(*auth))
+        response = response.text
+        ta = " ".join(re.findall(TOTAL_AMOUNT, response))
+        if ta == '0':
+            tavf = f'Выигрыш{ta}рублей\nВыплатить'
+            print(tavf)
+            return tavf
+        else:
+            tav = sum(list(map(int, ta.split())))
+            tavf = f'Выигрыш{str(tav)[:-2]}рублей\nВыплатить'
+            print(tavf)
+            return tavf
+
+# ------------------------------------------------------

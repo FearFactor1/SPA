@@ -14,6 +14,8 @@ class MessageID:
     TERMINAL_ID = "2000006810"
     LOGIN = "20003511"
     PASSWORD = "75374377"
+    PLAYER_INFO = "79123456789"
+    TICKET_ID = "285553976"
 
 
 
@@ -22,6 +24,35 @@ class MessageID:
     # message_id=5, запрос баланса терминала в гейт
     URL_5 = "http://ga-s3-lcp.ga.stoloto.su/fprov/fcgi_pos?message_id=5"
     DATA_BALANCE = f'TERMINAL_ID={TERMINAL_ID}&REQUEST_TIME=1&LOGIN={LOGIN}&PASSWORD={PASSWORD}'
+
+# -----------------------------------------------------------------------------------------
+
+# ---------------- message_id=40:
+
+    URL_40 = "http://ga-s3-lcp.ga.stoloto.su/fprov/fcgi_pos?message_id=40"
+    DATA_40_BONUS_PRICE = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&VERSION=1&BONUS_FLAG=1&' \
+                          f'N_GAME_ID=18&GAME_ID[0]=4420&GAME_ID[1]=5536&GAME_ID[2]=5101&GAME_ID[3]=5150&' \
+                          f'GAME_ID[4]=5550&GAME_ID[5]=28005&GAME_ID[6]=7103&GAME_ID[7]=7105&GAME_ID[8]=7115&' \
+                          f'GAME_ID[9]=7175&GAME_ID[10]=7101&GAME_ID[11]=5211&GAME_ID[12]=5212&GAME_ID[13]=28001&' \
+                          f'GAME_ID[14]=28003&GAME_ID[15]=28102&GAME_ID[16]=2177&GAME_ID[17]=1124'
+
+
+# --------------------------------------------------
+
+# ---------------- message_id=64:
+
+    # message_id=64, запрос состояния бонусного счета участника
+    URL_64 = "http://ga-s3-lcp.ga.stoloto.su/fprov/fcgi_pos?message_id=64"
+    DATA_64_BONUS_BALANCE = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&PLAYER_INFO={PLAYER_INFO}'
+
+# -----------------------------------------------------------------------------------------
+
+# ---------------- message_id=50:
+
+    # message_id=50, Информационный запрос размера выигрыша по лотерейному билету с учетом налога, message_id=50
+    URL_50 = "http://ga-s3-lcp.ga.stoloto.su/fprov/fcgi_pos?message_id=50"
+    DATA_50_TOTAL_AMOUNT = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&ID_TICKET_TYPE=1&' \
+                           f'BARCODE="00000 00000 00000 00000 00000 00000 00000"&TICKET_ID={TICKET_ID}&TAX_DEDUCTION_REQUESTED=0'
 
 # -----------------------------------------------------------------------------------------
 
@@ -193,5 +224,24 @@ class MessageID:
 
     # message_id=33, данный запрос сделан для получения суммы суперприза
     DATA_33_REPORT_TYPE_5_7115 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=5&GAME_ID=7115&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
+
+# --------------------------------------------
+
+# --------- Бинго 75:
+
+    # message_id=33, данный запрос сделан для получения последнего тиража из гейта
+    DATA_33_REPORT_TYPE_1_7175 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=1&GAME_ID=7175&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
+
+    # message_id=33, данный запрос сделан для получения последних 4 тиражей из гейта
+    DATA_33_REPORT_TYPE_2_7175 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=2&GAME_ID=7175&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
+
+    # message_id=33, данный запрос сделан для получения результата последнего тиража REPORT_TYPE_3
+    DATA_33_REPORT_TYPE_3_7175 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=3&GAME_ID=7175&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
+
+    # message_id=33, данный запрос сделан для получения результата тиража по текущей дате REPORT_TYPE_4
+    DATA_33_REPORT_TYPE_4_7175 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=4&GAME_ID=7175&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
+
+    # message_id=33, данный запрос сделан для получения суммы суперприза
+    DATA_33_REPORT_TYPE_5_7175 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=5&GAME_ID=7175&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
 
 # --------------------------------------------
