@@ -2,6 +2,8 @@ from requests import post
 from requests.auth import HTTPBasicAuth
 from datetime import datetime
 import re
+import base64
+import json
 
 
 
@@ -25,6 +27,13 @@ data_33_3 = f'TERMINAL_ID=2000006810&LOGIN=20003511&PASSWORD=75374377&REPORT_TYP
 
 URL_40 = "http://ga-s3-lcp.ga.stoloto.su/fprov/fcgi_pos?message_id=40"
 DATA_40_BONUS_PRICE = f'TERMINAL_ID=2000006810&LOGIN=20003511&PASSWORD=75374377&VERSION=1&BONUS_FLAG=1&N_GAME_ID=2&GAME_ID[0]=4420&GAME_ID[1]=5536'
+
+
+
+
+
+URL_UTIL_49 = "http://ga-s3-lcp.ga.stoloto.su/fprov/fcgi_pos?message_id=49"
+DATA_GETLIST_UTIL_49 = f'TERMINAL_ID=2000006810&LOGIN=20003511&PASSWORD=75374377&COMMAND="Utilization/GetList"&DATA="eyJ1c2VyTnVtYmVyIjoiMjAwMDM1MTEiLCJ0ZXJtaW5hbE51bWJlciI6IjIwMDAwMDY4MTAiLCJzaWduIjoiNzgxYTdkZGE2NWMyZDdhMTQzYjRjYzFkZDUwMGUwNTFlY2MzMDYzZCIsImdhbWVUeXBlIjoiNzEwMyIsImRyYXciOiIxMzI2In0="'
 
 
 
@@ -139,7 +148,7 @@ def test_message_id_40_bonus_price_in_main_page():
 
 
 def test_algoritm_luna():
-    tlb = '7103012980100000449'
+    tlb = [7101024000010069]
     mult_numb = [2, 1]
     i = 0
     sum_of_digits = 0
@@ -150,3 +159,50 @@ def test_algoritm_luna():
     a = (10 - sum_of_digits % 10) % 10
     tlb_luna = str(tlb) + str(a)
     print(tlb_luna)
+
+
+
+
+
+def test_json_base64_encode():
+    info = '{"userNumber":"20003511","terminalNumber":"2000006810","sign":"781a7dda65c2d7a143b4cc1dd500e051ecc3063d","gameType":"7103","draw":"1326"}'
+    enc = info.encode()
+    bas = base64.encodebytes(enc)
+    print(bas)
+
+
+
+
+
+
+
+
+def test_getlist_Utilization():
+    info = '{"userNumber":"20003511","terminalNumber":"2000006810","sign":"781a7dda65c2d7a143b4cc1dd500e051ecc3063d","gameType":"7103","draw":"1326"}'
+    enc = info.encode()
+    bas = base64.encodebytes(enc)
+    strbas = str(bas).replace("b'", "")
+    unescape = bytes(strbas, "utf-8").decode("unicode_escape")
+    DATA_GETLIST_UTIL = f'TERMINAL_ID=2000006810&LOGIN=20003511&PASSWORD=75374377&COMMAND="Utilization/GetList"&DATA={unescape}'
+    response = post(url=URL_UTIL_49, data=DATA_GETLIST_UTIL, auth=HTTPBasicAuth(*auth))
+    response = response.text.split('\n')
+    di = str(response)[36:].replace("']", "")
+    decode = base64.b64decode(di)
+    diccode = json.loads(decode)
+    for k, v in diccode.items():
+        print(k, v)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

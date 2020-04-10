@@ -25,7 +25,7 @@ def test_phone_info_ortax():
         cursor.execute("select * FROM db_ortax.phone WHERE phone_number = 79005553535")
         for row in cursor:
             a = row["security_code"]
-            print(a)
+            print(f'security_code: {a}')
 #            print(" ----------- ")
 #            print("Row: ", row)
 #            print("id: ", row["id"])

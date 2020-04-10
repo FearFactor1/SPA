@@ -52,7 +52,7 @@ class LoginHelper:
         hellow = wd.find_element_by_css_selector("h1.signIn__header-head").text
         assert hellow == "Представьтесь, кто вы?"
         faq = wd.find_element_by_css_selector("div.signIn__footer").text
-        assert "© 2011–2019 «Столото». По вопросам работы системы звоните" in faq
+        assert "© 2011–2020 «Столото». По вопросам работы системы звоните" in faq
         assert "+7 (900) 614-55-55" in faq
         wd.find_element_by_name("username").click()
         wd.find_element_by_name("username").clear()
