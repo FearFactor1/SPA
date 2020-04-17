@@ -6,8 +6,6 @@ def test_4x20_winning_numbers_last_draw(app):
     app.ResultAndPrizes.click_game_4x20()
     app.ResultAndPrizes.button_get_report_winners()
     assert "ВЫИГРЫШНЫЕ НОМЕРА" in app.ResultAndPrizes.parser_report_text_winners()
-    assert app.ResultAndPrizes.message_id_33_4x20_last_draw() in \
-           app.ResultAndPrizes.parser_report_text_winners()
-    assert app.ResultAndPrizes.message_id_33_4x20_winning_numbers_last_draw() in \
-           app.ResultAndPrizes.parser_report_text_winners()
+    app.ResultAndPrizes.message_id_33_4x20_last_draw()
+    app.ResultAndPrizes.message_id_33_4x20_winning_numbers_last_draw()
     app.ResultAndPrizes.comeback_main_page()

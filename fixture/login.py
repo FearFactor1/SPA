@@ -290,7 +290,7 @@ class LoginHelper:
         auth = (login, password)
         response = post(url=MessageID.URL_5, data=MessageID.DATA_BALANCE, auth=HTTPBasicAuth(*auth))
         response = response.text
-        tbv = response[29:-2]
+        tbv = response[29:-2] + "₽"
         print(tbv)
         return tbv
 

@@ -22,7 +22,7 @@ total = '<total>(.*?)</total>'
 amount = '<amount>(.*?)</amount>'
 number = '<number>(.*?)</number>'
 cat_win_numbers = '<cat_win_numbers>(.*?)</cat_win_numbers>'
-range_90 = [str(i) for i in range(1, 91)]
+range_90 = ["02", "03", "04", "05", "06", "07", "08", "09"] + [str(i) for i in range(10, 91)]
 range_75 = ["02", "03", "04", "05", "06", "07", "08", "09"] + [str(i) for i in range(10, 76)]
 
 # -------------------------------------------------------------------------
@@ -279,24 +279,27 @@ class ResultAndPrizeHelper:
 # ------------ отправка запросов в gate для игры 4на20:
 
     def message_id_33_4x20_last_draw(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
         response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_1_4420, auth=HTTPBasicAuth(*auth))
-        response = response.text.split('\n')
-        for row in response:
-            if 'draw_id' in row:
-                draw = row.replace('<draw_id>', '').replace('</draw_id>', '').strip()
-                draw_r = f"ЛОТО 4/20 - Тираж {draw} :"
-                print(draw_r)
-        return draw_r
+        response = response.text
+        d = re.findall(draw_id, response)
+        assert f"ЛОТО 4/20 - Тираж {d[0]} :" in text_win
 
 
     def message_id_33_4x20_winning_numbers_last_draw(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
         response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_1_4420, auth=HTTPBasicAuth(*auth))
-        response = response.text.split('\n')
-        for row in response:
-            if 'win_numbers' in row:
-                win = row.replace('<win_numbers>', '').replace('</win_numbers>', '').strip()
-                print(win)
-        return win
+        response = response.text
+        w = re.findall(win_numbers, response)
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+            else:
+                assert w[0] in text_win
 
 
     def message_id_33_4x20_winning_numbers_4_last_draw(self):
@@ -310,13 +313,19 @@ class ResultAndPrizeHelper:
         assert f"ЛОТО 4/20 - Тираж {d[1]} :" in text_win
         assert f"ЛОТО 4/20 - Тираж {d[2]} :" in text_win
         assert f"ЛОТО 4/20 - Тираж {d[3]} :" in text_win
-        assert w[0] in text_win
-        assert w[1] in text_win
-        assert w[2] in text_win
-        assert w[3] in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+        ws = w
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
 
 
     def message_id_33_4x20_winning_numbers_for_5_draws(self):
+        ws = []
         wd = self.app.wd
         # draw = берём текст - это тираж с кнопки выигрышные номера нескольких тиражей
         draw = wd.find_element_by_css_selector("#date7 + .winners-reports__label .winners-reports__label-text").text
@@ -337,11 +346,15 @@ class ResultAndPrizeHelper:
         assert f"ЛОТО 4/20 - Тираж {d[2]} :" in text_win
         assert f"ЛОТО 4/20 - Тираж {d[3]} :" in text_win
         assert f"ЛОТО 4/20 - Тираж {d[4]} :" in text_win
-        assert w[0] in text_win
-        assert w[1] in text_win
-        assert w[2] in text_win
-        assert w[3] in text_win
-        assert w[4] in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+        ws = w
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
 
 
     def message_id_33_4x20_results_last_draw(self):
@@ -603,11 +616,15 @@ class ResultAndPrizeHelper:
         assert f"ЛОТО 5/36 - Тираж {d[2]} :" in text_win
         assert f"ЛОТО 5/36 - Тираж {d[3]} :" in text_win
         assert f"ЛОТО 5/36 - Тираж {d[4]} :" in text_win
-        assert w[0] in text_win
-        assert w[1] in text_win
-        assert w[2] in text_win
-        assert w[3] in text_win
-        assert w[4] in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+        ws = w
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
 
 
     def message_id_33_5x36_winning_numbers_4_last_draw(self):
@@ -621,31 +638,39 @@ class ResultAndPrizeHelper:
         assert f"ЛОТО 5/36 - Тираж {d[1]} :" in text_win
         assert f"ЛОТО 5/36 - Тираж {d[2]} :" in text_win
         assert f"ЛОТО 5/36 - Тираж {d[3]} :" in text_win
-        assert w[0] in text_win
-        assert w[1] in text_win
-        assert w[2] in text_win
-        assert w[3] in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+        ws = w
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
 
 
     def message_id_33_5x36_last_draw(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
         response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_1_5536, auth=HTTPBasicAuth(*auth))
-        response = response.text.split('\n')
-        for row in response:
-            if 'draw_id' in row:
-                draw = row.replace('<draw_id>', '').replace('</draw_id>', '').strip()
-                draw_r = f"ЛОТО 5/36 - Тираж {draw} :"
-                print(draw_r)
-        return draw_r
+        response = response.text
+        d = re.findall(draw_id, response)
+        assert f"ЛОТО 5/36 - Тираж {d[0]} :" in text_win
 
 
     def message_id_33_5x36_winning_numbers_last_draw(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
         response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_1_5536, auth=HTTPBasicAuth(*auth))
-        response = response.text.split('\n')
-        for row in response:
-            if 'win_numbers' in row:
-                win = row.replace('<win_numbers>', '').replace('</win_numbers>', '').strip()
-                print(win)
-        return win
+        response = response.text
+        w = re.findall(win_numbers, response)
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+            else:
+                assert w[0] in text_win
 
 
 
@@ -791,11 +816,16 @@ class ResultAndPrizeHelper:
         assert f"ЛОТО 6/45 - Тираж {d[2]} :" in text_win
         assert f"ЛОТО 6/45 - Тираж {d[3]} :" in text_win
         assert f"ЛОТО 6/45 - Тираж {d[4]} :" in text_win
-        assert w[0] in text_win
-        assert w[1] in text_win
-        assert w[2] in text_win
-        assert w[3] in text_win
-        assert w[4] in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+        ws = w
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
+
 
 
     def message_id_33_6x45_winning_numbers_4_last_draw(self):
@@ -809,31 +839,41 @@ class ResultAndPrizeHelper:
         assert f"ЛОТО 6/45 - Тираж {d[1]} :" in text_win
         assert f"ЛОТО 6/45 - Тираж {d[2]} :" in text_win
         assert f"ЛОТО 6/45 - Тираж {d[3]} :" in text_win
-        assert w[0] in text_win
-        assert w[1] in text_win
-        assert w[2] in text_win
-        assert w[3] in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+        ws = w
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
 
 
     def message_id_33_6x45_last_draw(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
         response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_1_5101, auth=HTTPBasicAuth(*auth))
-        response = response.text.split('\n')
-        for row in response:
-            if 'draw_id' in row:
-                draw = row.replace('<draw_id>', '').replace('</draw_id>', '').strip()
-                draw_r = f"ЛОТО 6/45 - Тираж {draw} :"
-                print(draw_r)
-        return draw_r
+        response = response.text
+        d = re.findall(draw_id, response)
+        assert f"ЛОТО 6/45 - Тираж {d[0]} :" in text_win
+
 
 
     def message_id_33_6x45_winning_numbers_last_draw(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
         response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_1_5101, auth=HTTPBasicAuth(*auth))
-        response = response.text.split('\n')
-        for row in response:
-            if 'win_numbers' in row:
-                win = row.replace('<win_numbers>', '').replace('</win_numbers>', '').strip()
-                print(win)
-        return win
+        response = response.text
+        w = re.findall(win_numbers, response)
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+            else:
+                assert w[0] in text_win
+
 
 
 
@@ -980,11 +1020,15 @@ class ResultAndPrizeHelper:
         assert f"ЛОТО 7/49 - Тираж {d[2]} :" in text_win
         assert f"ЛОТО 7/49 - Тираж {d[3]} :" in text_win
         assert f"ЛОТО 7/49 - Тираж {d[4]} :" in text_win
-        assert w[0] in text_win
-        assert w[1] in text_win
-        assert w[2] in text_win
-        assert w[3] in text_win
-        assert w[4] in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+        ws = w
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
 
 
     def message_id_33_7x49_winning_numbers_4_last_draw(self):
@@ -998,31 +1042,39 @@ class ResultAndPrizeHelper:
         assert f"ЛОТО 7/49 - Тираж {d[1]} :" in text_win
         assert f"ЛОТО 7/49 - Тираж {d[2]} :" in text_win
         assert f"ЛОТО 7/49 - Тираж {d[3]} :" in text_win
-        assert w[0] in text_win
-        assert w[1] in text_win
-        assert w[2] in text_win
-        assert w[3] in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+        ws = w
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
 
 
     def message_id_33_7x49_last_draw(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
         response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_1_5150, auth=HTTPBasicAuth(*auth))
-        response = response.text.split('\n')
-        for row in response:
-            if 'draw_id' in row:
-                draw = row.replace('<draw_id>', '').replace('</draw_id>', '').strip()
-                draw_r = f"ЛОТО 7/49 - Тираж {draw} :"
-                print(draw_r)
-        return draw_r
+        response = response.text
+        d = re.findall(draw_id, response)
+        assert f"ЛОТО 7/49 - Тираж {d[0]} :" in text_win
 
 
     def message_id_33_7x49_winning_numbers_last_draw(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
         response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_1_5150, auth=HTTPBasicAuth(*auth))
-        response = response.text.split('\n')
-        for row in response:
-            if 'win_numbers' in row:
-                win = row.replace('<win_numbers>', '').replace('</win_numbers>', '').strip()
-                print(win)
-        return win
+        response = response.text
+        w = re.findall(win_numbers, response)
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+            else:
+                assert w[0] in text_win
 
 
 
@@ -1168,11 +1220,15 @@ class ResultAndPrizeHelper:
         assert f"МАТЧБОЛ - Тираж {d[2]} :" in text_win
         assert f"МАТЧБОЛ - Тираж {d[3]} :" in text_win
         assert f"МАТЧБОЛ - Тираж {d[4]} :" in text_win
-        assert w[0] in text_win
-        assert w[1] in text_win
-        assert w[2] in text_win
-        assert w[3] in text_win
-        assert w[4] in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+        ws = w
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
 
 
     def message_id_33_matchball_winning_numbers_4_last_draw(self):
@@ -1186,31 +1242,39 @@ class ResultAndPrizeHelper:
         assert f"МАТЧБОЛ - Тираж {d[1]} :" in text_win
         assert f"МАТЧБОЛ - Тираж {d[2]} :" in text_win
         assert f"МАТЧБОЛ - Тираж {d[3]} :" in text_win
-        assert w[0] in text_win
-        assert w[1] in text_win
-        assert w[2] in text_win
-        assert w[3] in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+        ws = w
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
 
 
     def message_id_33_matchball_last_draw(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
         response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_1_5550, auth=HTTPBasicAuth(*auth))
-        response = response.text.split('\n')
-        for row in response:
-            if 'draw_id' in row:
-                draw = row.replace('<draw_id>', '').replace('</draw_id>', '').strip()
-                draw_r = f"МАТЧБОЛ - Тираж {draw} :"
-                print(draw_r)
-        return draw_r
+        response = response.text
+        d = re.findall(draw_id, response)
+        assert f"МАТЧБОЛ - Тираж {d[0]} :" in text_win
 
 
     def message_id_33_matchball_winning_numbers_last_draw(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
         response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_1_5550, auth=HTTPBasicAuth(*auth))
-        response = response.text.split('\n')
-        for row in response:
-            if 'win_numbers' in row:
-                win = row.replace('<win_numbers>', '').replace('</win_numbers>', '').strip()
-                print(win)
-        return win
+        response = response.text
+        w = re.findall(win_numbers, response)
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+            else:
+                assert w[0] in text_win
 
 
 
@@ -1356,11 +1420,15 @@ class ResultAndPrizeHelper:
         assert f"Зодиак - Тираж {d[2]} :" in text_win
         assert f"Зодиак - Тираж {d[3]} :" in text_win
         assert f"Зодиак - Тираж {d[4]} :" in text_win
-        assert w[0] in text_win
-        assert w[1] in text_win
-        assert w[2] in text_win
-        assert w[3] in text_win
-        assert w[4] in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+        ws = w
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
 
 
     def message_id_33_zodiac_winning_numbers_4_last_draw(self):
@@ -1374,31 +1442,39 @@ class ResultAndPrizeHelper:
         assert f"Зодиак - Тираж {d[1]} :" in text_win
         assert f"Зодиак - Тираж {d[2]} :" in text_win
         assert f"Зодиак - Тираж {d[3]} :" in text_win
-        assert w[0] in text_win
-        assert w[1] in text_win
-        assert w[2] in text_win
-        assert w[3] in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+        ws = w
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
 
 
     def message_id_33_zodiac_last_draw(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
         response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_1_28005, auth=HTTPBasicAuth(*auth))
-        response = response.text.split('\n')
-        for row in response:
-            if 'draw_id' in row:
-                draw = row.replace('<draw_id>', '').replace('</draw_id>', '').strip()
-                draw_r = f"Зодиак - Тираж {draw} :"
-                print(draw_r)
-        return draw_r
+        response = response.text
+        d = re.findall(draw_id, response)
+        assert f"Зодиак - Тираж {d[0]} :" in text_win
 
 
     def message_id_33_zodiac_winning_numbers_last_draw(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
         response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_1_28005, auth=HTTPBasicAuth(*auth))
-        response = response.text.split('\n')
-        for row in response:
-            if 'win_numbers' in row:
-                win = row.replace('<win_numbers>', '').replace('</win_numbers>', '').strip()
-                print(win)
-        return win
+        response = response.text
+        w = re.findall(win_numbers, response)
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+            else:
+                assert w[0] in text_win
 
 
 
@@ -1599,44 +1675,27 @@ class ResultAndPrizeHelper:
         response = response.text
         d = re.findall(draw_id, response)
         wn = re.findall(win_numbers, response)
-        missing_numbers_1 = []
-        missing_numbers_2 = []
-        missing_numbers_3 = []
-        missing_numbers_4 = []
-        missing_numbers_5 = []
-        split_numbers_list_1 = wn[0].split()
-        split_numbers_list_2 = wn[1].split()
-        split_numbers_list_3 = wn[2].split()
-        split_numbers_list_4 = wn[3].split()
-        split_numbers_list_5 = wn[4].split()
+        missing_numbers = []
         assert f"РУССКОЕ ЛОТО - Тираж {d[0]} :" in text_win
         assert f"РУССКОЕ ЛОТО - Тираж {d[1]} :" in text_win
         assert f"РУССКОЕ ЛОТО - Тираж {d[2]} :" in text_win
         assert f"РУССКОЕ ЛОТО - Тираж {d[3]} :" in text_win
         assert f"РУССКОЕ ЛОТО - Тираж {d[4]} :" in text_win
-        assert wn[0] in text_win
-        assert wn[1] in text_win
-        assert wn[2] in text_win
-        assert wn[3] in text_win
-        assert wn[4] in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in wn[:]:
+            if '""' in wn:
+                wn.remove(s)
+        ws = wn
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
         # Невыпавшие числа алгоритм:
-        if '""' not in wn:
-            for i in range(1, 91):
-                if str(i) not in split_numbers_list_1:
-                    missing_numbers_1.append(i)
-                if str(i) not in split_numbers_list_2:
-                    missing_numbers_2.append(i)
-                if str(i) not in split_numbers_list_3:
-                    missing_numbers_3.append(i)
-                if str(i) not in split_numbers_list_4:
-                    missing_numbers_4.append(i)
-                if str(i) not in split_numbers_list_5:
-                    missing_numbers_5.append(i)
-            assert f"Невыпавшие числа:\n{missing_numbers_1}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_2}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_3}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_4}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_5}" in text_win
+        for sp in ws[:]:
+            for i in range_90:
+                if str(i) not in sp:
+                    missing_numbers.append(i)
+            assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
 
 
     def message_id_33_russianlotto_winning_draw_numbers_2000(self):
@@ -1653,21 +1712,22 @@ class ResultAndPrizeHelper:
                         data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=6&GAME_ID=7103&DATE_START="{MessageID.DATE_START}"&DRAW_ID={str(drawi)}&DRAWS_NUMBER=0&VERSION=1',
                         auth=HTTPBasicAuth(*auth))
         response = response.text
-        a = []
-        b = ''
+        missing_numbers = []
         d = re.findall(draw_id, response)
         wn = re.findall(win_numbers, response)
         for i in d:
             assert f"РУССКОЕ ЛОТО - Тираж {i}" in text_win
-        for i in wn:
-            assert i in text_win
-        # Невыпавшие числа алгоритм
-        for x in range_90:
-            for y in wn:
-                if x not in y:
-                    a.append(x)
-                    b = " ".join(a)
-        assert f"Невыпавшие числа:\n{b}" in text_win
+        for s in wn[:]:
+            if '""' in wn:
+                wn.remove(s)
+            else:
+                assert wn[0] in text_win
+                # Невыпавшие числа алгоритм:
+                for sp in wn[:]:
+                    for i in range_90:
+                        if str(i) not in sp:
+                            missing_numbers.append(i)
+                    assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
 
 
     def message_id_33_russianlotto_winning_numbers_4_last_draw(self):
@@ -1677,37 +1737,26 @@ class ResultAndPrizeHelper:
         response = response.text
         d = re.findall(draw_id, response)
         wn = re.findall(win_numbers, response)
-        missing_numbers_1 = []
-        missing_numbers_2 = []
-        missing_numbers_3 = []
-        missing_numbers_4 = []
-        split_numbers_list_1 = wn[0].split()
-        split_numbers_list_2 = wn[1].split()
-        split_numbers_list_3 = wn[2].split()
-        split_numbers_list_4 = wn[3].split()
+        missing_numbers = []
         assert f"РУССКОЕ ЛОТО - Тираж {d[0]} :" in text_win
         assert f"РУССКОЕ ЛОТО - Тираж {d[1]} :" in text_win
         assert f"РУССКОЕ ЛОТО - Тираж {d[2]} :" in text_win
         assert f"РУССКОЕ ЛОТО - Тираж {d[3]} :" in text_win
-        assert wn[0] in text_win
-        assert wn[1] in text_win
-        assert wn[2] in text_win
-        assert wn[3] in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in wn[:]:
+            if '""' in wn:
+                wn.remove(s)
+        ws = wn
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
         # Невыпавшие числа алгоритм:
-        if '""' not in wn:
-            for i in range(1, 91):
-                if str(i) not in split_numbers_list_1:
-                    missing_numbers_1.append(i)
-                if str(i) not in split_numbers_list_2:
-                    missing_numbers_2.append(i)
-                if str(i) not in split_numbers_list_3:
-                    missing_numbers_3.append(i)
-                if str(i) not in split_numbers_list_4:
-                    missing_numbers_4.append(i)
-            assert f"Невыпавшие числа:\n{missing_numbers_1}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_2}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_3}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_4}" in text_win
+        for sp in ws[:]:
+            for i in range_90:
+                if str(i) not in sp:
+                    missing_numbers.append(i)
+            assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
 
 
     def message_id_33_russianlotto_winning_numbers_last_draw(self):
@@ -1715,22 +1764,22 @@ class ResultAndPrizeHelper:
         text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
         response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_1_7103, auth=HTTPBasicAuth(*auth))
         response = response.text
-        a = []
-        b = ''
+        missing_numbers = []
         d = re.findall(draw_id, response)
         wn = re.findall(win_numbers, response)
         for i in d:
             assert f"РУССКОЕ ЛОТО - Тираж {i}" in text_win
-        for i in wn:
-            assert i in text_win
-        # Невыпавшие числа алгоритм:
-        if '""' not in wn:
-            for x in range_90:
-                for y in wn:
-                    if x not in y:
-                        a.append(x)
-                        b = " ".join(a)
-            assert f"Невыпавшие числа:\n{b}" in text_win
+        for s in wn[:]:
+            if '""' in wn:
+                wn.remove(s)
+            else:
+                assert wn[0] in text_win
+                # Невыпавшие числа алгоритм:
+                for sp in wn[:]:
+                    for i in range_75:
+                        if str(i) not in sp:
+                            missing_numbers.append(i)
+                    assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
 
 
 # --------------------------------------------------------------------------
@@ -1927,21 +1976,22 @@ class ResultAndPrizeHelper:
                         data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=6&GAME_ID=7105&DATE_START="{MessageID.DATE_START}"&DRAW_ID={str(drawi)}&DRAWS_NUMBER=0&VERSION=1',
                         auth=HTTPBasicAuth(*auth))
         response = response.text
-        a = []
-        b = ''
+        missing_numbers = []
         d = re.findall(draw_id, response)
         wn = re.findall(win_numbers, response)
         for i in d:
             assert f"ЖЛ - Тираж {i}" in text_win
-        for i in wn:
-            assert i in text_win
-        # Невыпавшие числа алгоритм
-        for x in range_90:
-            for y in wn:
-                if x not in y:
-                    a.append(x)
-                    b = " ".join(a)
-        assert f"Невыпавшие числа:\n{b}" in text_win
+        for s in wn[:]:
+            if '""' in wn:
+                wn.remove(s)
+            else:
+                assert wn[0] in text_win
+                # Невыпавшие числа алгоритм:
+                for sp in wn[:]:
+                    for i in range_90:
+                        if str(i) not in sp:
+                            missing_numbers.append(i)
+                    assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
 
 
     def message_id_33_housinglottery_winning_numbers_for_5_draws(self):
@@ -1960,44 +2010,27 @@ class ResultAndPrizeHelper:
         response = response.text
         d = re.findall(draw_id, response)
         wn = re.findall(win_numbers, response)
-        missing_numbers_1 = []
-        missing_numbers_2 = []
-        missing_numbers_3 = []
-        missing_numbers_4 = []
-        missing_numbers_5 = []
-        split_numbers_list_1 = wn[0].split()
-        split_numbers_list_2 = wn[1].split()
-        split_numbers_list_3 = wn[2].split()
-        split_numbers_list_4 = wn[3].split()
-        split_numbers_list_5 = wn[4].split()
+        missing_numbers = []
         assert f"ЖЛ - Тираж {d[0]} :" in text_win
         assert f"ЖЛ - Тираж {d[1]} :" in text_win
         assert f"ЖЛ - Тираж {d[2]} :" in text_win
         assert f"ЖЛ - Тираж {d[3]} :" in text_win
         assert f"ЖЛ - Тираж {d[4]} :" in text_win
-        assert wn[0] in text_win
-        assert wn[1] in text_win
-        assert wn[2] in text_win
-        assert wn[3] in text_win
-        assert wn[4] in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in wn[:]:
+            if '""' in wn:
+                wn.remove(s)
+        ws = wn
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
         # Невыпавшие числа алгоритм:
-        if '""' not in wn:
-            for i in range(1, 91):
-                if str(i) not in split_numbers_list_1:
-                    missing_numbers_1.append(i)
-                if str(i) not in split_numbers_list_2:
-                    missing_numbers_2.append(i)
-                if str(i) not in split_numbers_list_3:
-                    missing_numbers_3.append(i)
-                if str(i) not in split_numbers_list_4:
-                    missing_numbers_4.append(i)
-                if str(i) not in split_numbers_list_5:
-                    missing_numbers_5.append(i)
-            assert f"Невыпавшие числа:\n{missing_numbers_1}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_2}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_3}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_4}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_5}" in text_win
+        for sp in ws[:]:
+            for i in range_90:
+                if str(i) not in sp:
+                    missing_numbers.append(i)
+            assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
 
 
     def message_id_33_housinglottery_winning_numbers_4_last_draw(self):
@@ -2007,37 +2040,26 @@ class ResultAndPrizeHelper:
         response = response.text
         d = re.findall(draw_id, response)
         wn = re.findall(win_numbers, response)
-        missing_numbers_1 = []
-        missing_numbers_2 = []
-        missing_numbers_3 = []
-        missing_numbers_4 = []
-        split_numbers_list_1 = wn[0].split()
-        split_numbers_list_2 = wn[1].split()
-        split_numbers_list_3 = wn[2].split()
-        split_numbers_list_4 = wn[3].split()
+        missing_numbers = []
         assert f"ЖЛ - Тираж {d[0]} :" in text_win
         assert f"ЖЛ - Тираж {d[1]} :" in text_win
         assert f"ЖЛ - Тираж {d[2]} :" in text_win
         assert f"ЖЛ - Тираж {d[3]} :" in text_win
-        assert wn[0] in text_win
-        assert wn[1] in text_win
-        assert wn[2] in text_win
-        assert wn[3] in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in wn[:]:
+            if '""' in wn:
+                wn.remove(s)
+        ws = wn
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
         # Невыпавшие числа алгоритм:
-        if '""' not in wn:
-            for i in range(1, 91):
-                if str(i) not in split_numbers_list_1:
-                    missing_numbers_1.append(i)
-                if str(i) not in split_numbers_list_2:
-                    missing_numbers_2.append(i)
-                if str(i) not in split_numbers_list_3:
-                    missing_numbers_3.append(i)
-                if str(i) not in split_numbers_list_4:
-                    missing_numbers_4.append(i)
-            assert f"Невыпавшие числа:\n{missing_numbers_1}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_2}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_3}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_4}" in text_win
+        for sp in ws[:]:
+            for i in range_90:
+                if str(i) not in sp:
+                    missing_numbers.append(i)
+            assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
 
 
     def message_id_33_housinglottery_winning_numbers_last_draw(self):
@@ -2045,22 +2067,22 @@ class ResultAndPrizeHelper:
         text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
         response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_1_7105, auth=HTTPBasicAuth(*auth))
         response = response.text
-        a = []
-        b = ''
+        missing_numbers = []
         d = re.findall(draw_id, response)
         wn = re.findall(win_numbers, response)
         for i in d:
             assert f"ЖЛ - Тираж {i}" in text_win
-        for i in wn:
-            assert i in text_win
-        # Невыпавшие числа алгоритм:
-        if '""' not in wn:
-            for x in range_90:
-                for y in wn:
-                    if x not in y:
-                        a.append(x)
-                        b = " ".join(a)
-            assert f"Невыпавшие числа:\n{b}" in text_win
+        for s in wn[:]:
+            if '""' in wn:
+                wn.remove(s)
+            else:
+                assert wn[0] in text_win
+                # Невыпавшие числа алгоритм:
+                for sp in wn[:]:
+                    for i in range_75:
+                        if str(i) not in sp:
+                            missing_numbers.append(i)
+                    assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
 
 
 
@@ -2260,21 +2282,22 @@ class ResultAndPrizeHelper:
                         data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=6&GAME_ID=7115&DATE_START="{MessageID.DATE_START}"&DRAW_ID={str(drawi)}&DRAWS_NUMBER=0&VERSION=1',
                         auth=HTTPBasicAuth(*auth))
         response = response.text
-        a = []
-        b = ''
+        missing_numbers = []
         d = re.findall(draw_id, response)
         wn = re.findall(win_numbers, response)
         for i in d:
             assert f"ЗОЛОТАЯ ПОДКОВА - Тираж {i}" in text_win
-        for i in wn:
-            assert i in text_win
-        # Невыпавшие числа алгоритм
-        for x in range_90:
-            for y in wn:
-                if x not in y:
-                    a.append(x)
-                    b = " ".join(a)
-        assert f"Невыпавшие числа:\n{b}" in text_win
+        for s in wn[:]:
+            if '""' in wn:
+                wn.remove(s)
+            else:
+                assert wn[0] in text_win
+                # Невыпавшие числа алгоритм:
+                for sp in wn[:]:
+                    for i in range_90:
+                        if str(i) not in sp:
+                            missing_numbers.append(i)
+                    assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
 
 
     def message_id_33_goldhorseshoe_winning_numbers_for_5_draws(self):
@@ -2293,44 +2316,27 @@ class ResultAndPrizeHelper:
         response = response.text
         d = re.findall(draw_id, response)
         wn = re.findall(win_numbers, response)
-        missing_numbers_1 = []
-        missing_numbers_2 = []
-        missing_numbers_3 = []
-        missing_numbers_4 = []
-        missing_numbers_5 = []
-        split_numbers_list_1 = wn[0].split()
-        split_numbers_list_2 = wn[1].split()
-        split_numbers_list_3 = wn[2].split()
-        split_numbers_list_4 = wn[3].split()
-        split_numbers_list_5 = wn[4].split()
+        missing_numbers = []
         assert f"ЗОЛОТАЯ ПОДКОВА - Тираж {d[0]} :" in text_win
         assert f"ЗОЛОТАЯ ПОДКОВА - Тираж {d[1]} :" in text_win
         assert f"ЗОЛОТАЯ ПОДКОВА - Тираж {d[2]} :" in text_win
         assert f"ЗОЛОТАЯ ПОДКОВА - Тираж {d[3]} :" in text_win
         assert f"ЗОЛОТАЯ ПОДКОВА - Тираж {d[4]} :" in text_win
-        assert wn[0] in text_win
-        assert wn[1] in text_win
-        assert wn[2] in text_win
-        assert wn[3] in text_win
-        assert wn[4] in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in wn[:]:
+            if '""' in wn:
+                wn.remove(s)
+        ws = wn
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
         # Невыпавшие числа алгоритм:
-        if '""' not in wn:
-            for i in range(1, 91):
-                if str(i) not in split_numbers_list_1:
-                    missing_numbers_1.append(i)
-                if str(i) not in split_numbers_list_2:
-                    missing_numbers_2.append(i)
-                if str(i) not in split_numbers_list_3:
-                    missing_numbers_3.append(i)
-                if str(i) not in split_numbers_list_4:
-                    missing_numbers_4.append(i)
-                if str(i) not in split_numbers_list_5:
-                    missing_numbers_5.append(i)
-            assert f"Невыпавшие числа:\n{missing_numbers_1}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_2}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_3}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_4}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_5}" in text_win
+        for sp in ws[:]:
+            for i in range_90:
+                if str(i) not in sp:
+                    missing_numbers.append(i)
+            assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
 
 
     def message_id_33_goldhorseshoe_winning_numbers_4_last_draw(self):
@@ -2340,37 +2346,26 @@ class ResultAndPrizeHelper:
         response = response.text
         d = re.findall(draw_id, response)
         wn = re.findall(win_numbers, response)
-        missing_numbers_1 = []
-        missing_numbers_2 = []
-        missing_numbers_3 = []
-        missing_numbers_4 = []
-        split_numbers_list_1 = wn[0].split()
-        split_numbers_list_2 = wn[1].split()
-        split_numbers_list_3 = wn[2].split()
-        split_numbers_list_4 = wn[3].split()
+        missing_numbers = []
         assert f"ЗОЛОТАЯ ПОДКОВА - Тираж {d[0]} :" in text_win
         assert f"ЗОЛОТАЯ ПОДКОВА - Тираж {d[1]} :" in text_win
         assert f"ЗОЛОТАЯ ПОДКОВА - Тираж {d[2]} :" in text_win
         assert f"ЗОЛОТАЯ ПОДКОВА - Тираж {d[3]} :" in text_win
-        assert wn[0] in text_win
-        assert wn[1] in text_win
-        assert wn[2] in text_win
-        assert wn[3] in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in wn[:]:
+            if '""' in wn:
+                wn.remove(s)
+        ws = wn
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
         # Невыпавшие числа алгоритм:
-        if '""' not in wn:
-            for i in range(1, 91):
-                if str(i) not in split_numbers_list_1:
-                    missing_numbers_1.append(i)
-                if str(i) not in split_numbers_list_2:
-                    missing_numbers_2.append(i)
-                if str(i) not in split_numbers_list_3:
-                    missing_numbers_3.append(i)
-                if str(i) not in split_numbers_list_4:
-                    missing_numbers_4.append(i)
-            assert f"Невыпавшие числа:\n{missing_numbers_1}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_2}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_3}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_4}" in text_win
+        for sp in ws[:]:
+            for i in range_90:
+                if str(i) not in sp:
+                    missing_numbers.append(i)
+            assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
 
 
     def message_id_33_goldhorseshoe_winning_numbers_last_draw(self):
@@ -2378,22 +2373,22 @@ class ResultAndPrizeHelper:
         text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
         response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_1_7115, auth=HTTPBasicAuth(*auth))
         response = response.text
-        a = []
-        b = ''
+        missing_numbers = []
         d = re.findall(draw_id, response)
         wn = re.findall(win_numbers, response)
         for i in d:
             assert f"ЗОЛОТАЯ ПОДКОВА - Тираж {i}" in text_win
-        for i in wn:
-            assert i in text_win
-        # Невыпавшие числа алгоритм:
-        if '""' not in wn:
-            for x in range_90:
-                for y in wn:
-                    if x not in y:
-                        a.append(x)
-                        b = " ".join(a)
-            assert f"Невыпавшие числа:\n{b}" in text_win
+        for s in wn[:]:
+            if '""' in wn:
+                wn.remove(s)
+            else:
+                assert wn[0] in text_win
+                # Невыпавшие числа алгоритм:
+                for sp in wn[:]:
+                    for i in range_75:
+                        if str(i) not in sp:
+                            missing_numbers.append(i)
+                    assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
 
 
 # --------------------------------------------------------------------------
@@ -2623,44 +2618,27 @@ class ResultAndPrizeHelper:
         response = response.text
         d = re.findall(draw_id, response)
         wn = re.findall(win_numbers, response)
-        missing_numbers_1 = []
-        missing_numbers_2 = []
-        missing_numbers_3 = []
-        missing_numbers_4 = []
-        missing_numbers_5 = []
-        split_numbers_list_1 = wn[0].split()
-        split_numbers_list_2 = wn[1].split()
-        split_numbers_list_3 = wn[2].split()
-        split_numbers_list_4 = wn[3].split()
-        split_numbers_list_5 = wn[4].split()
+        missing_numbers = []
         assert f"Бинго-75 - Тираж {d[0]} :" in text_win
         assert f"Бинго-75 - Тираж {d[1]} :" in text_win
         assert f"Бинго-75 - Тираж {d[2]} :" in text_win
         assert f"Бинго-75 - Тираж {d[3]} :" in text_win
         assert f"Бинго-75 - Тираж {d[4]} :" in text_win
-        assert wn[0] in text_win
-        assert wn[1] in text_win
-        assert wn[2] in text_win
-        assert wn[3] in text_win
-        assert wn[4] in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in wn[:]:
+            if '""' in wn:
+                wn.remove(s)
+        ws = wn
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
         # Невыпавшие числа алгоритм:
-        if '""' not in wn:
-            for i in range(1, 76):
-                if str(i) not in split_numbers_list_1:
-                    missing_numbers_1.append(i)
-                if str(i) not in split_numbers_list_2:
-                    missing_numbers_2.append(i)
-                if str(i) not in split_numbers_list_3:
-                    missing_numbers_3.append(i)
-                if str(i) not in split_numbers_list_4:
-                    missing_numbers_4.append(i)
-                if str(i) not in split_numbers_list_5:
-                    missing_numbers_5.append(i)
-            assert f"Невыпавшие числа:\n{missing_numbers_1}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_2}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_3}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_4}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_5}" in text_win
+        for sp in ws[:]:
+            for i in range_75:
+                if str(i) not in sp:
+                    missing_numbers.append(i)
+            assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
 
 
     def message_id_33_bingo75_winning_numbers_4_last_draw(self):
@@ -2670,37 +2648,26 @@ class ResultAndPrizeHelper:
         response = response.text
         d = re.findall(draw_id, response)
         wn = re.findall(win_numbers, response)
-        missing_numbers_1 = []
-        missing_numbers_2 = []
-        missing_numbers_3 = []
-        missing_numbers_4 = []
-        split_numbers_list_1 = wn[0].split()
-        split_numbers_list_2 = wn[1].split()
-        split_numbers_list_3 = wn[2].split()
-        split_numbers_list_4 = wn[3].split()
+        missing_numbers = []
         assert f"Бинго-75 - Тираж {d[0]} :" in text_win
         assert f"Бинго-75 - Тираж {d[1]} :" in text_win
         assert f"Бинго-75 - Тираж {d[2]} :" in text_win
         assert f"Бинго-75 - Тираж {d[3]} :" in text_win
-        assert wn[0] in text_win
-        assert wn[1] in text_win
-        assert wn[2] in text_win
-        assert wn[3] in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in wn[:]:
+            if '""' in wn:
+                wn.remove(s)
+        ws = wn
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
         # Невыпавшие числа алгоритм:
-        if '""' not in wn:
-            for i in range(1, 76):
-                if str(i) not in split_numbers_list_1:
-                    missing_numbers_1.append(i)
-                if str(i) not in split_numbers_list_2:
-                    missing_numbers_2.append(i)
-                if str(i) not in split_numbers_list_3:
-                    missing_numbers_3.append(i)
-                if str(i) not in split_numbers_list_4:
-                    missing_numbers_4.append(i)
-            assert f"Невыпавшие числа:\n{missing_numbers_1}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_2}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_3}" in text_win
-            assert f"Невыпавшие числа:\n{missing_numbers_4}" in text_win
+        for sp in ws[:]:
+            for i in range_75:
+                if str(i) not in sp:
+                    missing_numbers.append(i)
+            assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
 
 
     def message_id_33_bingo75_winning_numbers_last_draw(self):
@@ -2708,22 +2675,22 @@ class ResultAndPrizeHelper:
         text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
         response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_1_7175, auth=HTTPBasicAuth(*auth))
         response = response.text
-        a = []
-        b = ''
+        missing_numbers = []
         d = re.findall(draw_id, response)
         wn = re.findall(win_numbers, response)
         for i in d:
             assert f"Бинго-75 - Тираж {i}" in text_win
-        for i in wn:
-            assert i in text_win
-        # Невыпавшие числа алгоритм:
-        if '""' not in wn:
-            for x in range_90:
-                for y in wn:
-                    if x not in y:
-                        a.append(x)
-                        b = " ".join(a)
-            assert f"Невыпавшие числа:\n{b}" in text_win
+        for s in wn[:]:
+            if '""' in wn:
+                wn.remove(s)
+            else:
+                assert wn[0] in text_win
+                # Невыпавшие числа алгоритм:
+                for sp in wn[:]:
+                    for i in range_75:
+                        if str(i) not in sp:
+                            missing_numbers.append(i)
+                    assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
 
 
 
