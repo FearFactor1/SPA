@@ -182,10 +182,13 @@ def test_json_base64_encode():
 
 
 
-
+sign_6x36 = "df7ee0c229e55b9eca9586ce2012c518f10ced7a"
+sign_zp = "aca913a4d46c156026793ba05bd31b76803f9506"
+sign_rl = "d6b52860878393d8c02c80ec6da4545fec316419"
+sign_zl = "a4989730df61308a09cdcd07049a76f22f377871"
 
 def test_getlist_Utilization():
-    info = '{"userNumber":"20003511","terminalNumber":"2000006810","sign":"781a7dda65c2d7a143b4cc1dd500e051ecc3063d","gameType":"7103","draw":"1326"}'
+    info = '{"userNumber":"20003511","terminalNumber":"2000006810","sign":"a4989730df61308a09cdcd07049a76f22f377871","gameType":"7105","draw":"0389"}'
     enc = info.encode()
     bas = base64.encodebytes(enc)
     strbas = str(bas).replace("b'", "")

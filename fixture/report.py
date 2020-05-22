@@ -38,7 +38,6 @@ class ReportHelper:
         assert textfull.count('ГОСЛОТО 4 из 20') == 5
         assert textfull.count('ГОСЛОТО 6 из 45') == 5
         assert textfull.count('ГОСЛОТО 7 из 49') == 5
-        assert textfull.count('5х36 до тиража 7268') == 5
         assert textfull.count('Рапидо') == 10
         assert textfull.count('Рапидо2') == 5
         assert textfull.count('Спортлото 6 из 49') == 5
@@ -48,7 +47,6 @@ class ReportHelper:
         assert textfull.count('Русское Лото') == 5
         assert textfull.count('Жилищная лотерея') == 5
         assert textfull.count('Золотая подкова') == 5
-        assert textfull.count('Бинго 80') == 5
         assert textfull.count('Бинго 75') == 5
         assert textfull.count('12x24') == 5
         assert textfull.count('Прикуп') == 5

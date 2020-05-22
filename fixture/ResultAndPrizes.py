@@ -1709,15 +1709,23 @@ class ResultAndPrizeHelper:
             if '""' in wn:
                 wn.remove(s)
         ws = wn
-        for ss in ws[:]:
-            assert ss in ws
-            assert ss in text_win
+        for f in ws:
+            for d in f:
+                assert d in text_win
         # Невыпавшие числа алгоритм:
-        for sp in ws[:]:
+        slp = []
+        sa = [word.strip() for word in text_win.split(',')]
+        for a in sa[:]:
+            if "Невыпавшие числа:" in a:
+                slp.append(a[13:273])
+        slpa = slp
+        for sp in slpa[:]:
             for i in range_90:
                 if str(i) not in sp:
                     missing_numbers.append(i)
-            assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
+            strmisnum = " ".join(missing_numbers)
+            assert f"Невыпавшие числа:\n{strmisnum}" in text_win
+            missing_numbers.clear()
 
 
     def message_id_33_russianlotto_winning_draw_numbers_2000(self):
@@ -1742,14 +1750,24 @@ class ResultAndPrizeHelper:
         for s in wn[:]:
             if '""' in wn:
                 wn.remove(s)
-            else:
-                assert wn[0] in text_win
-                # Невыпавшие числа алгоритм:
-                for sp in wn[:]:
-                    for i in range_90:
-                        if str(i) not in sp:
-                            missing_numbers.append(i)
-                    assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
+        ws = wn
+        for f in ws:
+            for d in f:
+                assert d in text_win
+        # Невыпавшие числа алгоритм:
+        slp = []
+        sa = [word.strip() for word in text_win.split(',')]
+        for a in sa[:]:
+            if "Невыпавшие числа:" in a:
+                slp.append(a[13:273])
+        slpa = slp
+        for sp in slpa[:]:
+            for i in range_90:
+                if str(i) not in sp:
+                    missing_numbers.append(i)
+            strmisnum = " ".join(missing_numbers)
+            assert f"Невыпавшие числа:\n{strmisnum}" in text_win
+            missing_numbers.clear()
 
 
     def message_id_33_russianlotto_winning_numbers_4_last_draw(self):
@@ -1770,15 +1788,23 @@ class ResultAndPrizeHelper:
             if '""' in wn:
                 wn.remove(s)
         ws = wn
-        for ss in ws[:]:
-            assert ss in ws
-            assert ss in text_win
+        for f in ws:
+            for d in f:
+                assert d in text_win
         # Невыпавшие числа алгоритм:
-        for sp in ws[:]:
+        slp = []
+        sa = [word.strip() for word in text_win.split(',')]
+        for a in sa[:]:
+            if "Невыпавшие числа:" in a:
+                slp.append(a[13:273])
+        slpa = slp
+        for sp in slpa[:]:
             for i in range_90:
                 if str(i) not in sp:
                     missing_numbers.append(i)
-            assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
+            strmisnum = " ".join(missing_numbers)
+            assert f"Невыпавшие числа:\n{strmisnum}" in text_win
+            missing_numbers.clear()
 
 
     def message_id_33_russianlotto_winning_numbers_last_draw(self):
@@ -1794,14 +1820,24 @@ class ResultAndPrizeHelper:
         for s in wn[:]:
             if '""' in wn:
                 wn.remove(s)
-            else:
-                assert wn[0] in text_win
-                # Невыпавшие числа алгоритм:
-                for sp in wn[:]:
-                    for i in range_75:
-                        if str(i) not in sp:
-                            missing_numbers.append(i)
-                    assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
+        ws = wn
+        for f in ws:
+            for d in f:
+                assert d in text_win
+        # Невыпавшие числа алгоритм:
+        slp = []
+        sa = [word.strip() for word in text_win.split(',')]
+        for a in sa[:]:
+            if "Невыпавшие числа:" in a:
+                slp.append(a[13:273])
+        slpa = slp
+        for sp in slpa[:]:
+            for i in range_90:
+                if str(i) not in sp:
+                    missing_numbers.append(i)
+            strmisnum = " ".join(missing_numbers)
+            assert f"Невыпавшие числа:\n{strmisnum}" in text_win
+            missing_numbers.clear()
 
 
 # --------------------------------------------------------------------------
@@ -2006,14 +2042,24 @@ class ResultAndPrizeHelper:
         for s in wn[:]:
             if '""' in wn:
                 wn.remove(s)
-            else:
-                assert wn[0] in text_win
-                # Невыпавшие числа алгоритм:
-                for sp in wn[:]:
-                    for i in range_90:
-                        if str(i) not in sp:
-                            missing_numbers.append(i)
-                    assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
+        ws = wn
+        for f in ws:
+            for d in f:
+                assert d in text_win
+        # Невыпавшие числа алгоритм:
+        slp = []
+        sa = [word.strip() for word in text_win.split(',')]
+        for a in sa[:]:
+            if "Невыпавшие числа:" in a:
+                slp.append(a[13:273])
+        slpa = slp
+        for sp in slpa[:]:
+            for i in range_90:
+                if str(i) not in sp:
+                    missing_numbers.append(i)
+            strmisnum = " ".join(missing_numbers)
+            assert f"Невыпавшие числа:\n{strmisnum}" in text_win
+            missing_numbers.clear()
 
 
     def message_id_33_housinglottery_winning_numbers_for_5_draws(self):
@@ -2044,15 +2090,23 @@ class ResultAndPrizeHelper:
             if '""' in wn:
                 wn.remove(s)
         ws = wn
-        for ss in ws[:]:
-            assert ss in ws
-            assert ss in text_win
+        for f in ws:
+            for d in f:
+                assert d in text_win
         # Невыпавшие числа алгоритм:
-        for sp in ws[:]:
+        slp = []
+        sa = [word.strip() for word in text_win.split(',')]
+        for a in sa[:]:
+            if "Невыпавшие числа:" in a:
+                slp.append(a[13:273])
+        slpa = slp
+        for sp in slpa[:]:
             for i in range_90:
                 if str(i) not in sp:
                     missing_numbers.append(i)
-            assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
+            strmisnum = " ".join(missing_numbers)
+            assert f"Невыпавшие числа:\n{strmisnum}" in text_win
+            missing_numbers.clear()
 
 
     def message_id_33_housinglottery_winning_numbers_4_last_draw(self):
@@ -2073,15 +2127,23 @@ class ResultAndPrizeHelper:
             if '""' in wn:
                 wn.remove(s)
         ws = wn
-        for ss in ws[:]:
-            assert ss in ws
-            assert ss in text_win
+        for f in ws:
+            for d in f:
+                assert d in text_win
         # Невыпавшие числа алгоритм:
-        for sp in ws[:]:
+        slp = []
+        sa = [word.strip() for word in text_win.split(',')]
+        for a in sa[:]:
+            if "Невыпавшие числа:" in a:
+                slp.append(a[13:273])
+        slpa = slp
+        for sp in slpa[:]:
             for i in range_90:
                 if str(i) not in sp:
                     missing_numbers.append(i)
-            assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
+            strmisnum = " ".join(missing_numbers)
+            assert f"Невыпавшие числа:\n{strmisnum}" in text_win
+            missing_numbers.clear()
 
 
     def message_id_33_housinglottery_winning_numbers_last_draw(self):
@@ -2097,14 +2159,24 @@ class ResultAndPrizeHelper:
         for s in wn[:]:
             if '""' in wn:
                 wn.remove(s)
-            else:
-                assert wn[0] in text_win
-                # Невыпавшие числа алгоритм:
-                for sp in wn[:]:
-                    for i in range_75:
-                        if str(i) not in sp:
-                            missing_numbers.append(i)
-                    assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
+        ws = wn
+        for f in ws:
+            for d in f:
+                assert d in text_win
+        # Невыпавшие числа алгоритм:
+        slp = []
+        sa = [word.strip() for word in text_win.split(',')]
+        for a in sa[:]:
+            if "Невыпавшие числа:" in a:
+                slp.append(a[13:273])
+        slpa = slp
+        for sp in slpa[:]:
+            for i in range_90:
+                if str(i) not in sp:
+                    missing_numbers.append(i)
+            strmisnum = " ".join(missing_numbers)
+            assert f"Невыпавшие числа:\n{strmisnum}" in text_win
+            missing_numbers.clear()
 
 
 
@@ -2312,14 +2384,24 @@ class ResultAndPrizeHelper:
         for s in wn[:]:
             if '""' in wn:
                 wn.remove(s)
-            else:
-                assert wn[0] in text_win
-                # Невыпавшие числа алгоритм:
-                for sp in wn[:]:
-                    for i in range_90:
-                        if str(i) not in sp:
-                            missing_numbers.append(i)
-                    assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
+        ws = wn
+        for f in ws:
+            for d in f:
+                assert d in text_win
+        # Невыпавшие числа алгоритм:
+        slp = []
+        sa = [word.strip() for word in text_win.split(',')]
+        for a in sa[:]:
+            if "Невыпавшие числа:" in a:
+                slp.append(a[13:273])
+        slpa = slp
+        for sp in slpa[:]:
+            for i in range_90:
+                if str(i) not in sp:
+                    missing_numbers.append(i)
+            strmisnum = " ".join(missing_numbers)
+            assert f"Невыпавшие числа:\n{strmisnum}" in text_win
+            missing_numbers.clear()
 
 
     def message_id_33_goldhorseshoe_winning_numbers_for_5_draws(self):
@@ -2350,15 +2432,23 @@ class ResultAndPrizeHelper:
             if '""' in wn:
                 wn.remove(s)
         ws = wn
-        for ss in ws[:]:
-            assert ss in ws
-            assert ss in text_win
+        for f in ws:
+            for d in f:
+                assert d in text_win
         # Невыпавшие числа алгоритм:
-        for sp in ws[:]:
+        slp = []
+        sa = [word.strip() for word in text_win.split(',')]
+        for a in sa[:]:
+            if "Невыпавшие числа:" in a:
+                slp.append(a[13:273])
+        slpa = slp
+        for sp in slpa[:]:
             for i in range_90:
                 if str(i) not in sp:
                     missing_numbers.append(i)
-            assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
+            strmisnum = " ".join(missing_numbers)
+            assert f"Невыпавшие числа:\n{strmisnum}" in text_win
+            missing_numbers.clear()
 
 
     def message_id_33_goldhorseshoe_winning_numbers_4_last_draw(self):
@@ -2379,15 +2469,23 @@ class ResultAndPrizeHelper:
             if '""' in wn:
                 wn.remove(s)
         ws = wn
-        for ss in ws[:]:
-            assert ss in ws
-            assert ss in text_win
+        for f in ws:
+            for d in f:
+                assert d in text_win
         # Невыпавшие числа алгоритм:
-        for sp in ws[:]:
+        slp = []
+        sa = [word.strip() for word in text_win.split(',')]
+        for a in sa[:]:
+            if "Невыпавшие числа:" in a:
+                slp.append(a[13:273])
+        slpa = slp
+        for sp in slpa[:]:
             for i in range_90:
                 if str(i) not in sp:
                     missing_numbers.append(i)
-            assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
+            strmisnum = " ".join(missing_numbers)
+            assert f"Невыпавшие числа:\n{strmisnum}" in text_win
+            missing_numbers.clear()
 
 
     def message_id_33_goldhorseshoe_winning_numbers_last_draw(self):
@@ -2403,14 +2501,24 @@ class ResultAndPrizeHelper:
         for s in wn[:]:
             if '""' in wn:
                 wn.remove(s)
-            else:
-                assert wn[0] in text_win
-                # Невыпавшие числа алгоритм:
-                for sp in wn[:]:
-                    for i in range_75:
-                        if str(i) not in sp:
-                            missing_numbers.append(i)
-                    assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
+        ws = wn
+        for f in ws:
+            for d in f:
+                assert d in text_win
+        # Невыпавшие числа алгоритм:
+        slp = []
+        sa = [word.strip() for word in text_win.split(',')]
+        for a in sa[:]:
+            if "Невыпавшие числа:" in a:
+                slp.append(a[13:273])
+        slpa = slp
+        for sp in slpa[:]:
+            for i in range_90:
+                if str(i) not in sp:
+                    missing_numbers.append(i)
+            strmisnum = " ".join(missing_numbers)
+            assert f"Невыпавшие числа:\n{strmisnum}" in text_win
+            missing_numbers.clear()
 
 
 # --------------------------------------------------------------------------
@@ -2660,7 +2768,9 @@ class ResultAndPrizeHelper:
             for i in range_75:
                 if str(i) not in sp:
                     missing_numbers.append(i)
-            assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
+            strmisnum = " ".join(missing_numbers)
+            assert f"Невыпавшие числа:\n{strmisnum}" in text_win
+            missing_numbers.clear()
 
 
     def message_id_33_bingo75_winning_numbers_4_last_draw(self):
@@ -2689,7 +2799,9 @@ class ResultAndPrizeHelper:
             for i in range_75:
                 if str(i) not in sp:
                     missing_numbers.append(i)
-            assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
+            strmisnum = " ".join(missing_numbers)
+            assert f"Невыпавшие числа:\n{strmisnum}" in text_win
+            missing_numbers.clear()
 
 
     def message_id_33_bingo75_winning_numbers_last_draw(self):
@@ -2712,13 +2824,8 @@ class ResultAndPrizeHelper:
                     for i in range_75:
                         if str(i) not in sp:
                             missing_numbers.append(i)
-                    assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
-
-
-
-
-
-
+                    strmisnum = " ".join(missing_numbers)
+                    assert f"Невыпавшие числа:\n{strmisnum}" in text_win
 
 
 # --------------------------------------------------------------------------
@@ -2915,21 +3022,29 @@ class ResultAndPrizeHelper:
                         data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=6&GAME_ID=7101&DATE_START="{MessageID.DATE_START}"&DRAW_ID={str(drawi)}&DRAWS_NUMBER=0&VERSION=1',
                         auth=HTTPBasicAuth(*auth))
         response = response.text
-        a = []
-        b = ''
         d = re.findall(draw_id, response)
         wn = re.findall(win_numbers, response)
+        missing_numbers = []
         for i in d:
             assert f"6/36 - Тираж {i}" in text_win
-        for i in wn:
-            assert i in text_win
+        ws = wn
+        for f in ws:
+            for d in f:
+                assert d in text_win
         # Невыпавшие числа алгоритм
-        for x in range_36:
-            for y in wn:
-                if x not in y:
-                    a.append(x)
-                    b = " ".join(a)
-        assert f"Невыпавшие числа:\n{b}" in text_win
+        slp = []
+        sa = [word.strip() for word in text_win.split(',')]
+        for a in sa[:]:
+            if "Невыпавшие числа:" in a:
+                slp.append(a[13:30])
+        slpa = slp
+        for sp in slpa[:]:
+            for i in range_36:
+                if str(i) not in sp:
+                    missing_numbers.append(i)
+            strmisnum = " ".join(missing_numbers)
+            assert f"Невыпавшие числа:\n{strmisnum}" in text_win
+            missing_numbers.clear()
 
 
     def message_id_33_6x36_winning_numbers_for_5_draws(self):
@@ -2960,15 +3075,25 @@ class ResultAndPrizeHelper:
             if '""' in wn:
                 wn.remove(s)
         ws = wn
-        for ss in ws[:]:
-            assert ss in ws
-            assert ss in text_win
+        for f in ws:
+            for d in f:
+                assert d in text_win
         # Невыпавшие числа алгоритм:
-        for sp in ws[:]:
+        slp = []
+        sa = [word.strip() for word in text_win.split(',')]
+        for a in sa[:]:
+            if "Невыпавшие числа:" in a:
+                slp.append(a[13:30])
+        slpa = slp
+        for sp in slpa[:]:
             for i in range_36:
                 if str(i) not in sp:
                     missing_numbers.append(i)
-            assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
+            strmisnum = " ".join(missing_numbers)
+            assert f"Невыпавшие числа:\n{strmisnum}" in text_win
+            missing_numbers.clear()
+
+
 
 
     def message_id_33_6x36_winning_numbers_4_last_draw(self):
@@ -2989,15 +3114,23 @@ class ResultAndPrizeHelper:
             if '""' in wn:
                 wn.remove(s)
         ws = wn
-        for ss in ws[:]:
-            assert ss in ws
-            assert ss in text_win
+        for f in ws:
+            for d in f:
+                assert d in text_win
         # Невыпавшие числа алгоритм:
-        for sp in ws[:]:
+        slp = []
+        sa = [word.strip() for word in text_win.split(',')]
+        for a in sa[:]:
+            if "Невыпавшие числа:" in a:
+                slp.append(a[13:30])
+        slpa = slp
+        for sp in slpa[:]:
             for i in range_36:
                 if str(i) not in sp:
                     missing_numbers.append(i)
-            assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
+            strmisnum = " ".join(missing_numbers)
+            assert f"Невыпавшие числа:\n{strmisnum}" in text_win
+            missing_numbers.clear()
 
 
     def message_id_33_6x36_winning_numbers_last_draw(self):
@@ -3013,14 +3146,24 @@ class ResultAndPrizeHelper:
         for s in wn[:]:
             if '""' in wn:
                 wn.remove(s)
-            else:
-                assert wn[0] in text_win
-                # Невыпавшие числа алгоритм:
-                for sp in wn[:]:
-                    for i in range_36:
-                        if str(i) not in sp:
-                            missing_numbers.append(i)
-                    assert f"Невыпавшие числа:\n{missing_numbers}" in text_win
+        ws = wn
+        for f in ws:
+            for d in f:
+                assert d in text_win
+        # Невыпавшие числа алгоритм:
+        slp = []
+        sa = [word.strip() for word in text_win.split(',')]
+        for a in sa[:]:
+            if "Невыпавшие числа:" in a:
+                slp.append(a[13:30])
+        slpa = slp
+        for sp in slpa[:]:
+            for i in range_36:
+                if str(i) not in sp:
+                    missing_numbers.append(i)
+            strmisnum = " ".join(missing_numbers)
+            assert f"Невыпавшие числа:\n{strmisnum}" in text_win
+            missing_numbers.clear()
 
 
 

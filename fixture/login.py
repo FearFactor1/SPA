@@ -194,9 +194,9 @@ class LoginHelper:
         wd = self.app.wd
         wd.find_element_by_css_selector(
             "li.header__user-data-item.header__user-data-item_balance > div > div.header__user-data-text-number").click()
-        WebDriverWait(wd, 5).until(
-            EC.invisibility_of_element((By.CSS_SELECTOR, "span.rouble"))
-        )
+#        WebDriverWait(wd, 5).until(
+#            EC.invisibility_of_element((By.CSS_SELECTOR, "span.rouble"))
+#        )
 
 
     def click_bonus_price_in_main_page(self):
