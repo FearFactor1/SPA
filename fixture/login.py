@@ -192,8 +192,11 @@ class LoginHelper:
 
     def click_balance_in_main_page(self):
         wd = self.app.wd
-        wd.find_element_by_css_selector(
-            "li.header__user-data-item.header__user-data-item_balance > div > div.header__user-data-text-number").click()
+        WebDriverWait(wd, 5).until(
+                    EC.invisibility_of_element((By.CSS_SELECTOR, "li.header__user-data-item.header__user-data-item_balance > div > div.header__user-data-text-number"))
+                ).click()
+#        wd.find_element_by_css_selector(
+#            "li.header__user-data-item.header__user-data-item_balance > div > div.header__user-data-text-number").click()
 #        WebDriverWait(wd, 5).until(
 #            EC.invisibility_of_element((By.CSS_SELECTOR, "span.rouble"))
 #        )

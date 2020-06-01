@@ -324,3 +324,23 @@ class MessageID:
     DATA_33_REPORT_TYPE_5_5212 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=5&GAME_ID=5212&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
 
 # --------------------------------------------
+
+
+# --------- 12/24:
+
+    # message_id=33, данный запрос сделан для получения последнего тиража из гейта
+    DATA_33_REPORT_TYPE_1_28001 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=1&GAME_ID=28001&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
+
+    # message_id=33, данный запрос сделан для получения последних 4 тиражей из гейта
+    DATA_33_REPORT_TYPE_2_28001 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=2&GAME_ID=28001&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
+
+    # message_id=33, данный запрос сделан для получения результата последнего тиража REPORT_TYPE_3
+    DATA_33_REPORT_TYPE_3_28001 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=3&GAME_ID=28001&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
+
+    # message_id=33, данный запрос сделан для получения результата тиража по текущей дате REPORT_TYPE_4
+    DATA_33_REPORT_TYPE_4_28001 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=4&GAME_ID=28001&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
+
+    # message_id=33, данный запрос сделан для получения суммы суперприза
+    DATA_33_REPORT_TYPE_5_28001 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=5&GAME_ID=28001&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
+
+# --------------------------------------------
