@@ -149,6 +149,12 @@ class ResultAndPrizeHelper:
         wd.find_element_by_css_selector("input.input-text.report__input-id.input-prompt").send_keys("121750")
 
 
+    def select_draw_58570_in_draw_numbers(self):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input.input-text.report__input-id.input-prompt").clear()
+        wd.find_element_by_css_selector("input.input-text.report__input-id.input-prompt").send_keys("58570")
+
+
     def click_ok_for_several_draws_modal_window(self):
         wd = self.app.wd
         for text_info_draw_window in wd.find_elements_by_css_selector("div.modal__body.modal__body_small"):
@@ -326,6 +332,11 @@ class ResultAndPrizeHelper:
     def click_game_duel(self):
         wd = self.app.wd
         wd.find_element_by_css_selector("label[for='game_28003']").click()
+
+
+    def click_game_prikup(self):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("label[for='game_28002']").click()
 
 
 # ---------------------------------------------------------------
@@ -4348,6 +4359,15 @@ class ResultAndPrizeHelper:
                 w.remove(s)
             else:
                 assert w[0] in text_win
+
+
+
+
+# --------------------------------------------------------------------------
+
+
+# ------------ отправка запросов в gate для игры Дуэль:
+
 
 
 
