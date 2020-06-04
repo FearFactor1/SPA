@@ -155,6 +155,12 @@ class ResultAndPrizeHelper:
         wd.find_element_by_css_selector("input.input-text.report__input-id.input-prompt").send_keys("58570")
 
 
+    def select_draw_59587_in_draw_numbers(self):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input.input-text.report__input-id.input-prompt").clear()
+        wd.find_element_by_css_selector("input.input-text.report__input-id.input-prompt").send_keys("59587")
+
+
     def click_ok_for_several_draws_modal_window(self):
         wd = self.app.wd
         for text_info_draw_window in wd.find_elements_by_css_selector("div.modal__body.modal__body_small"):
@@ -337,6 +343,11 @@ class ResultAndPrizeHelper:
     def click_game_prikup(self):
         wd = self.app.wd
         wd.find_element_by_css_selector("label[for='game_28002']").click()
+
+
+    def click_game_joker(self):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("label[for='game_28102']").click()
 
 
 # ---------------------------------------------------------------
@@ -4366,7 +4377,200 @@ class ResultAndPrizeHelper:
 # --------------------------------------------------------------------------
 
 
-# ------------ отправка запросов в gate для игры Дуэль:
+# ------------ отправка запросов в gate для игры Джокер:
+
+    def message_id_33_joker_results_for_5_draws(self):
+        wd = self.app.wd
+        # draw = берём текст - это тираж с кнопки выигрышные номера нескольких тиражей
+        draw = wd.find_element_by_css_selector("#date9 + .winners-reports__label .winners-reports__label-text").text
+        drawi = int(draw)
+        # Нажимаем кнопку получить отчёт в результатах и призах
+        wd.find_element_by_css_selector("button.btn.btn_save.winners-button").click()
+        # массив текста после нажатия на получить отчёт
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
+        # отправка запроса 33 для получения 5 тиражей послдних
+        response = post(url=MessageID.URL_33,
+                        data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=9&GAME_ID=28102&DATE_START="{MessageID.DATE_START}"&DRAW_ID={str(drawi)}&DRAWS_NUMBER=5&VERSION=1',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        d = re.findall(draw_id, response)
+        wc = re.findall(winners_count, response)
+        wa = re.findall(winning_amount, response)
+        t = re.findall(total, response)
+        for i in d:
+            assert i in text_win
+        for i in wc:
+            assert i in text_win
+        for i in wa:
+            assert i in text_win
+        for i in t:
+            assert i in text_win
+
+
+    def message_id_33_joker_results_draw_date_current_date(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
+        response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_4_28102, auth=HTTPBasicAuth(*auth))
+        response = response.text
+        d = re.findall(draw_id, response)
+        wc = re.findall(winners_count, response)
+        wa = re.findall(winning_amount, response)
+        t = re.findall(total, response)
+        for i in d:
+            assert i in text_win
+        for i in wc:
+            assert i in text_win
+        for i in wa:
+            assert i in text_win
+        for i in t:
+            assert i in text_win
+
+
+    def message_id_33_joker_results_draw_date_previous_date(self):
+        wd = self.app.wd
+        # делаем дату предыдущего месяца 10е число для запроса 33
+        dd = datetime.today()
+        if dd.month == 1:
+            last_month = f"{dd.replace(month=12, day=10, year=dd.year - 1):%Y.%m.%d}"
+        else:
+            last_month = f"{dd.replace(month=dd.month - 1, day=10):%Y.%m.%d}"
+        DATE_START_LAST_MONTH = f"{last_month}+03"
+        # Нажимаем кнопку получить отчёт в результатах и призах
+        wd.find_element_by_css_selector("button.btn.btn_save.winners-button").click()
+        # массив текста после нажатия на получить отчёт
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
+        # отправка запроса 33 для получения 5 тиражей послдних
+        response = post(url=MessageID.URL_33,
+                        data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=4&GAME_ID=28102&DATE_START="{DATE_START_LAST_MONTH}"&DRAW_ID=0&DRAWS_NUMBER=5&VERSION=1',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        d = re.findall(draw_id, response)
+        wc = re.findall(winners_count, response)
+        wa = re.findall(winning_amount, response)
+        t = re.findall(total, response)
+        for i in d:
+            assert i in text_win
+        for i in wc:
+            assert i in text_win
+        for i in wa:
+            assert i in text_win
+        for i in t:
+            assert i in text_win
+
+
+    def message_id_33_joker_results_last_draw(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
+        response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_3_28102, auth=HTTPBasicAuth(*auth))
+        response = response.text
+        d = re.findall(draw_id, response)
+        wc = re.findall(winners_count, response)
+        wa = re.findall(winning_amount, response)
+        t = re.findall(total, response)
+        assert f"Джокер - Тираж {d[0]} :" in text_win
+        for i in wc:
+            assert i in text_win
+        for i in wa:
+            assert i in text_win
+        for i in t:
+            assert i in text_win
+
+
+    def message_id_33_joker_superprizes(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
+        response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_5_28102, auth=HTTPBasicAuth(*auth))
+        response = response.text
+        d = re.findall(draw_id, response)
+        a = re.findall(amount, response)
+        assert f"Джокер - Тираж {d[0]} :" in text_win
+        if len(a) == 0:
+            assert "СУПЕРПРИЗА НЕТ" in text_win
+        if len(a) == 1:
+            assert f"Суперприз\n{a[0]}" in text_win
+            assert "Категория\nСумма руб." in text_win
+        if len(a) == 2:
+            assert "Категория\nСумма руб." in text_win
+            assert f"Суперприз\n{a[0]}" in text_win
+            assert f"Приз\n{a[1]}" in text_win
+
+
+    def message_id_33_joker_winning_numbers_for_5_draws(self):
+        wd = self.app.wd
+        # draw = берём текст - это тираж с кнопки выигрышные номера нескольких тиражей
+        draw = wd.find_element_by_css_selector("#date7 + .winners-reports__label .winners-reports__label-text").text
+        drawi = int(draw)
+        # Нажимаем кнопку получить отчёт в результатах и призах
+        wd.find_element_by_css_selector("button.btn.btn_save.winners-button").click()
+        # массив текста после нажатия на получить отчёт
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
+        # отправка запроса 33 для получения 5 тиражей послдних
+        response = post(url=MessageID.URL_33,
+                        data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=7&GAME_ID=28102&DATE_START="{MessageID.DATE_START}"&DRAW_ID={str(drawi)}&DRAWS_NUMBER=5&VERSION=1',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        d = re.findall(draw_id, response)
+        w = re.findall(win_numbers, response)
+        assert f"Джокер - Тираж {d[0]} :" in text_win
+        assert f"Джокер - Тираж {d[1]} :" in text_win
+        assert f"Джокер - Тираж {d[2]} :" in text_win
+        assert f"Джокер - Тираж {d[3]} :" in text_win
+        assert f"Джокер - Тираж {d[4]} :" in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+        ws = w
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
+
+
+    def message_id_33_joker_winning_numbers_4_last_draw(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
+        response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_2_28102, auth=HTTPBasicAuth(*auth))
+        response = response.text
+        d = re.findall(draw_id, response)
+        w = re.findall(win_numbers, response)
+        assert f"Джокер - Тираж {d[0]} :" in text_win
+        assert f"Джокер - Тираж {d[1]} :" in text_win
+        assert f"Джокер - Тираж {d[2]} :" in text_win
+        assert f"Джокер - Тираж {d[3]} :" in text_win
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+        ws = w
+        for ss in ws[:]:
+            assert ss in ws
+            assert ss in text_win
+
+
+    def message_id_33_joker_last_draw(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
+        response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_1_28102, auth=HTTPBasicAuth(*auth))
+        response = response.text
+        d = re.findall(draw_id, response)
+        assert f"Джокер - Тираж {d[0]} :" in text_win
+
+
+    def message_id_33_joker_winning_numbers_last_draw(self):
+        wd = self.app.wd
+        text_win = wd.find_element_by_css_selector("div.report-item.report-item_winners").text
+        response = post(url=MessageID.URL_33, data=MessageID.DATA_33_REPORT_TYPE_1_28102, auth=HTTPBasicAuth(*auth))
+        response = response.text
+        w = re.findall(win_numbers, response)
+        # Проверка: Если в  w(win_numbers) прилетает '""' ,
+        # то удаляю строку так-как на экране больше не отображается '""'
+        for s in w[:]:
+            if '""' in w:
+                w.remove(s)
+            else:
+                assert w[0] in text_win
 
 
 
