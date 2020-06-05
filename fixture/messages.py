@@ -15,7 +15,7 @@ class MessageID:
     LOGIN = "20003511"
     PASSWORD = "75374377"
     PLAYER_INFO = "79123456789"
-    TICKET_ID = "285553976"
+
 
 
 
@@ -50,9 +50,9 @@ class MessageID:
 # ---------------- message_id=50:
 
     # message_id=50, Информационный запрос размера выигрыша по лотерейному билету с учетом налога, message_id=50
-    URL_50 = "http://ga-s3-lcp.ga.stoloto.su/fprov/fcgi_pos?message_id=50"
-    DATA_50_TOTAL_AMOUNT = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&ID_TICKET_TYPE=1&' \
-                           f'BARCODE="00000 00000 00000 00000 00000 00000 00000"&TICKET_ID={TICKET_ID}&TAX_DEDUCTION_REQUESTED=0'
+#    URL_50 = "http://ga-s3-lcp.ga.stoloto.su/fprov/fcgi_pos?message_id=50"
+#    DATA_50_TOTAL_AMOUNT = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&ID_TICKET_TYPE=1&' \
+#                           f'BARCODE="00000 00000 00000 00000 00000 00000 00000"&TICKET_ID={TICKET_ID}&TAX_DEDUCTION_REQUESTED=0'
 
 # -----------------------------------------------------------------------------------------
 

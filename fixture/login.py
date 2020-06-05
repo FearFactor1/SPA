@@ -7,6 +7,7 @@ from requests.auth import HTTPBasicAuth
 from fixture.messages import MessageID
 import re
 from selenium.common.exceptions import NoSuchElementException
+import pytest
 
 
 # ----------- Глобальные переменные:
@@ -317,16 +318,24 @@ class LoginHelper:
         wd.find_element_by_css_selector("button.btn.btn_save.settings-confirm").click()
 
 
-    def press_unique_key(self):
+    def press_unique_key(self, ticketid):
         wd = self.app.wd
-        wd.find_element_by_name("barcode").send_keys(MessageID.TICKET_ID)
+#        wd.find_element_by_name("barcode").send_keys(MessageID.TICKET_ID)
+        wd.find_element_by_name("barcode").send_keys(ticketid)
         wd.find_element_by_css_selector("button.btn.btn_transperent").click()
-        WebDriverWait(wd, 5).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, "div.payout__check-result"))
-        )
-        win = (wd.find_element_by_css_selector("div.payout__check-result").text).replace(' ', '')
-        print(win)
-        return win
+        try:
+            if wd.find_element_by_css_selector("div.error-message").text == "4465 Без выигрыша":
+                without_win = "0"
+                print(without_win)
+                return without_win
+                wd.find_element_by_css_selector("a.modal__body-close").click()
+        except NoSuchElementException:
+                WebDriverWait(wd, 5).until(
+                    EC.visibility_of_element_located((By.CSS_SELECTOR, "div.payout__check-result"))
+                )
+                win = wd.find_element_by_css_selector("div.payout__check-result").text.replace(' ', '')
+                print(win)
+                return win
 
 
 
@@ -368,13 +377,17 @@ class LoginHelper:
         return tbpbv
 
 
-    def send_message_id_50_sum_win(self):
+    def send_message_id_50_sum_win(self, ticketid):
         auth = (login, password)
-        response = post(url=MessageID.URL_50, data=MessageID.DATA_50_TOTAL_AMOUNT, auth=HTTPBasicAuth(*auth))
+        response = post(url="http://ga-s3-lcp.ga.stoloto.su/fprov/fcgi_pos?message_id=50",
+                        data=f'TERMINAL_ID=2000006810&LOGIN=20003511&PASSWORD=75374377&ID_TICKET_TYPE=1&' \
+                           f'BARCODE="00000 00000 00000 00000 00000 00000 00000"&TICKET_ID={ticketid}&'
+                             f'TAX_DEDUCTION_REQUESTED=0',
+                        auth=HTTPBasicAuth(*auth))
         response = response.text
         ta = " ".join(re.findall(TOTAL_AMOUNT, response))
         if ta == '0':
-            tavf = f'Выигрыш{ta}рублей\nВыплатить'
+            tavf = '0'
             print(tavf)
             return tavf
         else:
