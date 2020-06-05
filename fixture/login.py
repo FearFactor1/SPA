@@ -128,6 +128,54 @@ class LoginHelper:
         return text_bonus
 
 
+    def test_check_href_in_docunents_menu(self):
+        wd = self.app.wd
+        assert wd.find_element_by_css_selector("h3.docs__head").text == "Программное обеспечение и документация"
+        for text_href_documents in wd.find_elements_by_css_selector("ul.docs__list"):
+            text_documents = text_href_documents.text
+        return text_documents
+
+
+    def assert_href_arms3_small_doc(self):
+        wd = self.app.wd
+        current_url = wd.current_url
+        wd.find_element_by_link_text("АРМ S3 Краткая инструкция пользователя").click()
+        assert "http://download.russian-lotteries.net/public1/ARMS3ShortManual.pdf" == wd.current_url
+        wd.get(current_url)
+
+
+    def assert_href_arms3_full_doc(self):
+        wd = self.app.wd
+        current_url = wd.current_url
+        wd.find_element_by_link_text("АРМ S3 Полная инструкция пользователя").click()
+        assert "http://download.russian-lotteries.net/public1/ARMS3FullMmanual.pdf" == wd.current_url
+        wd.get(current_url)
+
+
+    def assert_href_arms3_pipo_doc(self):
+        wd = self.app.wd
+        current_url = wd.current_url
+        wd.find_element_by_link_text("АРМ S3 Инструкция пользователя для PIPO").click()
+        assert \
+            "http://download.russian-lotteries.net/public1/ARM_S3_PIPO_instrukciya_polzovatelya.pdf" == wd.current_url
+        wd.get(current_url)
+
+
+    def assert_href_rostelecom_doc(self):
+        wd = self.app.wd
+        current_url = wd.current_url
+        wd.find_element_by_link_text("Инструкция (Ростелеком)").click()
+        assert "http://download.russian-lotteries.net/public1/Rostelekom_instrukcija.pdf" == wd.current_url
+        wd.get(current_url)
+
+
+    def assert_href_tele2_doc(self):
+        wd = self.app.wd
+        current_url = wd.current_url
+        wd.find_element_by_link_text("Инструкция (Теле2)").click()
+        assert "http://download.russian-lotteries.net/public1/Tele2_instrukcija.pdf" == wd.current_url
+        wd.get(current_url)
+
 
 # ----------------------------------------------------------------------------------------------------------
 
@@ -192,11 +240,8 @@ class LoginHelper:
 
     def click_balance_in_main_page(self):
         wd = self.app.wd
-        WebDriverWait(wd, 5).until(
-                    EC.invisibility_of_element((By.CSS_SELECTOR, "li.header__user-data-item.header__user-data-item_balance > div > div.header__user-data-text-number"))
-                ).click()
-#        wd.find_element_by_css_selector(
-#            "li.header__user-data-item.header__user-data-item_balance > div > div.header__user-data-text-number").click()
+        wd.find_element_by_css_selector(
+            "li.header__user-data-item.header__user-data-item_balance > div > div.header__user-data-text-number").click()
 #        WebDriverWait(wd, 5).until(
 #            EC.invisibility_of_element((By.CSS_SELECTOR, "span.rouble"))
 #        )
@@ -282,6 +327,21 @@ class LoginHelper:
         win = (wd.find_element_by_css_selector("div.payout__check-result").text).replace(' ', '')
         print(win)
         return win
+
+
+
+    def click_documents_in_main_page(self):
+        wd = self.app.wd
+        wd.find_element_by_link_text("Документация").click()
+
+
+    def click_back_main_page_in_documents_menu(self):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("a.docs__back").click()
+
+
+
+
 
 
 
