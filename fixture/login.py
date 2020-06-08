@@ -18,6 +18,7 @@ auth = (login, password)
 bonus_price = '<bonus_price>(.*?)</bonus_price>'
 BONUS_PHONE_BALANCE_VALUE = 'BALANCE_VALUE=(.*?)&REQUEST_SIGN=0'
 TOTAL_AMOUNT = '<totalAmount>(.*?)</totalAmount>'
+REQUEST_SIGN_50 = 'REQUEST_SIGN=(.*?)&GAME_ID'
 
 #--------------------------------------
 
@@ -318,25 +319,29 @@ class LoginHelper:
         wd.find_element_by_css_selector("button.btn.btn_save.settings-confirm").click()
 
 
-    def press_unique_key(self, ticketid):
+    def press_unique_key_positive(self, ticketid):
         wd = self.app.wd
-#        wd.find_element_by_name("barcode").send_keys(MessageID.TICKET_ID)
         wd.find_element_by_name("barcode").send_keys(ticketid)
         wd.find_element_by_css_selector("button.btn.btn_transperent").click()
-        try:
-            if wd.find_element_by_css_selector("div.error-message").text == "4465 Без выигрыша":
-                without_win = "0"
-                print(without_win)
-                return without_win
-                wd.find_element_by_css_selector("a.modal__body-close").click()
-        except NoSuchElementException:
-                WebDriverWait(wd, 5).until(
-                    EC.visibility_of_element_located((By.CSS_SELECTOR, "div.payout__check-result"))
-                )
-                win = wd.find_element_by_css_selector("div.payout__check-result").text.replace(' ', '')
-                print(win)
-                return win
+        WebDriverWait(wd, 5).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "div.payout__check-result"))
+        )
+        win = wd.find_element_by_css_selector("div.payout__check-result").text.replace(' ', '')
+        print(win)
+        return win
 
+
+    def press_unique_key_depressive(self, ticketid):
+        wd = self.app.wd
+        wd.find_element_by_name("barcode").send_keys(ticketid)
+        wd.find_element_by_css_selector("button.btn.btn_transperent").click()
+        WebDriverWait(wd, 5).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "div.error-message"))
+        )
+        win = wd.find_element_by_css_selector("div.error-message").text
+        print(win)
+        return win
+        wd.find_element_by_css_selector("a.modal__body-close").click()
 
 
     def click_documents_in_main_page(self):
@@ -377,7 +382,7 @@ class LoginHelper:
         return tbpbv
 
 
-    def send_message_id_50_sum_win(self, ticketid):
+    def send_message_id_50_sum_win_positive(self, ticketid):
         auth = (login, password)
         response = post(url="http://ga-s3-lcp.ga.stoloto.su/fprov/fcgi_pos?message_id=50",
                         data=f'TERMINAL_ID=2000006810&LOGIN=20003511&PASSWORD=75374377&ID_TICKET_TYPE=1&' \
@@ -387,7 +392,7 @@ class LoginHelper:
         response = response.text
         ta = " ".join(re.findall(TOTAL_AMOUNT, response))
         if ta == '0':
-            tavf = '0'
+            tavf = f'Выигрыш{ta}рублей\nВыплатить'
             print(tavf)
             return tavf
         else:
@@ -395,5 +400,36 @@ class LoginHelper:
             tavf = f'Выигрыш{str(tav)[:-2]}рублей\nВыплатить'
             print(tavf)
             return tavf
+
+
+    def send_message_id_50_sum_win_depressive(self, ticketid):
+        auth = (login, password)
+        response = post(url="http://ga-s3-lcp.ga.stoloto.su/fprov/fcgi_pos?message_id=50",
+                        data=f'TERMINAL_ID=2000006810&LOGIN=20003511&PASSWORD=75374377&ID_TICKET_TYPE=1&' \
+                           f'BARCODE="00000 00000 00000 00000 00000 00000 00000"&TICKET_ID={ticketid}&'
+                             f'TAX_DEDUCTION_REQUESTED=0',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        ta = " ".join(re.findall(REQUEST_SIGN_50, response))
+        if ta == '4465':
+            tavf = f'{ta} Без выигрыша'
+            print(tavf)
+            return tavf
+        elif ta == '4417':
+            tavf = f'{ta} Билет отменен'
+            print(tavf)
+            return tavf
+        elif ta == '83':
+            tavf = f'00{ta} Уже выплачено'
+            print(tavf)
+            return tavf
+        elif ta == '4464':
+            tavf = f'{ta} Срок выплаты выигрыша истёк'
+            print(tavf)
+            return tavf
+
+
+
+
 
 # ------------------------------------------------------
