@@ -331,7 +331,7 @@ class LoginHelper:
         return win
 
 
-    def press_unique_key_depressive(self, ticketid):
+    def press_unique_key_negative(self, ticketid):
         wd = self.app.wd
         wd.find_element_by_name("barcode").send_keys(ticketid)
         wd.find_element_by_css_selector("button.btn.btn_transperent").click()
@@ -402,7 +402,7 @@ class LoginHelper:
             return tavf
 
 
-    def send_message_id_50_sum_win_depressive(self, ticketid):
+    def send_message_id_50_sum_win_negative(self, ticketid):
         auth = (login, password)
         response = post(url="http://ga-s3-lcp.ga.stoloto.su/fprov/fcgi_pos?message_id=50",
                         data=f'TERMINAL_ID=2000006810&LOGIN=20003511&PASSWORD=75374377&ID_TICKET_TYPE=1&' \
