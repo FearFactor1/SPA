@@ -7,7 +7,7 @@ from requests.auth import HTTPBasicAuth
 from fixture.messages import MessageID
 import re
 from selenium.common.exceptions import NoSuchElementException
-import pytest
+import time
 
 
 # ----------- Глобальные переменные:
@@ -19,6 +19,8 @@ bonus_price = '<bonus_price>(.*?)</bonus_price>'
 BONUS_PHONE_BALANCE_VALUE = 'BALANCE_VALUE=(.*?)&REQUEST_SIGN=0'
 TOTAL_AMOUNT = '<totalAmount>(.*?)</totalAmount>'
 REQUEST_SIGN_50 = 'REQUEST_SIGN=(.*?)&GAME_ID'
+PRODUCT_ID = '<product_id>(.*?)</product_id>'
+BONUS_PRICE = '<bonus_price>(.*?)</bonus_price>'
 
 #--------------------------------------
 
@@ -122,12 +124,95 @@ class LoginHelper:
         wd.find_element_by_css_selector("a.btn.btn_transperent.btn_arround").click()
 
 
-    def parser_bonus_price_in_main_page(self):
+    def parser_bonus_price_in_main_page(self, gameid):
         wd = self.app.wd
-        for text_info_bonus_price in wd.find_elements_by_css_selector("ul.games__list"):
-            text_bonus = text_info_bonus_price.text
-#        text_bonus = wd.find_element_by_css_selector("ul.games__list").text
-        return text_bonus
+        text_bonus = []
+        for text_info_bonus_price in wd.find_elements_by_css_selector("li.games__list-unit"):
+            text_bonus.append(text_info_bonus_price.text)
+        auth = (login, password)
+        response = post(url="http://ga-s3-lcp.ga.stoloto.su/fprov/fcgi_pos?message_id=40",
+                        data=f'TERMINAL_ID=2000006810&LOGIN=20003511&PASSWORD=75374377&VERSION=1&BONUS_FLAG=1&'
+                             f'N_GAME_ID=2&GAME_ID[0]={gameid}&GAME_ID[1]={gameid}',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        pi = " ".join(re.findall(PRODUCT_ID, response))
+        bpf = " ".join(re.findall(BONUS_PRICE, response))
+        sfn = bpf.split(" ", 1)
+        bp = sfn[0]
+        if pi == "4420":
+            assert f'«Гослото «4 из 20»\n{bp[:-2]}' in text_bonus[0]
+            assert "«Типографские билеты»" in text_bonus
+            assert "«Моментальные»" in text_bonus
+        elif pi == "5536":
+            assert f'«Гослото «5 из 36»\n{bp[:-2]}' in text_bonus[1]
+            assert "«Типографские билеты»" in text_bonus
+            assert "«Моментальные»" in text_bonus
+        elif pi == "5101":
+            assert f'«Гослото «6 из 45»\n{bp[:-2]}' in text_bonus[2]
+            assert "«Типографские билеты»" in text_bonus
+            assert "«Моментальные»" in text_bonus
+        elif pi == "5150":
+            assert f'«Гослото «7 из 49»\n{bp[:-2]}' in text_bonus[3]
+            assert "«Типографские билеты»" in text_bonus
+            assert "«Моментальные»" in text_bonus
+        elif pi == "5550":
+            assert f'«Спортлото Матчбол»\n{bp[:-2]}' in text_bonus[4]
+            assert "«Типографские билеты»" in text_bonus
+            assert "«Моментальные»" in text_bonus
+        elif pi == "28005":
+            assert f'«Зодиак»\n{bp[:-2]}' in text_bonus[5]
+            assert "«Типографские билеты»" in text_bonus
+            assert "«Моментальные»" in text_bonus
+        elif pi == "7103":
+            assert f'«Русское лото»\n{bp[:-2]}' in text_bonus[6]
+            assert "«Типографские билеты»" in text_bonus
+            assert "«Моментальные»" in text_bonus
+        elif pi == "7105":
+            assert f'«Жилищная лотерея»\n{bp[:-2]}' in text_bonus[7]
+            assert "«Типографские билеты»" in text_bonus
+            assert "«Моментальные»" in text_bonus
+        elif pi == "7115":
+            assert f'«Золотая подкова»\n{bp[:-2]}' in text_bonus[8]
+            assert "«Типографские билеты»" in text_bonus
+            assert "«Моментальные»" in text_bonus
+        elif pi == "7175":
+            assert f'«Бинго-75»\n{bp[:-2]}' in text_bonus[9]
+            assert "«Типографские билеты»" in text_bonus
+            assert "«Моментальные»" in text_bonus
+        elif pi == "7101":
+            assert f'«6 из 36»\n{bp[:-2]}' in text_bonus[10]
+            assert "«Типографские билеты»" in text_bonus
+            assert "«Моментальные»" in text_bonus
+        elif pi == "5211":
+            assert f'«Рапидо»\n{bp[:-2]}' in text_bonus[11]
+            assert "«Типографские билеты»" in text_bonus
+            assert "«Моментальные»" in text_bonus
+        elif pi == "5212":
+            assert f'«Рапидо 2.0»\n{bp[:-2]}' in text_bonus[12]
+            assert "«Типографские билеты»" in text_bonus
+            assert "«Моментальные»" in text_bonus
+        elif pi == "28001":
+            assert f'«12/24»\n{bp[:-2]}' in text_bonus[13]
+            assert "«Типографские билеты»" in text_bonus
+            assert "«Моментальные»" in text_bonus
+        elif pi == "28003":
+            assert f'«Дуэль»\n{bp[:-2]}' in text_bonus[14]
+            assert "«Типографские билеты»" in text_bonus
+            assert "«Моментальные»" in text_bonus
+        elif pi == "28102":
+            assert f'«Джокер»\n{bp[:-2]}' in text_bonus[15]
+            assert "«Типографские билеты»" in text_bonus
+            assert "«Моментальные»" in text_bonus
+        elif pi == "2177":
+            assert f'«Топ-3»\n{bp[:-2]}' in text_bonus[16]
+            assert "«Типографские билеты»" in text_bonus
+            assert "«Моментальные»" in text_bonus
+        elif pi == "1124":
+            assert f'«КЕНО-Спортлото»\n{bp[:-2]}' in text_bonus[17]
+            assert "«Типографские билеты»" in text_bonus
+            assert "«Моментальные»" in text_bonus
+
+
 
 
     def test_check_href_in_docunents_menu(self):
@@ -252,6 +337,7 @@ class LoginHelper:
     def click_bonus_price_in_main_page(self):
         wd = self.app.wd
         wd.find_element_by_css_selector("button.header-black-link__unit").click()
+        time.sleep(3)
 
 
     def click_show_more_in_main_page(self):
