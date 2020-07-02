@@ -135,10 +135,15 @@ class LoginHelper:
                              f'N_GAME_ID=2&GAME_ID[0]={gameid}&GAME_ID[1]={gameid}',
                         auth=HTTPBasicAuth(*auth))
         response = response.text
+        # код игры прилетает
         pi = " ".join(re.findall(PRODUCT_ID, response))
+        # цена в бонусах игры
         bpf = " ".join(re.findall(BONUS_PRICE, response))
+        # если у игры несколько тиражей активны, то может прилететь цена в бонусах каждого тиража,
+        # нужен только первый(текущий),
         sfn = bpf.split(" ", 1)
         bp = sfn[0]
+        # В зависимости от кода игры, делаем проверку:
         if pi == "4420":
             assert f'«Гослото «4 из 20»\n{bp[:-2]}' in text_bonus[0]
             assert "«Типографские билеты»" in text_bonus
