@@ -1,8 +1,10 @@
 # Отчет с начала недели + без галочки Кассовый отчёт + Моментальные + Пользователь + за предыдущий месяц с 10го
+import pytest
 
 
 
-def test_previous_month_full_report_user_since_the_beginning_of_the_week_ml(app):
+@pytest.mark.parametrize('report_type', ["520"])
+def test_previous_month_full_report_user_since_the_beginning_of_the_week_ml(app, report_type):
     app.report.open_page_report()
     app.report.select_instant_lottery()
     app.report.select_user()
@@ -18,5 +20,5 @@ def test_previous_month_full_report_user_since_the_beginning_of_the_week_ml(app)
     assert "Пользователь: 20003511" in app.report.title_report_for_instant_game()
     assert app.report.previous_month_C_monday_from_day_10() in app.report.title_report_for_instant_game()
     assert app.report.previous_month_Po_sunday_from_monday() in app.report.title_report_for_instant_game()
-    app.report.message_id_32_previous_month_beginning_of_the_week_user()
+    app.report.message_id_32_previous_month_beginning_of_the_week(report_type)
     app.report.comeback_main_page()

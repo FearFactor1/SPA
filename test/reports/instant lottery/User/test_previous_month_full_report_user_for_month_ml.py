@@ -1,8 +1,10 @@
 # Отчёт за месяц + без галочки Кассовый отчёт + Моментальные + Пользователь + предыдущий месяц, к примеру будет 1 число
+import pytest
 
 
 
-def test_previous_month_full_report_user_for_month_ml(app):
+@pytest.mark.parametrize('report_type', ["519"])
+def test_previous_month_full_report_user_for_month_ml(app, report_type):
     app.report.open_page_report()
     app.report.select_instant_lottery()
     app.report.select_user()
@@ -18,5 +20,5 @@ def test_previous_month_full_report_user_for_month_ml(app):
     assert "Пользователь: 20003511" in app.report.title_report_for_instant_game()
     assert app.report.previous_month_C_day_1() in app.report.title_report_for_instant_game()
     assert app.report.previous_month_Po_lastday() in app.report.title_report_for_instant_game()
-    app.report.message_id_32_previous_month_full_report_for_month_user()
+    app.report.message_id_32_previous_month_full_report_for_month(report_type)
     app.report.comeback_main_page()
