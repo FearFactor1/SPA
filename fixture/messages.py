@@ -66,10 +66,22 @@ class MessageID:
     DATA_32_REPORT_TYPE_1031 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=1031&' \
                                f'REPORT_USER={LOGIN}&REPORT_TERMINAL={TERMINAL_ID}&' \
                                f'DATE_START="{DATE_START_CURRENT_MONTH_ML}"'
+
     # Отчёт за текущий день
     DATA_32_REPORT_TYPE_1030 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=1030&' \
                                f'REPORT_USER={LOGIN}&REPORT_TERMINAL={TERMINAL_ID}&' \
                                f'DATE_START="{DATE_START}"'
+
+    # Отчёт за текущий день по пользователю
+    DATA_32_REPORT_TYPE_518 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=518&' \
+                               f'REPORT_USER={LOGIN}&REPORT_TERMINAL={TERMINAL_ID}&' \
+                               f'DATE_START="{DATE_START}"'
+
+    # Отчёт за текущий месяц по пользователю
+    DATA_32_REPORT_TYPE_519 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=519&' \
+                               f'REPORT_USER={LOGIN}&REPORT_TERMINAL={TERMINAL_ID}&' \
+                               f'DATE_START="{DATE_START_CURRENT_MONTH_ML}"'
+
 
 
 

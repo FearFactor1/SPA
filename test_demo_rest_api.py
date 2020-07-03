@@ -188,7 +188,11 @@ sign_rl = "d6b52860878393d8c02c80ec6da4545fec316419"
 sign_zl = "a4989730df61308a09cdcd07049a76f22f377871"
 
 def test_getlist_Utilization():
-    info = '{"userNumber":"20003511","terminalNumber":"2000006810","sign":"8757af7ccbfd0babf49a0b8a2cf6bda2876883ec","gameType":"7175","draw":"0370"}'
+    info = '{"userNumber":"20003511",' \
+           '"terminalNumber":"2000006810",' \
+           '"sign":"8757af7ccbfd0babf49a0b8a2cf6bda2876883ec",' \
+           '"gameType":"7175",' \
+           '"draw":"0370"}'
     enc = info.encode()
     bas = base64.encodebytes(enc)
     strbas = str(bas).replace("b'", "")

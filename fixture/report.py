@@ -529,6 +529,230 @@ class ReportHelper:
             assert ga in text_gameinfo_ml
 
 
+    def message_id_32_report_today_user_ml(self):
+        wd = self.app.wd
+        # текст с экрана по отчётам МЛ
+        text_gameinfo_ml = wd.find_element_by_css_selector(
+            "table.report-item__info-table.report-item__info-table_instant").text
+        # отправляем pos запрос по отчётам МЛ за текущий месяц
+        response = post(url=MessageID.URL_32, data=MessageID.DATA_32_REPORT_TYPE_518, auth=HTTPBasicAuth(*auth))
+        response = response.text
+        # Получаем в отдельной строке формат вида(код игры_название_игры_продажа_выплата)
+        lgignsp = re.findall(list_gameid_gamename_sales_pays, response)
+        # проверка: в отчёте проверяется все МЛ по которым были продажи/выплаты
+        for gb in lgignsp:
+            if '"0"' in gb:
+                sumsalesandpays = gb.replace('"0"', 'ИТОГО :')
+                sumsp = sumsalesandpays.replace('"', '').replace('=', '').replace('game_name', '').\
+                    replace('sales', '').replace('pays', '')
+                assert sumsp in text_gameinfo_ml
+                continue
+            ga = gb.replace('"', '').replace('=', '').replace('game_name', '').replace('sales', '').replace('pays', '')
+            assert ga in text_gameinfo_ml
 
+
+    def message_id_32_for_ml_current_month_user(self):
+        wd = self.app.wd
+        # текст с экрана по отчётам МЛ по пользователю
+        text_gameinfo_ml = wd.find_element_by_css_selector(
+            "table.report-item__info-table.report-item__info-table_instant").text
+        # отправляем pos запрос по отчётам МЛ за текущий месяц
+        response = post(url=MessageID.URL_32, data=MessageID.DATA_32_REPORT_TYPE_519, auth=HTTPBasicAuth(*auth))
+        response = response.text
+        # Получаем в отдельной строке формат вида(код игры_название_игры_продажа_выплата)
+        lgignsp = re.findall(list_gameid_gamename_sales_pays, response)
+        # проверка: в отчёте проверяется все МЛ по которым были продажи/выплаты
+        for gb in lgignsp:
+            if '"0"' in gb:
+                sumsalesandpays = gb.replace('"0"', 'ИТОГО :')
+                sumsp = sumsalesandpays.replace('"', '').replace('=', '').replace('game_name', '').\
+                    replace('sales', '').replace('pays', '')
+                assert sumsp in text_gameinfo_ml
+                continue
+            ga = gb.replace('"', '').replace('=', '').replace('game_name', '').replace('sales', '').replace('pays', '')
+            assert ga in text_gameinfo_ml
+
+
+    def message_id_32_beginning_of_the_week_user(self):
+        wd = self.app.wd
+        # вычесляем первый день на текущей неделе
+        tdbm = datetime.today()
+        mm = tdbm - timedelta(datetime.weekday(tdbm))
+        mondayw = f"{mm:%Y.%m.%d+03}"
+        # текст с экрана по отчётам МЛ
+        text_gameinfo_ml = wd.find_element_by_css_selector(
+            "table.report-item__info-table.report-item__info-table_instant").text
+        response = post(url=MessageID.URL_32,
+                        data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=520&'
+                             f'REPORT_USER={LOGIN}&REPORT_TERMINAL={TERMINAL_ID}&DATE_START="{mondayw}"',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        # Получаем в отдельной строке формат вида(код игры_название_игры_продажа_выплата)
+        lgignsp = re.findall(list_gameid_gamename_sales_pays, response)
+        # проверка: в отчёте проверяется все МЛ по которым были продажи/выплаты
+        for gb in lgignsp:
+            if '"0"' in gb:
+                sumsalesandpays = gb.replace('"0"', 'ИТОГО :')
+                sumsp = sumsalesandpays.replace('"', '').replace('=', '').replace('game_name', ''). \
+                    replace('sales', '').replace('pays', '')
+                assert sumsp in text_gameinfo_ml
+                continue
+            ga = gb.replace('"', '').replace('=', '').replace('game_name', '').replace('sales', '').replace('pays', '')
+            assert ga in text_gameinfo_ml
+
+
+    def message_id_32_today_for_the_week_user(self):
+        wd = self.app.wd
+        # вычесляем первый день на текущей неделе
+        tdbm = datetime.today()
+        mm = tdbm - timedelta(datetime.weekday(tdbm))
+        mondayw = f"{mm:%Y.%m.%d+03}"
+        # текст с экрана по отчётам МЛ
+        text_gameinfo_ml = wd.find_element_by_css_selector(
+            "table.report-item__info-table.report-item__info-table_instant").text
+        response = post(url=MessageID.URL_32,
+                        data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=521&'
+                             f'REPORT_USER={LOGIN}&REPORT_TERMINAL={TERMINAL_ID}&DATE_START="{mondayw}"',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        # Получаем в отдельной строке формат вида(код игры_название_игры_продажа_выплата)
+        lgignsp = re.findall(list_gameid_gamename_sales_pays, response)
+        # проверка: в отчёте проверяется все МЛ по которым были продажи/выплаты
+        for gb in lgignsp:
+            if '"0"' in gb:
+                sumsalesandpays = gb.replace('"0"', 'ИТОГО :')
+                sumsp = sumsalesandpays.replace('"', '').replace('=', '').replace('game_name', ''). \
+                    replace('sales', '').replace('pays', '')
+                assert sumsp in text_gameinfo_ml
+                continue
+            ga = gb.replace('"', '').replace('=', '').replace('game_name', '').replace('sales', '').replace('pays', '')
+            assert ga in text_gameinfo_ml
+
+
+    def message_id_32_previous_month_full_report_for_day_user(self):
+        wd = self.app.wd
+        # вычесляем 10 день предыдущего месяца
+        pmc = datetime.today()
+        if pmc.month == 1:
+            last_month = f"{pmc.replace(month=12, day=10, year=pmc.year - 1):%Y.%m.%d+03}"
+        else:
+            last_month = f"{pmc.replace(month=pmc.month - 1, day=10):%Y.%m.%d+03}"
+        last_month_c = last_month
+        # текст с экрана по отчётам МЛ
+        text_gameinfo_ml = wd.find_element_by_css_selector(
+            "table.report-item__info-table.report-item__info-table_instant").text
+        response = post(url=MessageID.URL_32,
+                        data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=518&'
+                             f'REPORT_USER={LOGIN}&REPORT_TERMINAL={TERMINAL_ID}&DATE_START="{last_month_c}"',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        # Получаем в отдельной строке формат вида(код игры_название_игры_продажа_выплата)
+        lgignsp = re.findall(list_gameid_gamename_sales_pays, response)
+        # проверка: в отчёте проверяется все МЛ по которым были продажи/выплаты
+        for gb in lgignsp:
+            if '"0"' in gb:
+                sumsalesandpays = gb.replace('"0"', 'ИТОГО :')
+                sumsp = sumsalesandpays.replace('"', '').replace('=', '').replace('game_name', ''). \
+                    replace('sales', '').replace('pays', '')
+                assert sumsp in text_gameinfo_ml
+                continue
+            ga = gb.replace('"', '').replace('=', '').replace('game_name', '').replace('sales', '').replace('pays', '')
+            assert ga in text_gameinfo_ml
+
+
+    def message_id_32_previous_month_full_report_for_month_user(self):
+        wd = self.app.wd
+        # вычесляем 1 день предыдущего месяца
+        pmc = datetime.today()
+        if pmc.month == 1:
+            last_month = f"{pmc.replace(month=12, day=1, year=pmc.year - 1):%Y.%m.%d+03}"
+        else:
+            last_month = f"{pmc.replace(month=pmc.month - 1, day=1):%Y.%m.%d+03}"
+        last_month_c = last_month
+        # текст с экрана по отчётам МЛ
+        text_gameinfo_ml = wd.find_element_by_css_selector(
+            "table.report-item__info-table.report-item__info-table_instant").text
+        response = post(url=MessageID.URL_32,
+                        data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=519&'
+                             f'REPORT_USER={LOGIN}&REPORT_TERMINAL={TERMINAL_ID}&DATE_START="{last_month_c}"',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        # Получаем в отдельной строке формат вида(код игры_название_игры_продажа_выплата)
+        lgignsp = re.findall(list_gameid_gamename_sales_pays, response)
+        # проверка: в отчёте проверяется все МЛ по которым были продажи/выплаты
+        for gb in lgignsp:
+            if '"0"' in gb:
+                sumsalesandpays = gb.replace('"0"', 'ИТОГО :')
+                sumsp = sumsalesandpays.replace('"', '').replace('=', '').replace('game_name', ''). \
+                    replace('sales', '').replace('pays', '')
+                assert sumsp in text_gameinfo_ml
+                continue
+            ga = gb.replace('"', '').replace('=', '').replace('game_name', '').replace('sales', '').replace('pays', '')
+            assert ga in text_gameinfo_ml
+
+
+
+    def message_id_32_previous_month_report_for_the_week_user(self):
+        wd = self.app.wd
+        # вычесляем 10 день предыдущего месяца
+        pmc = datetime.today()
+        if pmc.month == 1:
+            last_month = pmc.replace(month=12, day=10, year=pmc.year - 1)
+        else:
+            last_month = pmc.replace(month=pmc.month - 1, day=10)
+        mm = last_month - timedelta(datetime.weekday(last_month))
+        mondayc = f"{mm:%Y.%m.%d+03}"
+        # текст с экрана по отчётам МЛ
+        text_gameinfo_ml = wd.find_element_by_css_selector(
+            "table.report-item__info-table.report-item__info-table_instant").text
+        response = post(url=MessageID.URL_32,
+                        data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=521&'
+                             f'REPORT_USER={LOGIN}&REPORT_TERMINAL={TERMINAL_ID}&DATE_START="{mondayc}"',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        # Получаем в отдельной строке формат вида(код игры_название_игры_продажа_выплата)
+        lgignsp = re.findall(list_gameid_gamename_sales_pays, response)
+        # проверка: в отчёте проверяется все МЛ по которым были продажи/выплаты
+        for gb in lgignsp:
+            if '"0"' in gb:
+                sumsalesandpays = gb.replace('"0"', 'ИТОГО :')
+                sumsp = sumsalesandpays.replace('"', '').replace('=', '').replace('game_name', ''). \
+                    replace('sales', '').replace('pays', '')
+                assert sumsp in text_gameinfo_ml
+                continue
+            ga = gb.replace('"', '').replace('=', '').replace('game_name', '').replace('sales', '').replace('pays', '')
+            assert ga in text_gameinfo_ml
+
+
+    def message_id_32_previous_month_beginning_of_the_week_user(self):
+        wd = self.app.wd
+        # вычесляем понедельник предыдущего месяца от 10го числа
+        pmc = datetime.today()
+        if pmc.month == 1:
+            last_month = pmc.replace(month=12, day=10, year=pmc.year - 1)
+        else:
+            last_month = pmc.replace(month=pmc.month - 1, day=10)
+        mm = last_month - timedelta(datetime.weekday(last_month))
+        mondayc = f"{mm:%Y.%m.%d+03}"
+        # текст с экрана по отчётам МЛ
+        text_gameinfo_ml = wd.find_element_by_css_selector(
+            "table.report-item__info-table.report-item__info-table_instant").text
+        response = post(url=MessageID.URL_32,
+                        data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=520&'
+                             f'REPORT_USER={LOGIN}&REPORT_TERMINAL={TERMINAL_ID}&DATE_START="{mondayc}"',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        # Получаем в отдельной строке формат вида(код игры_название_игры_продажа_выплата)
+        lgignsp = re.findall(list_gameid_gamename_sales_pays, response)
+        # проверка: в отчёте проверяется все МЛ по которым были продажи/выплаты
+        for gb in lgignsp:
+            if '"0"' in gb:
+                sumsalesandpays = gb.replace('"0"', 'ИТОГО :')
+                sumsp = sumsalesandpays.replace('"', '').replace('=', '').replace('game_name', ''). \
+                    replace('sales', '').replace('pays', '')
+                assert sumsp in text_gameinfo_ml
+                continue
+            ga = gb.replace('"', '').replace('=', '').replace('game_name', '').replace('sales', '').replace('pays', '')
+            assert ga in text_gameinfo_ml
 
 # ---------------------------------------------------------------------------------------
