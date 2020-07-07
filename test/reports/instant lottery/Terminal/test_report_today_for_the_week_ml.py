@@ -1,7 +1,9 @@
 # Отчёт за неделю + Кассовый отчёт + Моментальные + Терминал + Текущая дата
+import pytest
 
 
-def test_report_today_for_the_week_ml(app):
+@pytest.mark.parametrize('report_type', ["1033"])
+def test_report_today_for_the_week_ml(app, report_type):
     app.report.open_page_report()
     app.report.select_instant_lottery()
     app.report.select_checkbox_for_the_week()
@@ -14,8 +16,5 @@ def test_report_today_for_the_week_ml(app):
     assert "Терминал: 2000006810" in app.report.parser_report_text()
     assert app.report.beginning_of_the_week_C() in app.report.parser_report_text()
     assert app.report.current_day_Po() in app.report.parser_report_text()
-    assert 'Продажи' in app.report.parser_report_text()
-    assert 'Отмены' in app.report.parser_report_text()
-    assert 'Выплаты' in app.report.parser_report_text()
-    assert 'ИТОГО ПО КАССЕ' in app.report.parser_report_text()
+    app.report.message_id_32_small_today_for_the_week(report_type)
     app.report.comeback_main_page()

@@ -15,6 +15,8 @@ TERMINAL_ID = "2000006810"
 LOGIN = "20003511"
 PASSWORD = "75374377"
 list_gameid_gamename_sales_pays = 'game_id=(.*?)><'
+sales = 'game_id="0" sales=(.*?) pays'
+pays = 'pays=(.*?)><'
 
 
 
@@ -571,6 +573,182 @@ class ReportHelper:
                 continue
             ga = gb.replace('"', '').replace('=', '').replace('game_name', '').replace('sales', '').replace('pays', '')
             assert ga in text_gameinfo_ml
+
+
+# ---- Для маленьких отчётов по МЛ:
+
+    def message_id_32_previous_month_report_for_day(self, report_type):
+        wd = self.app.wd
+        # вычесляем 10 день предыдущего месяца
+        pmc = datetime.today()
+        if pmc.month == 1:
+            last_month = f"{pmc.replace(month=12, day=10, year=pmc.year - 1):%Y.%m.%d+03}"
+        else:
+            last_month = f"{pmc.replace(month=pmc.month - 1, day=10):%Y.%m.%d+03}"
+        last_month_c = last_month
+        # текст с экрана по отчётам МЛ
+        text_gameinfo_ml = wd.find_element_by_css_selector("div.report-item__info").text
+        response = post(url=MessageID.URL_32,
+                        data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE={report_type}&'
+                             f'REPORT_USER={LOGIN}&REPORT_TERMINAL={TERMINAL_ID}&DATE_START="{last_month_c}"',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        # s продажи, p выплаты по терминалу
+        s = re.findall(sales, response)
+        p = re.findall(pays, response)[-1]
+        # проверка: в коротком отчёте проверяются продажи и выплаты и итого
+        sr = str(s).replace('=', '').replace('"', '').replace('"\"', '').\
+            replace("'", "").replace('[', '').replace(']', '')
+        pr = str(p).replace('=', '').replace('"', '')
+        assert f"Продажи - {sr}" in text_gameinfo_ml
+        assert f"Выплаты - {pr}" in text_gameinfo_ml
+        sumsrsp = float(sr) - float(pr)
+        assert f'ИТОГО ПО КАССЕ: {sumsrsp} РУБ.' in text_gameinfo_ml
+
+
+    def message_id_32_previous_month_report_for_month(self, report_type):
+        wd = self.app.wd
+        # вычесляем 1 день предыдущего месяца
+        pmc = datetime.today()
+        if pmc.month == 1:
+            last_month = f"{pmc.replace(month=12, day=1, year=pmc.year - 1):%Y.%m.%d+03}"
+        else:
+            last_month = f"{pmc.replace(month=pmc.month - 1, day=1):%Y.%m.%d+03}"
+        last_month_c = last_month
+        # текст с экрана по отчётам МЛ
+        text_gameinfo_ml = wd.find_element_by_css_selector("div.report-item__info").text
+        response = post(url=MessageID.URL_32,
+                        data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE={report_type}&'
+                             f'REPORT_USER={LOGIN}&REPORT_TERMINAL={TERMINAL_ID}&DATE_START="{last_month_c}"',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        # s продажи, p выплаты по терминалу
+        s = re.findall(sales, response)
+        p = re.findall(pays, response)[-1]
+        # проверка: в коротком отчёте проверяются продажи и выплаты и итого
+        sr = str(s).replace('=', '').replace('"', '').replace('"\"', ''). \
+            replace("'", "").replace('[', '').replace(']', '')
+        pr = str(p).replace('=', '').replace('"', '')
+        assert f"Продажи - {sr}" in text_gameinfo_ml
+        assert f"Выплаты - {pr}" in text_gameinfo_ml
+        sumsrsp = float(sr) - float(pr)
+        assert f'ИТОГО ПО КАССЕ: {sumsrsp} РУБ.' in text_gameinfo_ml
+
+
+    def message_id_32_previous_month_small_report_for_the_week(self, report_type):
+        wd = self.app.wd
+        # вычесляем 10 день предыдущего месяца
+        pmc = datetime.today()
+        if pmc.month == 1:
+            last_month = pmc.replace(month=12, day=10, year=pmc.year - 1)
+        else:
+            last_month = pmc.replace(month=pmc.month - 1, day=10)
+        mm = last_month - timedelta(datetime.weekday(last_month))
+        mondayc = f"{mm:%Y.%m.%d+03}"
+        # текст с экрана по отчётам МЛ
+        text_gameinfo_ml = wd.find_element_by_css_selector("div.report-item__info").text
+        response = post(url=MessageID.URL_32,
+                        data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE={report_type}&'
+                             f'REPORT_USER={LOGIN}&REPORT_TERMINAL={TERMINAL_ID}&DATE_START="{mondayc}"',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        # s продажи, p выплаты по терминалу
+        s = re.findall(sales, response)
+        p = re.findall(pays, response)[-1]
+        # проверка: в коротком отчёте проверяются продажи и выплаты и итого
+        sr = str(s).replace('=', '').replace('"', '').replace('"\"', ''). \
+            replace("'", "").replace('[', '').replace(']', '')
+        pr = str(p).replace('=', '').replace('"', '')
+        assert f"Продажи - {sr}" in text_gameinfo_ml
+        assert f"Выплаты - {pr}" in text_gameinfo_ml
+        sumsrsp = float(sr) - float(pr)
+        assert f'ИТОГО ПО КАССЕ: {sumsrsp} РУБ.' in text_gameinfo_ml
+
+
+    def message_id_32_previous_month_small_since_the_beginning_of_the_week(self, report_type):
+        wd = self.app.wd
+        # вычесляем понедельник предыдущего месяца от 10го числа
+        pmc = datetime.today()
+        if pmc.month == 1:
+            last_month = pmc.replace(month=12, day=10, year=pmc.year - 1)
+        else:
+            last_month = pmc.replace(month=pmc.month - 1, day=10)
+        mm = last_month - timedelta(datetime.weekday(last_month))
+        mondayc = f"{mm:%Y.%m.%d+03}"
+        # текст с экрана по отчётам МЛ
+        text_gameinfo_ml = wd.find_element_by_css_selector("div.report-item__info").text
+        response = post(url=MessageID.URL_32,
+                        data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE={report_type}&'
+                             f'REPORT_USER={LOGIN}&REPORT_TERMINAL={TERMINAL_ID}&DATE_START="{mondayc}"',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        # s продажи, p выплаты по терминалу
+        s = re.findall(sales, response)
+        p = re.findall(pays, response)[-1]
+        # проверка: в коротком отчёте проверяются продажи и выплаты и итого
+        sr = str(s).replace('=', '').replace('"', '').replace('"\"', ''). \
+            replace("'", "").replace('[', '').replace(']', '')
+        pr = str(p).replace('=', '').replace('"', '')
+        assert f"Продажи - {sr}" in text_gameinfo_ml
+        assert f"Выплаты - {pr}" in text_gameinfo_ml
+        sumsrsp = float(sr) - float(pr)
+        assert f'ИТОГО ПО КАССЕ: {sumsrsp} РУБ.' in text_gameinfo_ml
+
+
+    def message_id_32_small_since_the_beginning_of_the_week(self, report_type):
+        wd = self.app.wd
+        # вычесляем первый день на текущей неделе
+        tdbm = datetime.today()
+        mm = tdbm - timedelta(datetime.weekday(tdbm))
+        mondayw = f"{mm:%Y.%m.%d+03}"
+        # текст с экрана по отчётам МЛ
+        text_gameinfo_ml = wd.find_element_by_css_selector("div.report-item__info").text
+        response = post(url=MessageID.URL_32,
+                        data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE={report_type}&'
+                             f'REPORT_USER={LOGIN}&REPORT_TERMINAL={TERMINAL_ID}&DATE_START="{mondayw}"',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        # s продажи, p выплаты по терминалу
+        s = re.findall(sales, response)
+        p = re.findall(pays, response)[-1]
+        # проверка: в коротком отчёте проверяются продажи и выплаты и итого
+        sr = str(s).replace('=', '').replace('"', '').replace('"\"', ''). \
+            replace("'", "").replace('[', '').replace(']', '')
+        pr = str(p).replace('=', '').replace('"', '')
+        assert f"Продажи - {sr}" in text_gameinfo_ml
+        assert f"Выплаты - {pr}" in text_gameinfo_ml
+        sumsrsp = float(sr) - float(pr)
+        assert f'ИТОГО ПО КАССЕ: {sumsrsp} РУБ.' in text_gameinfo_ml
+
+
+    def message_id_32_small_today_for_the_week(self, report_type):
+        wd = self.app.wd
+        # вычесляем первый день на текущей неделе
+        tdbm = datetime.today()
+        mm = tdbm - timedelta(datetime.weekday(tdbm))
+        mondayw = f"{mm:%Y.%m.%d+03}"
+        # текст с экрана по отчётам МЛ
+        text_gameinfo_ml = wd.find_element_by_css_selector("div.report-item__info").text
+        response = post(url=MessageID.URL_32,
+                        data=f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE={report_type}&'
+                             f'REPORT_USER={LOGIN}&REPORT_TERMINAL={TERMINAL_ID}&DATE_START="{mondayw}"',
+                        auth=HTTPBasicAuth(*auth))
+        response = response.text
+        # s продажи, p выплаты по терминалу
+        s = re.findall(sales, response)
+        p = re.findall(pays, response)[-1]
+        # проверка: в коротком отчёте проверяются продажи и выплаты и итого
+        sr = str(s).replace('=', '').replace('"', '').replace('"\"', ''). \
+            replace("'", "").replace('[', '').replace(']', '')
+        pr = str(p).replace('=', '').replace('"', '')
+        assert f"Продажи - {sr}" in text_gameinfo_ml
+        assert f"Выплаты - {pr}" in text_gameinfo_ml
+        sumsrsp = float(sr) - float(pr)
+        assert f'ИТОГО ПО КАССЕ: {sumsrsp} РУБ.' in text_gameinfo_ml
+
+
+
+
 
 
 # ---------------------------------------------------------------------------------------

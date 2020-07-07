@@ -16,7 +16,7 @@ def test_check_documents(app2):
     # возвращаемся в документацию для проверки остальных инструкций
     app2.login.click_show_more_in_main_page()
     app2.login.click_documents_in_main_page()
-    assert "АРМ S3 Полная инструкция пользователя(pdf, 6,69 Мб)" in app2.login.test_check_href_in_docunents_menu()
+    assert "АРМ S3 Полная инструкция пользователя(pdf, 6,77 Мб)" in app2.login.test_check_href_in_docunents_menu()
     app2.login.assert_href_arms3_full_doc()
     app2.login.click_show_more_in_main_page()
     app2.login.click_documents_in_main_page()
