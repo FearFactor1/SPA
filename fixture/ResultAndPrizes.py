@@ -8,12 +8,12 @@ import re
 
 # ----------- Глобальные переменные:
 
-login = "s3_http_access"
-password = "ambush!Tidy4"
+login = ""
+password = ""
 auth = (login, password)
-TERMINAL_ID = "2000006810"
-LOGIN = "20003511"
-PASSWORD = "75374377"
+TERMINAL_ID = ""
+LOGIN = ""
+PASSWORD = ""
 draw_id = '<draw_id>(.*?)</draw_id>'
 win_numbers = '<win_numbers>(.*?)</win_numbers>'
 winners_count = '<winners_count>(.*?)</winners_count>'

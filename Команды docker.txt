@@ -1,0 +1,4 @@
+Собрать images - docker build -t login .
+Проверить все images в docker - docker images
+Запуск docker контейнера и автоматическое удаление - docker run --rm login(название контейнера)
+Проверить всё контейнеры - docker ps

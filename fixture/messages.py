@@ -1,39 +1,35 @@
 from datetime import datetime, timedelta
 
 
-
 class MessageID:
 
     def __init__(self, app):
         self.app = app
-
 
     # переменная DATE_START - текущая дата для запросов
     DATE_START = f"{datetime.today():%Y.%m.%d+03}"
     # переменная DATE_START_CURRENT_MONTH_ML - текущий месяц для запросов 32
     DATE_START_CURRENT_MONTH_ML = f"{datetime.today():%Y.%m.01+03}"
     # Адрес запроса 33  - результаты и призы
-    URL_33 = "http://ga-s3-lcp.ga.stoloto.su/fprov/fcgi_pos?message_id=33"
-    URL_32 = "http://ga-s3-lcp.ga.stoloto.su/fprov/fcgi_pos?message_id=32"
-    TERMINAL_ID = "2000006810"
-    LOGIN = "20003511"
-    PASSWORD = "75374377"
-    PLAYER_INFO = "79123456789"
-
-
+    URL_33 = ""
+    URL_32 = ""
+    TERMINAL_ID = ""
+    LOGIN = ""
+    PASSWORD = ""
+    PLAYER_INFO = ""
 
 
 # ---------------- message_id=5:
 
     # message_id=5, запрос баланса терминала в гейт
-    URL_5 = "http://ga-s3-lcp.ga.stoloto.su/fprov/fcgi_pos?message_id=5"
+    URL_5 = ""
     DATA_BALANCE = f'TERMINAL_ID={TERMINAL_ID}&REQUEST_TIME=1&LOGIN={LOGIN}&PASSWORD={PASSWORD}'
 
 # -----------------------------------------------------------------------------------------
 
 # ---------------- message_id=40:
 
-    URL_40 = "http://ga-s3-lcp.ga.stoloto.su/fprov/fcgi_pos?message_id=40"
+    URL_40 = ""
     DATA_40_BONUS_PRICE = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&VERSION=1&BONUS_FLAG=1&' \
                           f'N_GAME_ID=18&GAME_ID[0]=4420&GAME_ID[1]=5536&GAME_ID[2]=5101&GAME_ID[3]=5150&' \
                           f'GAME_ID[4]=5550&GAME_ID[5]=28005&GAME_ID[6]=7103&GAME_ID[7]=7105&GAME_ID[8]=7115&' \
@@ -46,8 +42,8 @@ class MessageID:
 # ---------------- message_id=64:
 
     # message_id=64, запрос состояния бонусного счета участника
-    URL_64 = "http://ga-s3-lcp.ga.stoloto.su/fprov/fcgi_pos?message_id=64"
-    DATA_64_BONUS_BALANCE = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&PLAYER_INFO={PLAYER_INFO}'
+    URL_64 = ""
+#    DATA_64_BONUS_BALANCE = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&PLAYER_INFO={PLAYER_INFO}'
 
 # -----------------------------------------------------------------------------------------
 
@@ -83,11 +79,7 @@ class MessageID:
                                f'DATE_START="{DATE_START_CURRENT_MONTH_ML}"'
 
 
-
-
-
 # -----------------------------------------------------------------------------------------
-
 
 
 # message_id=33 для результатов и призов:
@@ -550,9 +542,9 @@ class MessageID:
     DATA_33_REPORT_TYPE_5_2177 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=5&' \
                                  f'GAME_ID=2177&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
 
-#--------------------------------------------
+# --------------------------------------------
 
-#--------- кено:
+# --------- кено:
 
     # message_id=33, данный запрос сделан для получения последнего тиража из гейта
     DATA_33_REPORT_TYPE_1_1124 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=1&' \
@@ -574,4 +566,4 @@ class MessageID:
     DATA_33_REPORT_TYPE_5_1124 = f'TERMINAL_ID={TERMINAL_ID}&LOGIN={LOGIN}&PASSWORD={PASSWORD}&REPORT_TYPE=5&' \
                                  f'GAME_ID=1124&DATE_START="{DATE_START}"&DRAW_ID=0&DRAWS_NUMBER=0&VERSION=1'
 
-#--------------------------------------------
+# --------------------------------------------
