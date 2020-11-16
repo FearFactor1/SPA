@@ -1,4 +1,5 @@
-Собрать images - docker build -t login .
-Проверить все images в docker - docker images
-Запуск docker контейнера и автоматическое удаление - docker run --rm login(название контейнера)
-Проверить всё контейнеры - docker ps
+пїЅпїЅпїЅпїЅпїЅпїЅпїЅ images - docker build -t login .
+пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ images пїЅ docker - docker images
+пїЅпїЅпїЅпїЅпїЅпїЅ docker пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - docker run --rm login(пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
+docker run --rm -e "SET_CONTAINER_TIMEZONE=true" -e "CONTAINER_TIMEZONE=Europe/Moscow" login
+пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - docker ps
